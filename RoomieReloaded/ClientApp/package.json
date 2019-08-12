@@ -1,0 +1,55 @@
+{
+  "name": "roomie-reloaded",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/history": "^4.7.2",
+    "@types/jest": "^24.0.15",
+    "@types/node": "12.6.2",
+    "@types/react": "16.8.23",
+    "@types/react-dom": "16.8.4",
+    "@types/react-redux": "^7.1.1",
+    "@types/react-router-redux": "^5.0.18",
+    "@types/redux-logger": "^3.0.7",
+    "history": "^4.9.0",
+    "moment": "^2.24.0",
+    "office-ui-fabric-react": "^7.9.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "react-router-redux": "^4.0.8",
+    "react-scripts": "3.0.1",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^1.0.5",
+    "reduxsauce": "^1.1.0",
+    "typescript": "^3.4.3",
+    "typescript-tslint-plugin": "^0.5.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2",
+    "tslint": "^5.18.0",
+    "tslint-react": "^4.0.0"
+  }
+}

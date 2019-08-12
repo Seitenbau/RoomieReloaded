@@ -1,0 +1,86 @@
+.timeFrameNavigation 
+{
+    float: left;
+    display: flex;
+    margin-top: 15px;
+    width: 60%;
+    text-align: left;
+}
+
+.boardNavigation 
+{
+    float: right;
+    width: 30%;
+    text-align: right;
+}
+
+.boardNavigation-button.boardNavigation-button
+{
+    margin: 10px 5px;
+    background-color: #ddd;
+    width: 80px;
+    border: 1 solid #ddd;
+}
+
+.boardNavigation-button:hover.boardNavigation-button:hover
+{
+    background-color: #ccc;
+}
+
+.boardNavigation-button-activated.boardNavigation-button-activated
+{
+    text-decoration: underline;
+    background-color: #aaa;
+}
+
+.timeFrameNavigation-text 
+{
+    color:black;
+    padding-top: 4px;
+    text-align: center;
+    width: 300px;
+}
+
+.ms-Button.timeFrameNavigation-button 
+{
+    background-color: transparent; 
+}
+
+.ms-Button.timeFrameNavigation-button
+.ms-Button-icon 
+{
+    color: #222;
+}
+
+.ms-DatePicker.timeFrameNavigation-button.date 
+{
+    width: 35px;
+}
+
+.ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup
+{
+    background-color: transparent;
+}
+
+.ms-Button.timeFrameNavigation-button:hover, 
+.ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup:hover
+{
+    background-color: #ccc;
+}
+
+.ms-DatePicker
+.ms-TextField
+.ms-TextField-wrapper
+.ms-TextField-fieldGroup 
+{
+    border:0px;
+}
+
+.ms-DatePicker 
+.ms-TextField 
+.ms-TextField-wrapper 
+.ms-TextField-fieldGroup 
+.ms-TextField-field 
+{
+    visibility: hidden;
+}

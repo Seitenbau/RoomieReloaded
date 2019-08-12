@@ -1,0 +1,45 @@
+.additional-row {
+    display: table;
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    border-collapse: collapse;
+}
+
+.command-bar{
+    width: 12.5%;
+    height: 100%;
+}
+
+.command-bar
+.ms-Button.command-bar-button
+{
+    padding-top: 2px;
+    width: 46px;
+    height: 38px;
+    background-color: transparent; 
+}
+
+.command-bar
+.ms-Button.command-bar-button
+.ms-Button-icon 
+{
+    transform: scale(1.5,1.5);
+    color: #222;
+}
+
+.command-bar
+.ms-Button.command-bar-button
+.ms-Button-flexContainer:hover
+{
+    background-color: #ccc;
+}
+
+.command-bar
+.ms-Button.command-bar-button.rotate
+.ms-Button-icon 
+{
+    transform: scale(1.5,1.5) rotate(270deg);
+}

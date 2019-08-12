@@ -1,0 +1,263 @@
+/* DivTable.com */
+.divTable{
+	display: table;
+    width: 100%;
+    height: auto;
+    border: 1px solid #aaa;
+    font-family: Calibri, sans-serif;
+    font-size: 14px;
+    border-collapse: collapse;
+}
+.divTableRow {
+    display: table-row;
+    width: 100%;
+}
+.divTableHeading {
+	background-color: #ddd;
+	display: table-header-group;
+}
+.divTableCell {
+	border: 1px solid #aaa;
+    display: table-cell;
+    vertical-align: top;
+}
+.divTableCell.weekend {
+    background-color: rgb(246, 227, 217);
+}
+.divTableCell.padded, .divTableHead.padded {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.divTableHead{
+    background-color: #ddd;
+	font-weight: bold;
+}
+.divTableHead.top{
+	border-bottom: 0px;
+}
+.divTableHead.bottom{
+	border-top: 0px;
+}
+.divTableMainHeader{
+    padding: 10px;
+}
+.divTableMainHeader.divTableMainHeaderSmall{
+    padding: 5px;
+}
+.divTableMainHeader.bordered, .divTableMainHeaderSmall.bordered{
+	border-bottom: 1px solid #aaa;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+.divTableSubHeader{
+    display: flex;
+    flex: 1 1 0;
+}
+.divTableMainHeader.divTableMainHeaderForContainer{
+    padding: 0px;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    border-right: 0px;
+    border-left: 0px;
+}
+.divTableMainHeader.divTableMainHeaderForContainer.first{
+    border-left: 1px solid #aaa;
+}
+.divTableMainHeader.divTableMainHeaderForContainer.last{
+    border-right: 1px solid #aaa;
+}
+.divTableMainHeader.left
+{
+    text-align: left;
+    padding-left: 5px;
+}
+.divTableMainHeader .mainHeaderContainer{
+    display: flex;
+    position: relative;
+    flex: 1 1 0;
+    height: 37px;
+}
+.divTableMainHeader .mainHeaderContent{
+    padding-top: 10px;
+    position: absolute;    
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+    height: 100%;
+}
+.subHeader{
+    padding:5px;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+.subHeader.left
+{
+    margin-left: 10px;
+    text-align: left;
+}
+.subHeader.right
+{
+    margin-right: 10px;
+    text-align: right;
+}
+.subHeader.withBorder {
+    border-left: 1px solid #aaa;
+}
+.itemPartContainer-outer {
+    position: relative;
+}
+.itemPartContainer-inner {
+    position: absolute;
+}
+.item-border
+{
+    border-top: 1px solid #aaaaaa;
+    border-bottom: 1px solid #aaaaaa;
+}
+.item
+{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    height: 28px;
+    /*display: block;*/
+}
+.item-text
+{
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+.item-border.start-item
+{
+    border-left: 1px solid #aaaaaa;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.item-border.end-item
+{
+	border-right: 1px solid #aaaaaa;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.rowHeaderCell
+{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.rowHeaderInner
+{
+    display: flex;
+    flex-direction: row;
+    padding-top: 5px;
+    align-items: center;
+}
+
+.rowHeaderCell
+.header
+{
+    text-align: left;
+}
+
+.rowHeaderCell
+.header-image-container
+{
+    margin-right: 5px;
+    min-width: 36px;
+    min-height: 36px;
+    text-align: left;
+}
+
+.rowHeaderCell
+.header-image
+{
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 36px;
+}
+
+.lane
+{
+    height: 36px;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    align-items: center;
+}
+
+.lane
+.highlighted
+{
+    background-color: #c8cde2;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 2px;
+}
+
+.move-item-callout
+{
+    padding: 3px;
+    pointer-events: none;
+}
+
+.move-item-callout-container
+{
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+}
+
+.move-item-callout-line-header
+{
+    display: flex;
+    flex-direction: column;
+    padding-right: 6px;
+    flex-grow: 1;
+}
+
+.move-item-callout-line-time
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+}
+
+.draggable-planner-item
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.item-data
+{
+    width: 100%;
+}
+
+.drag-handle
+{
+    width: 5px;
+}
+
+.drag-handle.draggable:hover
+{
+    cursor: ew-resize;   
+}
