@@ -17,7 +17,7 @@ To use another editor for frontend development and still have the backend runnin
 - Open a shell in /ClientApp and execute "npm install", then "npm start"
 - Open /ClientApp in your favourite editor
 
-It should also be possible to start the app with docker and feed it the development folder instead of the built app, but I have not yet tested it.
+It should also be possible to start the app with docker and feed it the development folder instead of the built app, but I have not yet tested it. The Dockerfile as is won't work here, as it does a "dotnet publish", which builds the frontend app.
 
 ## Configuration
 To overwrite local configuration, follow these steps:
