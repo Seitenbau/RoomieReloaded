@@ -29,6 +29,9 @@ namespace RoomieReloaded.Services
 			var eventOccurences = calendar.Events
 				.Where(ev => ev != null)
 				.Where(ev => ev.Status.Equals("CONFIRMED"))
+				// Show only events where the room accepted the invite
+				.Where(ev => ev.Attendees != null)
+				.Where(ev => ev.Attendees.Any(att => att.Value.UserInfo.Equals(roomEmail) && att.ParticipationStatus.Equals("ACCEPTED")))				
 				.ToDictionary(ev => ev, ev => ev.GetOccurrences(from, to));
 
 			var events = CreateCalendarEvents(eventOccurences);
