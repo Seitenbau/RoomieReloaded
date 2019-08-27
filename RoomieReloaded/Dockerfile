@@ -1,7 +1,7 @@
 #build image
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 as builder
 WORKDIR /etc/apt/apt.conf.d
-COPY docker-build-image-apt-get-fix ./99fixbadproxy 
+COPY ["./docker-build-image-apt-get-fix", "./99fixbadproxy"]
 
 RUN apt-get update
 RUN apt-get install -y apt-transport-https lsb-release
