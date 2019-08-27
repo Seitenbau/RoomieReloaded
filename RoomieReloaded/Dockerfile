@@ -13,7 +13,7 @@ FROM builder as build
 WORKDIR /app
 COPY ["./RoomieReloaded/RoomieReloaded.csproj", "."]
 RUN dotnet restore
-COPY . .
+COPY ./RoomieReloaded/ ./
 RUN /bin/bash -c "dotnet publish -c Release -o /out/"
 
 
