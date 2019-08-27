@@ -47,7 +47,7 @@ namespace RoomieReloaded.Tests.Controllers.Api
 			var result = await sut.Index(null, dateStart, null);
 
 			var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-			Assert.Contains("dateStart", badRequestResult.Value.ToString());
+			Assert.Contains("start", badRequestResult.Value.ToString());
 		}
 
 		[Fact]
@@ -60,7 +60,7 @@ namespace RoomieReloaded.Tests.Controllers.Api
 			var result = await sut.Index(null, DateTime.Now.ToString("s"), dateEnd);
 
 			var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-			Assert.Contains("dateEnd", badRequestResult.Value.ToString());
+			Assert.Contains("end", badRequestResult.Value.ToString());
 		}
 
 		[Fact]
@@ -79,7 +79,7 @@ namespace RoomieReloaded.Tests.Controllers.Api
 			var end = start.AddDays(1);
 			await sut.Index(null, start.ToString("s"), end.ToString("s"));
 
-			calendarService.Verify(m => m.GetCalendarEventsAsync(expectedRoomName, start, end ));
+			calendarService.Verify(m => m.GetCalendarEventsAsync(expectedRoomName, start, end.AddDays(1) ));
 		}
 
 		[Fact]
@@ -110,7 +110,7 @@ namespace RoomieReloaded.Tests.Controllers.Api
 			var end = start.AddDays(1);
 			var result = await sut.Index(null, start.ToString("s"), end.ToString("s"));
 
-			var json = Assert.IsType<JsonResult>(result);
+			var json = Assert.IsType<OkObjectResult>(result);
 
 			var obj = Assert.IsType<CalendarRoomModel>(json.Value);
 			Assert.Equal(obj.Room, expectedRoomName + "Nice");
@@ -142,7 +142,7 @@ namespace RoomieReloaded.Tests.Controllers.Api
 		{
 			return new CalendarController(
 				roomServiceMock?.Object ?? Mock.Of<IRoomService>(),
-				calendarServiceMock?.Object ?? Mock.Of<ICalendarService>()
+				calendarServiceMock?.Object ?? Mock.Of<ICalendarService>(), new CalendarEventModelEqualityComparer()
 			);
 		}
 	}

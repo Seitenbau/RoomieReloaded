@@ -22,7 +22,11 @@ namespace RoomieReloaded.Services
 
         public int GetHashCode(CalendarEventModel obj)
         {
-            return obj.Id.GetHashCode();
+            if(obj != null && obj.Id != null) {
+                return obj.Id.GetHashCode();
+            }
+            
+            return obj.GetHashCode();
         }
     }
 }
