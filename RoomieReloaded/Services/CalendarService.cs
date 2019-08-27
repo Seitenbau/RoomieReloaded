@@ -32,6 +32,8 @@ namespace RoomieReloaded.Services
 				// Show only events where the room accepted the invite
 				.Where(ev => ev.Attendees != null)
 				.Where(ev => ev.Attendees.Any(att => att.Value.UserInfo.Equals(roomEmail) && att.ParticipationStatus.Equals("ACCEPTED")))				
+				// Show Only events that overlap with from and to
+				.Where(ev => ev.DtStart.AsUtc < to && from < ev.DtEnd.AsUtc)				
 				.ToDictionary(ev => ev, ev => ev.GetOccurrences(from, to));
 
 			var events = CreateCalendarEvents(eventOccurences);
