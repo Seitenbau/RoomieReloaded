@@ -67,15 +67,15 @@ namespace RoomieReloaded.Services
 	{
 		public RoomieCalendarEvent(CalendarEvent calendarEvent, Occurrence occurence)
 		{
-            Id = $"{calendarEvent.Uid}-{occurence.Period}";
-            Organizer = calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.AbsolutePath ?? string.Empty;
-			From = occurence.Period.StartTime.AsUtc;
-			To = occurence.Period.EndTime.AsUtc;
+			Id = $"{calendarEvent.Uid}-{occurence.Period}";
+			Organizer = calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.AbsolutePath ?? string.Empty;
+			From = calendarEvent.DtStart.AsUtc;
+			To = calendarEvent.DtEnd.AsUtc;
 
-            // TODO is Summary allowed to be shown publicly?
-            Name = string.Empty; // calendarEvent.Summary;
+			// TODO is Summary allowed to be shown publicly?
+			Name = string.Empty; // calendarEvent.Summary;
 		}
-        public string Id { get; }
+		public string Id { get; }
 		public string Name { get; }
 		public string Organizer { get; }
 		public DateTime From { get; }
