@@ -11,7 +11,7 @@ RUN apt-get install -y nodejs
 
 FROM builder as build
 WORKDIR /app
-COPY ["./RoomieReloaded.csproj", "."]
+COPY ["./RoomieReloaded/RoomieReloaded.csproj", "."]
 RUN dotnet restore
 COPY . .
 RUN /bin/bash -c "dotnet publish -c Release -o /out/"
