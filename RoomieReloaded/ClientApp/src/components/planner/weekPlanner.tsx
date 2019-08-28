@@ -6,7 +6,7 @@ import { MainHeaderDefinesViewPartRenderer, IHeaderRenderer } from './base/rende
 export class WeekPlanner extends Planner {
 
     getDaysToRender():number{
-        return 7;
+        return 5;
     }
 
     getViewRange():IHasDateRange{
