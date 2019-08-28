@@ -26,41 +26,43 @@ namespace RoomieReloaded.Services
 
 			var calendar = Calendar.Load(icsCalendar);
 
-			var eventOccurences = calendar.Events
-				.Where(ev => ev != null)
-				.Where(ev => ev.Status.Equals("CONFIRMED"))
-				// Show only events where the room accepted the invite
-				.Where(ev => ev.Attendees != null)
-				.Where(ev => ev.Attendees.Any(att => att.Value.UserInfo.Equals(roomEmail) && att.ParticipationStatus.Equals("ACCEPTED")))				
-				// Show Only events that overlap with from and to
-				.Where(ev => (from == null && to == null ) || ev.DtStart.AsUtc < to && from < ev.DtEnd.AsUtc)				
-				.ToDictionary(ev => ev, ev => ev.GetOccurrences(from, to));
-
-			var events = CreateCalendarEvents(eventOccurences);
+			var eventOccurences = calendar.GetOccurrences(from, to);
+	
+			var events = CreateCalendarEvents(eventOccurences, roomEmail);
 
 			return events;
 		}
 
 		private IEnumerable<ICalendarEvent> CreateCalendarEvents(
-			IDictionary<CalendarEvent, HashSet<Occurrence>> eventOccurences)
+			HashSet<Occurrence> eventOccurences, String roomEmail)
 		{
-			foreach (var calendarEvent in eventOccurences.Keys)
-			{
-				var occurences = eventOccurences[calendarEvent];
-				foreach (var occurence in occurences)
+				foreach (var occurence in eventOccurences)
                 {
-                    Log(calendarEvent, occurence);
-					yield return new RoomieCalendarEvent(calendarEvent, occurence);
+					CalendarEvent calendarEvent = (CalendarEvent) occurence.Source;
+					// Show Only events that overlap with from and to
+					if(calendarEvent.Attendees.Any(att => att.Value.UserInfo.Equals(roomEmail) && att.ParticipationStatus.Equals("ACCEPTED")))
+					{				
+						Log(occurence);
+						yield return new RoomieCalendarEvent(occurence);
+					}
 				}
-			}
+			
 		}
 
         private void Log(CalendarEvent calendarEvent, Occurrence occurence)
         {
-            _logger.LogInformation($"Converting event. organizer: {calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.AbsolutePath ?? string.Empty}");
-            _logger.LogInformation($"start. utc: {occurence.Period.StartTime.AsUtc}, local: {occurence.Period.StartTime.AsSystemLocal}, timezone: {occurence.Period.StartTime.TimeZoneName}");
-            _logger.LogInformation($"end. utc: {occurence.Period.EndTime.AsUtc}, local: {occurence.Period.EndTime.AsSystemLocal}, timezone: {occurence.Period.EndTime.TimeZoneName}");
+            _logger.LogInformation($"### Converting event. id: {calendarEvent.RecurrenceId} organizer: {calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.AbsolutePath ?? string.Empty}");
+            _logger.LogInformation($"### name: {calendarEvent.Summary} status: {calendarEvent.Status}");
+            _logger.LogInformation($"### period start. utc: {occurence.Period.StartTime.AsUtc}, local: {occurence.Period.StartTime.AsSystemLocal}, timezone: {occurence.Period.StartTime.TimeZoneName}");
+            _logger.LogInformation($"### period end. utc: {occurence.Period.EndTime.AsUtc}, local: {occurence.Period.EndTime.AsSystemLocal}, timezone: {occurence.Period.EndTime.TimeZoneName}");
         }
+
+
+        private void Log(Occurrence occurence)
+        {
+			CalendarEvent calendarEvent = (CalendarEvent) occurence.Source;
+            Log(calendarEvent, occurence);
+        }		
     }
 
 	public class RoomieCalendarEvent : ICalendarEvent
@@ -68,13 +70,27 @@ namespace RoomieReloaded.Services
 		public RoomieCalendarEvent(CalendarEvent calendarEvent, Occurrence occurence)
 		{
 			Id = $"{calendarEvent.Uid}-{occurence.Period}";
-			Organizer = calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.AbsolutePath ?? string.Empty;
-			From = calendarEvent.DtStart.AsUtc;
-			To = calendarEvent.DtEnd.AsUtc;
+			Organizer = calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.UserInfo ?? string.Empty;
+
+			From = occurence.Period.StartTime.AsUtc;
+			To = occurence.Period.EndTime.AsUtc;
 
 			// TODO is Summary allowed to be shown publicly?
 			Name = string.Empty; // calendarEvent.Summary;
 		}
+
+		public RoomieCalendarEvent(Occurrence occurence)
+		{
+			CalendarEvent calendarEvent = (CalendarEvent) occurence.Source;
+			Id = $"{calendarEvent.Uid}-{occurence.Period}";
+			Organizer = calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.UserInfo ?? string.Empty;
+
+			From = occurence.Period.StartTime.AsUtc;
+			To = occurence.Period.EndTime.AsUtc;
+
+			// TODO is Summary allowed to be shown publicly?
+			Name = string.Empty; // calendarEvent.Summary;
+		}		
 		public string Id { get; }
 		public string Name { get; }
 		public string Organizer { get; }

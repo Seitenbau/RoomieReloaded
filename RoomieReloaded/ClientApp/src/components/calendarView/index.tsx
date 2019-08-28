@@ -10,8 +10,8 @@ const mapStateToProps = (state: RootState): ICalendarStateProps => {
     calendarType: getCurrentCalendar(state),
     shownRooms: [],
     date:getCurrentDateTime(state),
-    startHour:8,
-    endHour:18,    
+    startHour:7,
+    endHour:19,    
     groups:getPlannerGroups(state),
     items:getPlannerItems(state)
   };

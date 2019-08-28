@@ -26,12 +26,7 @@ class CalendarView extends React.Component<CalendarProps> {
         {this.renderBoard()}
         <div className="additional-row">
           <div className="command-bar">
-            <CommandBarButton
-              onClick={onShowChooseRooms}
-              className="command-bar-button"
-              disabled={true}
-              iconProps={{ iconName: 'AddFriend' }}
-            />
+
           </div>
         </div>
       </div>
