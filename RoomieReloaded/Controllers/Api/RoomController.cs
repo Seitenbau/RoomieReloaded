@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RoomieReloaded.Services;
+using RoomieReloaded.Services.Rooms;
 
 namespace RoomieReloaded.Controllers.Api
 {

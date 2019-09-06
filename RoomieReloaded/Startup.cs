@@ -10,6 +10,9 @@ using RoomieReloaded.Configuration;
 using RoomieReloaded.Models;
 using RoomieReloaded.Services;
 using System.Collections.Generic;
+using RoomieReloaded.Services.Calendar;
+using RoomieReloaded.Services.Rooms;
+using RoomieReloaded.Services.Zimbra;
 
 namespace RoomieReloaded
 {

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RoomieReloaded.Models;
 using RoomieReloaded.Services;
+using RoomieReloaded.Services.Calendar;
+using RoomieReloaded.Services.Rooms;
 
 namespace RoomieReloaded.Controllers.Api
 {

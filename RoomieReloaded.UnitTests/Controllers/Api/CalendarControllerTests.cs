@@ -7,6 +7,8 @@ using Moq;
 using RoomieReloaded.Controllers.Api;
 using RoomieReloaded.Models;
 using RoomieReloaded.Services;
+using RoomieReloaded.Services.Calendar;
+using RoomieReloaded.Services.Rooms;
 using Xunit;
 
 namespace RoomieReloaded.Tests.Controllers.Api
