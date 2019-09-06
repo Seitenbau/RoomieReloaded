@@ -44,6 +44,7 @@ namespace RoomieReloaded
 
             services.AddSingleton<IRoomService, RoomService>();
             services.AddSingleton<ICalendarService, CalendarService>();
+            services.AddSingleton<ICalendarEventFactory, CalendarEventFactory>();
             services.AddSingleton<IZimbraAdapter, ZimbraAdapter>();
             services.AddSingleton<IEqualityComparer<CalendarEventModel>, CalendarEventModelEqualityComparer>();
         }
