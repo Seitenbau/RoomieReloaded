@@ -6,11 +6,11 @@ namespace RoomieReloaded.Models
 {
     public class RoomieCalendarEvent : ICalendarEvent
     {
-        public RoomieCalendarEvent(Occurrence occurence)
+        public RoomieCalendarEvent(IUser organizer, Occurrence occurence)
         {
             CalendarEvent calendarEvent = (CalendarEvent) occurence.Source;
             Id = $"{calendarEvent.Uid}-{occurence.Period}";
-            Organizer = calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.UserInfo ?? string.Empty;
+            Organizer = organizer?.FullName;
 
             From = occurence.Period.StartTime.AsUtc;
             To = occurence.Period.EndTime.AsUtc;

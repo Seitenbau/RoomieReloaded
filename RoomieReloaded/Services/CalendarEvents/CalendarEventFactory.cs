@@ -2,22 +2,29 @@
 using Ical.Net.DataTypes;
 using Microsoft.Extensions.Logging;
 using RoomieReloaded.Models;
+using RoomieReloaded.Services.Users;
 
 namespace RoomieReloaded.Services.CalendarEvents
 {
     public class CalendarEventFactory : ICalendarEventFactory
     {
         private readonly ILogger<CalendarEventFactory> _logger;
+        private readonly IUserLookupService _userLookupService;
 
-        public CalendarEventFactory(ILogger<CalendarEventFactory> logger)
+        public CalendarEventFactory(ILogger<CalendarEventFactory> logger, IUserLookupService userLookupService)
         {
             _logger = logger;
+            _userLookupService = userLookupService;
         }
 
         public ICalendarEvent CreateFromOccurence(Occurrence occurrence)
         {
             LogOccurence(occurrence);
-            return new RoomieCalendarEvent(occurrence);
+            var calendarEvent = (CalendarEvent)occurrence.Source;
+
+            var user = _userLookupService.GetUser(calendarEvent.Organizer);
+
+            return new RoomieCalendarEvent(user, occurrence);
         }
 
         private void LogOccurence(Occurrence occurence)

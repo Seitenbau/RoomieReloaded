@@ -10,9 +10,11 @@ using RoomieReloaded.Configuration;
 using RoomieReloaded.Models;
 using RoomieReloaded.Services;
 using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 using RoomieReloaded.Services.Calendar;
 using RoomieReloaded.Services.CalendarEvents;
 using RoomieReloaded.Services.Rooms;
+using RoomieReloaded.Services.Users;
 using RoomieReloaded.Services.Zimbra;
 
 namespace RoomieReloaded
@@ -32,21 +34,29 @@ namespace RoomieReloaded
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
 
             services.AddOptions<RoomConfiguration>()
                 .Bind(Configuration.GetSection("Rooms"));
             services.AddOptions<ZimbraAdapterConfiguration>()
                 .Bind(Configuration.GetSection("Zimbra"));
+            services.AddOptions<LdapConfiguration>()
+                .Bind(Configuration.GetSection("Ldap"));
 
             services.AddSingleton<IRoomService, RoomService>();
             services.AddSingleton<ICalendarService, CalendarService>();
             services.AddSingleton<ICalendarEventFactory, CalendarEventFactory>();
             services.AddSingleton<IZimbraAdapter, ZimbraAdapter>();
+
+            BindUserLookupService(services);
+
             services.AddSingleton<IEqualityComparer<CalendarEventModel>, CalendarEventModelEqualityComparer>();
+        }
+
+        private static void BindUserLookupService(IServiceCollection services)
+        {
+            services.AddSingleton<IUserLookupService, LdapUserLookupService>();
+            services.AddSingleton<ICachingUserLookupService, CachingUserLookupService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
