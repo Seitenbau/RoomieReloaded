@@ -8,6 +8,7 @@ using RoomieReloaded.Controllers.Api;
 using RoomieReloaded.Models;
 using RoomieReloaded.Services;
 using RoomieReloaded.Services.Calendar;
+using RoomieReloaded.Services.CalendarEvents;
 using RoomieReloaded.Services.Rooms;
 using Xunit;
 

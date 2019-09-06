@@ -5,96 +5,50 @@ using System.Threading.Tasks;
 using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using Microsoft.Extensions.Logging;
+using RoomieReloaded.Models;
+using RoomieReloaded.Services.CalendarEvents;
 using RoomieReloaded.Services.Zimbra;
 
 namespace RoomieReloaded.Services.Calendar
 {
-	public class CalendarService : ICalendarService
-	{
-        private readonly ILogger<CalendarService> _logger;
+    public class CalendarService : ICalendarService
+    {
         private readonly IZimbraAdapter _zimbraAdapter;
+        private readonly ICalendarEventFactory _calendarEventFactory;
 
-		public CalendarService(ILogger<CalendarService> logger, IZimbraAdapter zimbraAdapter)
+        public CalendarService(IZimbraAdapter zimbraAdapter, ICalendarEventFactory calendarEventFactory)
         {
-            _logger = logger;
             _zimbraAdapter = zimbraAdapter;
+            _calendarEventFactory = calendarEventFactory;
         }
 
-		public async Task<IEnumerable<ICalendarEvent>> GetCalendarEventsAsync(string roomEmail, DateTime from, DateTime to)
-		{
-			var icsCalendar = await _zimbraAdapter.GetRoomCalendarAsIcsStringAsync(roomEmail, from, to);
+        public async Task<IEnumerable<ICalendarEvent>> GetCalendarEventsAsync(string roomEmail, DateTime from,
+            DateTime to)
+        {
+            var icsCalendar = await _zimbraAdapter.GetRoomCalendarAsIcsStringAsync(roomEmail, from, to);
 
-			var calendar = Ical.Net.Calendar.Load(icsCalendar);
+            var calendar = Ical.Net.Calendar.Load(icsCalendar);
 
-			var eventOccurences = calendar.GetOccurrences(from, to);
-	
-			var events = CreateCalendarEvents(eventOccurences, roomEmail);
+            var eventOccurrences = calendar.GetOccurrences(from, to);
 
-			return events;
-		}
+            var events = CreateCalendarEvents(eventOccurrences, roomEmail);
 
-		private IEnumerable<ICalendarEvent> CreateCalendarEvents(
-			HashSet<Occurrence> eventOccurences, String roomEmail)
-		{
-				foreach (var occurence in eventOccurences)
+            return events;
+        }
+
+        private IEnumerable<ICalendarEvent> CreateCalendarEvents(
+            HashSet<Occurrence> eventOccurrences, string roomEmail)
+        {
+            foreach (var occurence in eventOccurrences)
+            {
+                var calendarEvent = (CalendarEvent) occurence.Source;
+                // Show Only events that overlap with from and to
+                if (calendarEvent.Attendees.Any(att =>
+                    att.Value.UserInfo.Equals(roomEmail) && att.ParticipationStatus.Equals("ACCEPTED")))
                 {
-					CalendarEvent calendarEvent = (CalendarEvent) occurence.Source;
-					// Show Only events that overlap with from and to
-					if(calendarEvent.Attendees.Any(att => att.Value.UserInfo.Equals(roomEmail) && att.ParticipationStatus.Equals("ACCEPTED")))
-					{				
-						Log(occurence);
-						yield return new RoomieCalendarEvent(occurence);
-					}
-				}
-			
-		}
-
-        private void Log(CalendarEvent calendarEvent, Occurrence occurence)
-        {
-            _logger.LogInformation($"### Converting event. id: {calendarEvent.RecurrenceId} organizer: {calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.AbsolutePath ?? string.Empty}");
-            _logger.LogInformation($"### name: {calendarEvent.Summary} status: {calendarEvent.Status}");
-            _logger.LogInformation($"### period start. utc: {occurence.Period.StartTime.AsUtc}, local: {occurence.Period.StartTime.AsSystemLocal}, timezone: {occurence.Period.StartTime.TimeZoneName}");
-            _logger.LogInformation($"### period end. utc: {occurence.Period.EndTime.AsUtc}, local: {occurence.Period.EndTime.AsSystemLocal}, timezone: {occurence.Period.EndTime.TimeZoneName}");
+                    yield return _calendarEventFactory.CreateFromOccurence(occurence);
+                }
+            }
         }
-
-
-        private void Log(Occurrence occurence)
-        {
-			CalendarEvent calendarEvent = (CalendarEvent) occurence.Source;
-            Log(calendarEvent, occurence);
-        }		
     }
-
-	public class RoomieCalendarEvent : ICalendarEvent
-	{
-		public RoomieCalendarEvent(CalendarEvent calendarEvent, Occurrence occurence)
-		{
-			Id = $"{calendarEvent.Uid}-{occurence.Period}";
-			Organizer = calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.UserInfo ?? string.Empty;
-
-			From = occurence.Period.StartTime.AsUtc;
-			To = occurence.Period.EndTime.AsUtc;
-
-			// TODO is Summary allowed to be shown publicly?
-			Name = string.Empty; // calendarEvent.Summary;
-		}
-
-		public RoomieCalendarEvent(Occurrence occurence)
-		{
-			CalendarEvent calendarEvent = (CalendarEvent) occurence.Source;
-			Id = $"{calendarEvent.Uid}-{occurence.Period}";
-			Organizer = calendarEvent.Organizer?.CommonName ?? calendarEvent.Organizer?.Value?.UserInfo ?? string.Empty;
-
-			From = occurence.Period.StartTime.AsUtc;
-			To = occurence.Period.EndTime.AsUtc;
-
-			// TODO is Summary allowed to be shown publicly?
-			Name = string.Empty; // calendarEvent.Summary;
-		}		
-		public string Id { get; }
-		public string Name { get; }
-		public string Organizer { get; }
-		public DateTime From { get; }
-		public DateTime To { get; }
-	}
 }
