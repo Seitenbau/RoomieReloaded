@@ -10,9 +10,9 @@ namespace RoomieReloaded.Services.Users
         private readonly TimeSpan _cacheTime = TimeSpan.FromDays(1);
 
         private readonly IUserLookupService _userLookupService;
-        private readonly MemoryCache _userCache;
+        private readonly IMemoryCache _userCache;
 
-        public CachingUserLookupService(IUserLookupService userLookupService, MemoryCache userCache)
+        public CachingUserLookupService(IUserLookupService userLookupService, IMemoryCache userCache)
         {
             _userLookupService = userLookupService;
             _userCache = userCache;

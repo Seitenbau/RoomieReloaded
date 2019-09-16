@@ -9,9 +9,9 @@ namespace RoomieReloaded.Services.CalendarEvents
     public class CalendarEventFactory : ICalendarEventFactory
     {
         private readonly ILogger<CalendarEventFactory> _logger;
-        private readonly IUserLookupService _userLookupService;
+        private readonly ICachingUserLookupService _userLookupService;
 
-        public CalendarEventFactory(ILogger<CalendarEventFactory> logger, IUserLookupService userLookupService)
+        public CalendarEventFactory(ILogger<CalendarEventFactory> logger, ICachingUserLookupService userLookupService)
         {
             _logger = logger;
             _userLookupService = userLookupService;
