@@ -61,7 +61,8 @@ export class DataService implements IDataService
             start: moment(event.start),
             end: moment(event.end),
             title: event.name || event.organizer,
-            color: "#7a8cb6"
+            color: "#7a8cb6",
+            chatLink: event.chatWithOrganizerLink,
         };
 
         result.tooltip = this.createTooltip(result, event);
@@ -92,4 +93,6 @@ interface IApiEvent
     organizer:string,
     start:moment.Moment,
     end:moment.Moment,
+    chatWithOrganizerLink:string,
+    chatMessageTemplate:string,
 }

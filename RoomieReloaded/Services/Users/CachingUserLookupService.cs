@@ -2,6 +2,7 @@
 using Ical.Net.DataTypes;
 using Microsoft.Extensions.Caching.Memory;
 using RoomieReloaded.Models;
+using RoomieReloaded.Models.Users;
 
 namespace RoomieReloaded.Services.Users
 {

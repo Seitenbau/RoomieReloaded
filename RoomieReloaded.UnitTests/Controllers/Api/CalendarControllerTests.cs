@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using RoomieReloaded.Controllers.Api;
 using RoomieReloaded.Models;
+using RoomieReloaded.Models.Calendar;
+using RoomieReloaded.Models.Presentation;
 using RoomieReloaded.Services;
 using RoomieReloaded.Services.Calendar;
 using RoomieReloaded.Services.CalendarEvents;

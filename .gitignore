@@ -260,3 +260,6 @@ paket-files/
 __pycache__/
 *.pyc
 RoomieReloaded/appsettings.local.json
+/RoomieReloaded/ClientApp/dist
+/RoomieReloaded/ClientApp/.vscode
+/RoomieReloaded/ClientApp/dist

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RoomieReloaded.Models
+namespace RoomieReloaded.Models.Calendar
 {
     public interface ICalendarEvent
     {
@@ -13,5 +13,9 @@ namespace RoomieReloaded.Models
         DateTime From { get; }
 
         DateTime To { get; }
+
+        string ChatWithOrganizerLink { get; }
+
+        string ChatMessageTemplate { get; }
     }
 }

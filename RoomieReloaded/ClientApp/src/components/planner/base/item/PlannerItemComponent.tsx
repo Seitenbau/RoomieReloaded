@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { 
     TooltipHost,
     ITooltipProps,
@@ -34,7 +34,6 @@ interface IPlannerItemComponentState
     rerender:boolean,
 }
 
-
 class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, IPlannerItemComponentState>
 {
     private tooltipId = getId("tooltip");
@@ -69,7 +68,8 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
         const itemElement =  <div
                 className={innerContainerClassName} 
-                style={cssPositionProperties}>
+                style={cssPositionProperties}
+                onDoubleClick={this.onDoubleClick} >
                 <span ref={this.calloutTarget}>
                     <span
                         ref="item"
@@ -118,8 +118,24 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
     componentWillUnmount = () =>
     {
-        window.removeEventListener("resize", this.triggerRerender);
+        window.removeEventListener("resize", this.triggerRerender); 
         window.removeEventListener("rerenderItem", this.triggerRerender);
+    }
+
+    private onDoubleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) : void => 
+    {
+        const item = this.props.item;
+
+        console.log("Trying to open chat with organizer");
+
+        if(item.chatLink === undefined)
+        {
+            console.log("No chat link found")
+            return;
+        }
+
+        console.log(item.chatLink);
+        window.open(item.chatLink);
     }
 
     private triggerRerender = () =>
