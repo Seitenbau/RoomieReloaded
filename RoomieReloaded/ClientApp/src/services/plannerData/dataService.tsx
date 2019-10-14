@@ -63,6 +63,7 @@ export class DataService implements IDataService
             title: event.name || event.organizer,
             color: "#7a8cb6",
             chatLink: event.chatWithOrganizerLink,
+            chatMessage: event.chatMessage,
         };
 
         result.tooltip = this.createTooltip(result, event);
@@ -75,7 +76,15 @@ export class DataService implements IDataService
             <div>Organizer: {event.organizer}</div>
             <div>Start: {item.start.format("HH:mm")}</div>
             <div>End: {item.end.format("HH:mm")}</div>
+            <div>{this.renderChatHint(event)}</div>
         </div>);
+    }
+
+    private renderChatHint(event:IApiEvent): JSX.Element | null {
+        if(event.chatHint === null || event.chatHint === undefined){
+            return null;
+        }
+        return <div className="tooltip-text-seperator" >{event.chatHint}</div>;
     }
 }
 
@@ -93,6 +102,7 @@ interface IApiEvent
     organizer:string,
     start:moment.Moment,
     end:moment.Moment,
-    chatWithOrganizerLink:string,
-    chatMessageTemplate:string,
+    chatWithOrganizerLink?:string,
+    chatMessage?:string,
+    chatHint?:string,
 }

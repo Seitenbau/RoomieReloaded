@@ -1,4 +1,6 @@
 ﻿using System;
+using JetBrains.Annotations;
+using RoomieReloaded.Models.Chat;
 
 namespace RoomieReloaded.Models.Calendar
 {
@@ -14,8 +16,7 @@ namespace RoomieReloaded.Models.Calendar
 
         DateTime To { get; }
 
-        string ChatWithOrganizerLink { get; }
-
-        string ChatMessageTemplate { get; }
+        [CanBeNull]
+        IChatInfo ChatInfo { get; }
     }
 }

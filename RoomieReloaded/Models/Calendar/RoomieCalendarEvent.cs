@@ -11,18 +11,16 @@ namespace RoomieReloaded.Models.Calendar
 
         [NotNull] private readonly ICalendarEventOccurence _occurence;
 
-        [CanBeNull] private readonly IChatInfo _chatInfo;
-
         public RoomieCalendarEvent([NotNull] IUser organizer,
             [NotNull] ICalendarEventOccurence occurence,
             [CanBeNull] IChatInfo chatInfo)
         {
             this._organizer = organizer;
             this._occurence = occurence;
-            this._chatInfo = chatInfo;
+            this.ChatInfo = chatInfo;
         }
 
-        public string Id { get; }
+        public string Id => _occurence.EventId;
 
         public string Name => string.Empty; // currently not shown due to data security reasons
 
@@ -32,8 +30,6 @@ namespace RoomieReloaded.Models.Calendar
 
         public DateTime To => _occurence.To;
 
-        public string ChatWithOrganizerLink => _chatInfo?.ChatWithOrganizerLink;
-
-        public string ChatMessageTemplate => _chatInfo?.ChatMessage;
+        public IChatInfo ChatInfo { get; }
     }
 }

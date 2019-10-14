@@ -50,7 +50,9 @@ namespace RoomieReloaded
             services.AddSingleton<ICalendarService, CalendarService>();
             services.AddSingleton<ICalendarEventFactory, CalendarEventFactory>();
             services.AddSingleton<IZimbraAdapter, ZimbraAdapter>();
+
             services.AddSingleton<IChatService, RocketChatService>();
+            services.AddSingleton<IChatMessageService, ChatMessageService>();
 
             BindUserLookupService(services);
 

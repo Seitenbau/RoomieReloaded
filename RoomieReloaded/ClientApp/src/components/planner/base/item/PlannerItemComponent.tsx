@@ -9,6 +9,7 @@ import { IPoint } from 'office-ui-fabric-react/lib/utilities/positioning';
 import { 
     IRenderablePlannerItem,
 } from '../planner';
+import { IClipboardService, createClipboardService } from '../../../../services/clipboard/clipboardService';
 
 export interface IPlannerItemParentData
 {
@@ -36,6 +37,8 @@ interface IPlannerItemComponentState
 
 class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, IPlannerItemComponentState>
 {
+    private clipboardService = createClipboardService();
+
     private tooltipId = getId("tooltip");
     private calloutTarget = React.createRef<HTMLSpanElement>();
 
@@ -134,7 +137,12 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
             return;
         }
 
-        console.log(item.chatLink);
+        if( item.chatMessage !== undefined && item.chatMessage !== null)
+        {
+            //console.log("copying message template to clipboard.");
+            //this.clipboardService.copyTextToClipboard(item.chatMessage);
+        }
+
         window.open(item.chatLink);
     }
 

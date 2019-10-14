@@ -7,5 +7,7 @@ namespace RoomieReloaded.Models.Chat
         [NotNull] string ChatWithOrganizerLink { get; }
 
         [NotNull] string ChatMessage { get; }
+
+        [NotNull] string ChatHint { get; }
     }
 }

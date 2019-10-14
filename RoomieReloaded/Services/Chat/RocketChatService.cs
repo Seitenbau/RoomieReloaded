@@ -10,12 +10,13 @@ namespace RoomieReloaded.Services.Chat
     public class RocketChatService : IChatService
     {
         private readonly IOptions<RocketChatConfiguration> _rocketChatConfiguration;
-        private readonly IRoomAccessor _roomAccessor;
+        private readonly IChatMessageService _chatMessageService;
 
-        public RocketChatService(IOptions<RocketChatConfiguration> rocketChatConfiguration, IRoomAccessor roomAccessor)
+        public RocketChatService(IOptions<RocketChatConfiguration> rocketChatConfiguration, IRoomAccessor roomAccessor,
+            IChatMessageService chatMessageService)
         {
             this._rocketChatConfiguration = rocketChatConfiguration;
-            _roomAccessor = roomAccessor;
+            _chatMessageService = chatMessageService;
         }
 
         public async Task<IChatInfo> GetChatInfoAsync(IUser user, ICalendarEventOccurence occurence)
@@ -28,17 +29,10 @@ namespace RoomieReloaded.Services.Chat
             var link =
                 $"https://go.rocket.chat/room?host={_rocketChatConfiguration.Value.Host}&rid={user.UserName}&path=direct/{user.UserName}";
 
-            var room = await _roomAccessor.GetCurrentRoomAsync();
+            var message = await _chatMessageService.GetChatMessageAsync(user, occurence);
+            var hint = await _chatMessageService.GetChatHintAsync(user);
 
-            // TODO DEV-3 make this localizable with https://tracker.seitenbau.net/browse/DEV-3
-            const string messageTemplate = "Hi {0}, es geht um den Termin am {1} um {2} in Raum {3}";
-            var message = string.Format(messageTemplate,
-                user.FirstName,
-                occurence.From.ToShortDateString(),
-                occurence.From.ToShortTimeString(),
-                room.NiceName);
-
-            return new ChatInfo(link, message);
+            return new ChatInfo(link, message, hint);
         }
     }
 }

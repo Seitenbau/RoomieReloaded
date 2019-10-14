@@ -40,7 +40,9 @@ namespace RoomieReloaded.Models.Presentation
 
         public string ChatWithOrganizerLink { get; private set; }
 
-        public string ChatMessageTemplate { get; private set; }
+        public string ChatMessage { get; private set; }
+
+        public string ChatHint { get; private set; }
 
         public static CalendarEventModel FromCalendarEvent([NotNull] ICalendarEvent ev)
         {
@@ -56,8 +58,9 @@ namespace RoomieReloaded.Models.Presentation
                 Name = ev.Name,
                 Start = ev.From,
                 End = ev.To,
-                ChatWithOrganizerLink = ev.ChatWithOrganizerLink,
-                ChatMessageTemplate = ev.ChatMessageTemplate
+                ChatWithOrganizerLink = ev.ChatInfo?.ChatWithOrganizerLink,
+                ChatMessage = ev.ChatInfo?.ChatMessage,
+                ChatHint = ev.ChatInfo?.ChatHint
             };
         }
     }
