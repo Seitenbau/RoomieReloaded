@@ -128,7 +128,7 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
         console.log("Trying to open chat with organizer");
 
-        if(item.chatLink === undefined)
+        if(item.chatLink === undefined || item.chatLink === null)
         {
             console.log("No chat link found")
             return;

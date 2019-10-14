@@ -6,6 +6,11 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import configureStore from './store';
 import { Bootstrap } from './components/bootstrap';
+import { initializeIcons } from '@uifabric/icons';
+
+//load icon fonts from local directory. if new icons should be used, it may be required to copy the fonts from /node_modules/@uifabric/icons/fonts to /public/icons/fonts
+// maybe add a build step to copy fonts automatically
+initializeIcons('./icons/fonts/');
 
 export const store = configureStore();
 
