@@ -10,12 +10,10 @@ Install dotnet core SDK (https://dotnet.microsoft.com/download) matching your OS
 Install npm (should work with versions 5.6.0+)
 Open solution in Visual Studio or Jetbrains Rider and start the app
 
+Visual Studio Code also works, should automatically detect the solution when the folder is opened and ask to install C# development tools.
+
 ## To decouple frontend development from Visual Studio / Jetbrains Rider
-To use another editor for frontend development and still have the backend running in debug mode, you can for example do the following: 
-- Change "ASPNETCORE_ENVIRONMENT" in "Properties/launchSettings.json" to "Staging" (or use any other emthod to set the variable, see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-2.2)
-- Build and start the application with Visual Studio. Thanks to "Staging", npm start will not be executed.
-- Open a shell in /ClientApp and execute "npm install", then "npm start"
-- Open /ClientApp in your favourite editor
+To use another editor for frontend development and still have the backend running in debug mode, just start the app from visual studio or Rider. After that, open the client app folder in your favourite editor.
 
 It should also be possible to start the app with docker and feed it the development folder instead of the built app, but I have not yet tested it. The Dockerfile as is won't work here, as it does a "dotnet publish", which builds the frontend app.
 
