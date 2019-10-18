@@ -1,5 +1,5 @@
 # RoomieReloaded
-Zimbra room booking overview
+Zimbra room booking overview.
 
 ## Build/Start with docker
 docker-compose up -d
