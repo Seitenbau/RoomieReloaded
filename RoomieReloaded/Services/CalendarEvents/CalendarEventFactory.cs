@@ -1,7 +1,9 @@
-﻿using Ical.Net.CalendarComponents;
+﻿using System.Threading.Tasks;
+using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using Microsoft.Extensions.Logging;
-using RoomieReloaded.Models;
+using RoomieReloaded.Models.Calendar;
+using RoomieReloaded.Services.Chat;
 using RoomieReloaded.Services.Users;
 
 namespace RoomieReloaded.Services.CalendarEvents
@@ -10,21 +12,25 @@ namespace RoomieReloaded.Services.CalendarEvents
     {
         private readonly ILogger<CalendarEventFactory> _logger;
         private readonly ICachingUserLookupService _userLookupService;
+        private readonly IChatService _chatService;
 
-        public CalendarEventFactory(ILogger<CalendarEventFactory> logger, ICachingUserLookupService userLookupService)
+        public CalendarEventFactory(ILogger<CalendarEventFactory> logger, ICachingUserLookupService userLookupService, IChatService chatService)
         {
             _logger = logger;
             _userLookupService = userLookupService;
+            _chatService = chatService;
         }
 
-        public ICalendarEvent CreateFromOccurence(Occurrence occurrence)
+        public async Task<ICalendarEvent> CreateFromOccurenceAsync(Occurrence occurrence)
         {
             LogOccurence(occurrence);
-            var calendarEvent = (CalendarEvent)occurrence.Source;
+            var calendarEvent = (CalendarEvent) occurrence.Source;
 
             var user = _userLookupService.GetUser(calendarEvent.Organizer);
+            var eventOccurence = new IcalCalendarEventOccurence(occurrence);
+            var chatInfo = await _chatService.GetChatInfoAsync(user, eventOccurence);
 
-            return new RoomieCalendarEvent(user, occurrence);
+            return new RoomieCalendarEvent(user, eventOccurence, chatInfo);
         }
 
         private void LogOccurence(Occurrence occurence)

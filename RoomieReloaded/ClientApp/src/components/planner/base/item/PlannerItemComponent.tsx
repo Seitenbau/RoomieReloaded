@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { 
     TooltipHost,
     ITooltipProps,
@@ -9,6 +9,7 @@ import { IPoint } from 'office-ui-fabric-react/lib/utilities/positioning';
 import { 
     IRenderablePlannerItem,
 } from '../planner';
+import { IClipboardService, createClipboardService } from '../../../../services/clipboard/clipboardService';
 
 export interface IPlannerItemParentData
 {
@@ -34,9 +35,10 @@ interface IPlannerItemComponentState
     rerender:boolean,
 }
 
-
 class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, IPlannerItemComponentState>
 {
+    private clipboardService = createClipboardService();
+
     private tooltipId = getId("tooltip");
     private calloutTarget = React.createRef<HTMLSpanElement>();
 
@@ -69,7 +71,8 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
         const itemElement =  <div
                 className={innerContainerClassName} 
-                style={cssPositionProperties}>
+                style={cssPositionProperties}
+                onDoubleClick={this.onDoubleClick} >
                 <span ref={this.calloutTarget}>
                     <span
                         ref="item"
@@ -118,8 +121,29 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
     componentWillUnmount = () =>
     {
-        window.removeEventListener("resize", this.triggerRerender);
+        window.removeEventListener("resize", this.triggerRerender); 
         window.removeEventListener("rerenderItem", this.triggerRerender);
+    }
+
+    private onDoubleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) : void => 
+    {
+        const item = this.props.item;
+
+        console.log("Trying to open chat with organizer");
+
+        if(item.chatLink === undefined || item.chatLink === null)
+        {
+            console.log("No chat link found")
+            return;
+        }
+
+        if( item.chatMessage !== undefined && item.chatMessage !== null)
+        {
+            //console.log("copying message template to clipboard.");
+            //this.clipboardService.copyTextToClipboard(item.chatMessage);
+        }
+
+        window.open(item.chatLink);
     }
 
     private triggerRerender = () =>

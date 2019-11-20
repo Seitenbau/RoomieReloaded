@@ -1,6 +1,8 @@
 ﻿using System;
+using JetBrains.Annotations;
+using RoomieReloaded.Models.Chat;
 
-namespace RoomieReloaded.Models
+namespace RoomieReloaded.Models.Calendar
 {
     public interface ICalendarEvent
     {
@@ -13,5 +15,8 @@ namespace RoomieReloaded.Models
         DateTime From { get; }
 
         DateTime To { get; }
+
+        [CanBeNull]
+        IChatInfo ChatInfo { get; }
     }
 }

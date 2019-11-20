@@ -153,6 +153,11 @@
     border-bottom-right-radius: 5px;
 }
 
+.tooltip-text-seperator
+{
+    margin-top: 5px;
+}
+
 .rowHeaderCell
 {
     display: flex;

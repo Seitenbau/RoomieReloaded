@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RoomieReloaded.Models;
+using RoomieReloaded.Models.Calendar;
 
 namespace RoomieReloaded.Services.Calendar
 {

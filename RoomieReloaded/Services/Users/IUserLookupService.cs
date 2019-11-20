@@ -1,7 +1,7 @@
 ﻿using Ical.Net.DataTypes;
 using JetBrains.Annotations;
-using Microsoft.IdentityModel.Tokens;
 using RoomieReloaded.Models;
+using RoomieReloaded.Models.Users;
 
 namespace RoomieReloaded.Services.Users
 {

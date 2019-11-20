@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
-using Microsoft.Extensions.Logging;
-using RoomieReloaded.Models;
+using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Services.CalendarEvents;
 using RoomieReloaded.Services.Zimbra;
 
@@ -29,26 +28,36 @@ namespace RoomieReloaded.Services.Calendar
 
             var calendar = Ical.Net.Calendar.Load(icsCalendar);
 
-            var eventOccurrences = calendar.GetOccurrences(from, to);
+            var eventOccurrences = calendar.GetOccurrences(from, to)
+                .ToList();
 
-            var events = CreateCalendarEvents(eventOccurrences, roomEmail);
+            var events = await CreateCalendarEventsAsync(eventOccurrences, roomEmail);
 
             return events;
         }
 
-        private IEnumerable<ICalendarEvent> CreateCalendarEvents(
-            HashSet<Occurrence> eventOccurrences, string roomEmail)
+        private async Task<IEnumerable<ICalendarEvent>> CreateCalendarEventsAsync(
+            IEnumerable<Occurrence> eventOccurrences, string roomEmail)
         {
-            foreach (var occurence in eventOccurrences)
-            {
-                var calendarEvent = (CalendarEvent) occurence.Source;
-                // Show Only events that overlap with from and to
-                if (calendarEvent.Attendees.Any(att =>
-                    att.Value.UserInfo.Equals(roomEmail) && att.ParticipationStatus.Equals("ACCEPTED")))
-                {
-                    yield return _calendarEventFactory.CreateFromOccurence(occurence);
-                }
-            }
+            var tasks = eventOccurrences.Where(occ => IsValidOccurence(occ, roomEmail))
+                .Select(_calendarEventFactory.CreateFromOccurenceAsync);
+
+            var taskArray = tasks.ToArray();
+
+            await Task.WhenAll(taskArray);
+
+            return taskArray.Select(t => t.Result);
+        }
+
+        private bool IsValidOccurence(Occurrence occurrence, string roomEmail)
+        {
+            var calendarEvent = (CalendarEvent) occurrence.Source;
+            return calendarEvent.Attendees.Any(att => IsAcceptedAttendee(att, roomEmail));
+        }
+
+        private bool IsAcceptedAttendee(Attendee attendee, string roomEmail)
+        {
+            return attendee.Value.UserInfo.Equals(roomEmail) && attendee.ParticipationStatus.Equals("ACCEPTED");
         }
     }
 }

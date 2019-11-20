@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using RoomieReloaded.Configuration;
 using RoomieReloaded.Extensions;
 using RoomieReloaded.Models;
+using RoomieReloaded.Models.Users;
 
 namespace RoomieReloaded.Services.Users
 {
@@ -30,7 +31,7 @@ namespace RoomieReloaded.Services.Users
                 user = GetUserByMail(mailAddress);
             }
 
-            return user ?? new User(organizer);
+            return user ?? User.FromOrganizer(organizer);
         }
 
         private bool UseLdap()
@@ -50,7 +51,7 @@ namespace RoomieReloaded.Services.Users
                 using (var searchPrincipal = new UserPrincipal(context))
                 {
                     searchPrincipal.Name = name;
-                    return SearchUser(searchPrincipal);
+                    return SearchForUser(searchPrincipal);
                 }
             }
         }
@@ -62,7 +63,7 @@ namespace RoomieReloaded.Services.Users
                 using (var searchPrincipal = new UserPrincipal(context))
                 {
                     searchPrincipal.EmailAddress = mail;
-                    return SearchUser(searchPrincipal);
+                    return SearchForUser(searchPrincipal);
                 }
             }
         }
@@ -79,7 +80,7 @@ namespace RoomieReloaded.Services.Users
         }
 
         [CanBeNull]
-        private IUser SearchUser(Principal searchPrincipal)
+        private IUser SearchForUser(Principal searchPrincipal)
         {
             if (!UseLdap())
             {
@@ -90,7 +91,7 @@ namespace RoomieReloaded.Services.Users
             {
                 if (searcher.FindOne() is UserPrincipal user)
                 {
-                    return new User(user.Name, user.EmailAddress);
+                    return User.FromUserPrincipal(user);
                 }
             }
 

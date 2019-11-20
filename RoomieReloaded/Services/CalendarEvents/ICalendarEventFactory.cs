@@ -1,10 +1,11 @@
-﻿using Ical.Net.DataTypes;
-using RoomieReloaded.Models;
+﻿using System.Threading.Tasks;
+using Ical.Net.DataTypes;
+using RoomieReloaded.Models.Calendar;
 
 namespace RoomieReloaded.Services.CalendarEvents
 {
     public interface ICalendarEventFactory
     {
-        ICalendarEvent CreateFromOccurence(Occurrence occurrence);
+        Task<ICalendarEvent> CreateFromOccurenceAsync(Occurrence occurrence);
     }
 }
