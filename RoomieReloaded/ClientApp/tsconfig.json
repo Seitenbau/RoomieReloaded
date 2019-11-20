@@ -20,7 +20,7 @@
     "jsx": "preserve"
   },
   "include": [
-    "src"
+    "src", "../Services/CalendarEvents/CalendarEventModelEqualityComparer.cs", "../Services/CalendarEvents/ICalendarEventFactory.cs", "../Services/CalendarEvents/RoomieCalendarEvent.cs"
   ],
   "plugins": [
     { "name": "typescript-tslint-plugin" }
