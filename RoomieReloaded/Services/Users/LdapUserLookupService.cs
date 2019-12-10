@@ -1,10 +1,9 @@
-﻿using System.DirectoryServices.AccountManagement;
-using Ical.Net.DataTypes;
+﻿using Ical.Net.DataTypes;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Options;
+using Novell.Directory.Ldap;
 using RoomieReloaded.Configuration;
 using RoomieReloaded.Extensions;
-using RoomieReloaded.Models;
 using RoomieReloaded.Models.Users;
 
 namespace RoomieReloaded.Services.Users
@@ -46,56 +45,61 @@ namespace RoomieReloaded.Services.Users
 
         private IUser GetUserByName(string name)
         {
-            using (var context = CreateContext())
+            using (var connection = OpenConnection())
             {
-                using (var searchPrincipal = new UserPrincipal(context))
-                {
-                    searchPrincipal.Name = name;
-                    return SearchForUser(searchPrincipal);
-                }
+                var searchResult = connection?.Search("OU=user,OU=agentur,OU=seitenbau,dc=seitenbau,dc=net",
+                    LdapConnection.SCOPE_SUB,
+                    $"(&((&(objectCategory=Person)(objectClass=User)))(name={name}))",
+                    new[] {"name", "givenname", "samacccountname", "mail"},
+                    false);
+
+                return GetUserFromSearchResult(searchResult);
             }
         }
 
         private IUser GetUserByMail(string mail)
         {
-            using (var context = CreateContext())
+            using (var connection = OpenConnection())
             {
-                using (var searchPrincipal = new UserPrincipal(context))
-                {
-                    searchPrincipal.EmailAddress = mail;
-                    return SearchForUser(searchPrincipal);
-                }
+                var searchResult = connection?.Search("OU=seitenbau,DC=seitenbau,DC=net",
+                    LdapConnection.SCOPE_SUB,
+                    $"(&((&(objectCategory=Person)(objectClass=User)))(mail={mail}))",
+                    new[] {"name", "givenname", "samacccountname", "mail"},
+                    false);
+
+                return GetUserFromSearchResult(searchResult);
             }
         }
 
-        private PrincipalContext CreateContext()
+        [CanBeNull]
+        private static IUser GetUserFromSearchResult([CanBeNull] LdapSearchResults searchResult)
         {
-            const ContextOptions options = ContextOptions.Negotiate | ContextOptions.Sealing | ContextOptions.Signing;
-            return new PrincipalContext(ContextType.Domain,
-                _ldapConfiguration.Value.Domain,
-                null,
-                options,
-                _ldapConfiguration.Value.UserName,
-                _ldapConfiguration.Value.Password);
+            if (searchResult == null)
+            {
+                return null;
+            }
+
+            if (searchResult.Count == 0)
+            {
+                return null;
+            }
+
+            var entry = searchResult.next();
+            return User.FromLdapEntry(entry);
         }
 
         [CanBeNull]
-        private IUser SearchForUser(Principal searchPrincipal)
+        private LdapConnection OpenConnection()
         {
             if (!UseLdap())
             {
                 return null;
             }
 
-            using (var searcher = new PrincipalSearcher(searchPrincipal))
-            {
-                if (searcher.FindOne() is UserPrincipal user)
-                {
-                    return User.FromUserPrincipal(user);
-                }
-            }
-
-            return null;
+            var connection = new LdapConnection();
+            connection.Connect(_ldapConfiguration.Value.Host, _ldapConfiguration.Value.Port);
+            connection.Bind(_ldapConfiguration.Value.UserName, _ldapConfiguration.Value.Password);
+            return connection;
         }
     }
 }
