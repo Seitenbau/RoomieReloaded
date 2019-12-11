@@ -26,7 +26,7 @@ namespace RoomieReloaded.Services.CalendarEvents
             LogOccurence(occurrence);
             var calendarEvent = (CalendarEvent) occurrence.Source;
 
-            var user = _userLookupService.GetUser(calendarEvent.Organizer);
+            var user = await _userLookupService.GetUserAsync(calendarEvent.Organizer);
             var eventOccurence = new IcalCalendarEventOccurence(occurrence);
             var chatInfo = await _chatService.GetChatInfoAsync(user, eventOccurence);
 

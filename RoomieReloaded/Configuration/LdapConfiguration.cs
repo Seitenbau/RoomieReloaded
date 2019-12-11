@@ -1,4 +1,7 @@
-﻿namespace RoomieReloaded.Configuration
+﻿using System.DirectoryServices.Protocols;
+using System.Net;
+
+namespace RoomieReloaded.Configuration
 {
     public class LdapConfiguration
     {
@@ -8,9 +11,22 @@
 
         public string Password { get; set; }
 
-        public string Host { get; set; }
+        public int TimeoutInMilliseconds { get; set; } = 3000;
 
-        public int Port { get; set; }
+        public string SearchBase { get; set; }
+
+        public NetworkCredential CreateCredentials()
+        {
+            return new NetworkCredential(
+                UserName,
+                Password,
+                Domain);
+        }
+
+        public LdapDirectoryIdentifier CreateIdentifier()
+        {
+            return new LdapDirectoryIdentifier(Domain);
+        }
 
         public bool Validate()
         {
@@ -20,16 +36,6 @@
             }
 
             if (string.IsNullOrEmpty(UserName))
-            {
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(Host))
-            {
-                return false;
-            }
-
-            if (Port <= 0)
             {
                 return false;
             }
