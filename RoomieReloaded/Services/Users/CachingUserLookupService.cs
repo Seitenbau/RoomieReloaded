@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Ical.Net.DataTypes;
 using Microsoft.Extensions.Caching.Memory;
-using RoomieReloaded.Models;
 using RoomieReloaded.Models.Users;
 
 namespace RoomieReloaded.Services.Users
@@ -19,7 +19,7 @@ namespace RoomieReloaded.Services.Users
             _userCache = userCache;
         }
 
-        public IUser GetUser(Organizer organizer)
+        public async Task<IUser> GetUserAsync(Organizer organizer)
         {
             var cacheKey = GetCacheKey(organizer);
             if (_userCache.TryGetValue<IUser>(cacheKey, out var user))
@@ -27,7 +27,7 @@ namespace RoomieReloaded.Services.Users
                 return user;
             }
 
-            var lookupResult = _userLookupService.GetUser(organizer);
+            var lookupResult = await _userLookupService.GetUserAsync(organizer);
 
             return _userCache.Set(cacheKey, lookupResult, _cacheTime);
         }

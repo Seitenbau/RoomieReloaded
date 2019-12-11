@@ -1,4 +1,4 @@
-﻿using System.DirectoryServices.AccountManagement;
+﻿using System.DirectoryServices.Protocols;
 using Ical.Net.DataTypes;
 using RoomieReloaded.Extensions;
 
@@ -28,14 +28,14 @@ namespace RoomieReloaded.Models.Users
             };
         }
 
-        public static User FromUserPrincipal(UserPrincipal userPrincipal)
+        public static User FromLdapEntry(SearchResultEntry ldapSearchResult)
         {
             return new User
             {
-                DisplayName = userPrincipal.Name,
-                FirstName = userPrincipal.GivenName,
-                UserName = userPrincipal.SamAccountName,
-                MailAddress = userPrincipal.EmailAddress
+                DisplayName = ldapSearchResult.Attributes["name"][0].ToString(),
+                FirstName = ldapSearchResult.Attributes["givenname"][0].ToString(),
+                UserName = ldapSearchResult.Attributes["samaccountname"][0].ToString(),
+                MailAddress = ldapSearchResult.Attributes["mail"][0].ToString(),
             };
         }
     }
