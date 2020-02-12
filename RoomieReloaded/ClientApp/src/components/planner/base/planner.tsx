@@ -322,6 +322,11 @@ export abstract class Planner extends React.Component<IPlannerStateProps>
         return space / viewPartCount;
     }
 
+    componentDidMount() {
+        // rerender items via event after finished mounting to remove that strange quirky 'snap' when mouse hovering an item
+        this.rerenderItems();
+    }
+
     componentDidUpdate()
     {
         this.rerenderItems();
