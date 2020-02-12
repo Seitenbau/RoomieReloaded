@@ -51,40 +51,17 @@ namespace RoomieReloaded.Services.Users
             var connection = OpenConnection();
 
             var requestState = new SearchRequestState(connection, taskCompletionSource, organizer);
-
-            var searchQueue = StartUserSearch(connection, requestState);
-
-            Task.Run(() => CompleteUserSearchSafe(requestState, searchQueue));
+            
+            Task.Run(() => ExecuteSearchSafe(requestState));
 
             return taskCompletionSource.Task;
         }
 
-        private LdapSearchQueue StartUserSearch(LdapConnection connection, SearchRequestState requestState)
-        {
-            var searchConstraints =
-                new LdapSearchConstraints(_ldapConfiguration.Value.TimeoutInMilliseconds,
-                    _ldapConfiguration.Value.TimeoutInSeconds,
-                    LdapSearchConstraints.DerefNever,
-                    1,
-                    true,
-                    1,
-                    null,
-                    20);
-            var attributes = new[] {"name", "givenname", "samaccountname", "mail"};
-            var searchQueue = connection.Search(_ldapConfiguration.Value.SearchBase,
-                LdapConnection.ScopeSub,
-                requestState.Filter,
-                attributes,
-                false,
-                null,
-                searchConstraints);
-            return searchQueue;
-        }
-
-        private void CompleteUserSearchSafe(SearchRequestState requestState, LdapMessageQueue searchQueue)
+        private void ExecuteSearchSafe(SearchRequestState requestState)
         {
             try
             {
+                var searchQueue = StartUserSearch(requestState);
                 CompleteUserSearch(requestState, searchQueue);
             }
             catch (Exception e)
@@ -96,6 +73,28 @@ namespace RoomieReloaded.Services.Users
             {
                 requestState.Dispose();
             }
+        }
+
+        private LdapSearchQueue StartUserSearch(SearchRequestState requestState)
+        {
+            var searchConstraints =
+                new LdapSearchConstraints(_ldapConfiguration.Value.TimeoutInMilliseconds,
+                    _ldapConfiguration.Value.TimeoutInSeconds,
+                    LdapSearchConstraints.DerefNever,
+                    1,
+                    true,
+                    1,
+                    null,
+                    20);
+            var attributes = new[] {"name", "givenname", "samaccountname", "mail"};
+            var searchQueue = requestState.Connection.Search(_ldapConfiguration.Value.SearchBase,
+                LdapConnection.ScopeSub,
+                requestState.Filter,
+                attributes,
+                false,
+                null,
+                searchConstraints);
+            return searchQueue;
         }
 
         private void CompleteUserSearch(SearchRequestState requestState, LdapMessageQueue searchQueue)
@@ -170,8 +169,15 @@ namespace RoomieReloaded.Services.Users
         private LdapConnection OpenConnection()
         {
             var connection = new LdapConnection();
-            connection.Connect(_ldapConfiguration.Value.Host, _ldapConfiguration.Value.Port);
-            connection.Bind(_ldapConfiguration.Value.UserName, _ldapConfiguration.Value.Password);
+            try
+            {
+                connection.Connect(_ldapConfiguration.Value.Host, _ldapConfiguration.Value.Port);
+                connection.Bind(_ldapConfiguration.Value.UserName, _ldapConfiguration.Value.Password);
+            }
+            catch (Exception e)
+            {
+                this._logger.LogError(e, "Could not open a connection to ldap.");
+            }
 
             return connection;
         }
