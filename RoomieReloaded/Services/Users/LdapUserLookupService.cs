@@ -1,10 +1,10 @@
 ﻿using System;
-using System.DirectoryServices.Protocols;
 using System.Threading.Tasks;
 using Ical.Net.DataTypes;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Novell.Directory.Ldap;
 using RoomieReloaded.Configuration;
 using RoomieReloaded.Extensions;
 using RoomieReloaded.Models.Users;
@@ -52,23 +52,40 @@ namespace RoomieReloaded.Services.Users
 
             var requestState = new SearchRequestState(connection, taskCompletionSource, organizer);
 
-            var searchRequest = new SearchRequest(_ldapConfiguration.Value.SearchBase,
-                requestState.Filter,
-                SearchScope.Subtree,
-                null);
-            connection.BeginSendRequest(searchRequest, PartialResultProcessing.ReturnPartialResultsAndNotifyCallback,
-                CompleteUserSearch, requestState);
+            var searchQueue = StartUserSearch(connection, requestState);
+
+            Task.Run(() => CompleteUserSearchSafe(requestState, searchQueue));
 
             return taskCompletionSource.Task;
         }
 
-        private void CompleteUserSearch(IAsyncResult asyncResult)
+        private LdapSearchQueue StartUserSearch(LdapConnection connection, SearchRequestState requestState)
         {
-            var requestState = (SearchRequestState) asyncResult.AsyncState;
+            var searchConstraints =
+                new LdapSearchConstraints(_ldapConfiguration.Value.TimeoutInMilliseconds,
+                    _ldapConfiguration.Value.TimeoutInSeconds,
+                    LdapSearchConstraints.DerefNever,
+                    1,
+                    true,
+                    1,
+                    null,
+                    20);
+            var attributes = new[] {"name", "givenname", "samaccountname", "mail"};
+            var searchQueue = connection.Search(_ldapConfiguration.Value.SearchBase,
+                LdapConnection.ScopeSub,
+                requestState.Filter,
+                attributes,
+                false,
+                null,
+                searchConstraints);
+            return searchQueue;
+        }
 
+        private void CompleteUserSearchSafe(SearchRequestState requestState, LdapMessageQueue searchQueue)
+        {
             try
             {
-                CompleteUserSearch(asyncResult, requestState);
+                CompleteUserSearch(requestState, searchQueue);
             }
             catch (Exception e)
             {
@@ -77,36 +94,32 @@ namespace RoomieReloaded.Services.Users
             }
             finally
             {
-                requestState.Connection.Dispose();
-                asyncResult.AsyncWaitHandle.Close();
-                asyncResult.AsyncWaitHandle.Dispose();
+                requestState.Dispose();
             }
         }
 
-        private void CompleteUserSearch(IAsyncResult asyncResult, SearchRequestState requestState)
+        private void CompleteUserSearch(SearchRequestState requestState, LdapMessageQueue searchQueue)
         {
-            asyncResult.AsyncWaitHandle.WaitOne(_ldapConfiguration.Value.TimeoutInMilliseconds);
-            var result = (SearchResponse) requestState.Connection.EndSendRequest(asyncResult);
+            var response = searchQueue.GetResponse();
+            if (!(response is LdapSearchResult searchResult))
+            {
+                _logger.LogTrace($"Received an unexpected result of type '{response?.GetType()}' from LDAP search.");
+                requestState.SetNoResult();
+                return;
+            }
 
-            if (result.Entries.Count == 0)
+            if (searchResult.Entry == null)
             {
                 _logger.LogTrace($"Could not find an LDAP user with the filter '{requestState.Filter}'");
                 requestState.SetNoResult();
                 return;
             }
 
-            if (result.Entries.Count > 1)
-            {
-                _logger.LogWarning(
-                    $"Found multiple LDAP users with the filter '{requestState.Filter}'. Assuming first hit is correct.");
-            }
-
-            var entry = result.Entries[0];
-            var user = User.FromLdapEntry(entry);
+            var user = User.FromLdapEntry(searchResult.Entry);
             requestState.SetResult(user);
         }
 
-        private class SearchRequestState
+        private class SearchRequestState : IDisposable
         {
             private readonly TaskCompletionSource<IUser> _taskCompletionSource;
             private readonly Organizer _organizer;
@@ -146,16 +159,19 @@ namespace RoomieReloaded.Services.Users
 
                 return $"(|{nameFilter}{mailFilter})";
             }
+
+            public void Dispose()
+            {
+                Connection?.Dispose();
+            }
         }
 
         [NotNull]
         private LdapConnection OpenConnection()
         {
-            var credentials = _ldapConfiguration.Value.CreateCredentials();
-            var serverId = _ldapConfiguration.Value.CreateIdentifier();
-
-            var connection = new LdapConnection(serverId, credentials);
-            connection.Bind();
+            var connection = new LdapConnection();
+            connection.Connect(_ldapConfiguration.Value.Host, _ldapConfiguration.Value.Port);
+            connection.Bind(_ldapConfiguration.Value.UserName, _ldapConfiguration.Value.Password);
 
             return connection;
         }

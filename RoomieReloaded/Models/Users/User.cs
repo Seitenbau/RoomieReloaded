@@ -1,5 +1,5 @@
-﻿using System.DirectoryServices.Protocols;
-using Ical.Net.DataTypes;
+﻿using Ical.Net.DataTypes;
+using Novell.Directory.Ldap;
 using RoomieReloaded.Extensions;
 
 namespace RoomieReloaded.Models.Users
@@ -28,14 +28,15 @@ namespace RoomieReloaded.Models.Users
             };
         }
 
-        public static User FromLdapEntry(SearchResultEntry ldapSearchResult)
+        public static User FromLdapEntry(LdapEntry ldapEntry)
         {
+            
             return new User
             {
-                DisplayName = ldapSearchResult.Attributes["name"][0].ToString(),
-                FirstName = ldapSearchResult.Attributes["givenname"][0].ToString(),
-                UserName = ldapSearchResult.Attributes["samaccountname"][0].ToString(),
-                MailAddress = ldapSearchResult.Attributes["mail"][0].ToString(),
+                DisplayName = ldapEntry.GetAttribute("name").StringValue,
+                FirstName = ldapEntry.GetAttribute("givenname").StringValue,
+                UserName = ldapEntry.GetAttribute("samaccountname").StringValue,
+                MailAddress = ldapEntry.GetAttribute("mail").StringValue
             };
         }
     }
