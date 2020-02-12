@@ -29,5 +29,5 @@ function* initialize()
 function* loadPlannerData()
 {    
     yield call(loadPlannerGroups);
-    yield call(loadPlannerItems)
+    yield call(loadPlannerItems);
 }

@@ -8,43 +8,44 @@ import { DateRangeServiceFactory } from "../services/dateRangeService/dateRangeS
 import { IDataService, DataService } from "../services/plannerData/dataService";
 
 const dateRangeServiceFactory = new DateRangeServiceFactory();
-const plannerDataService:IDataService = new DataService();
+const plannerDataService: IDataService = new DataService();
 
-export function* plannerItemsSaga(){
+export function* plannerItemsSaga() {
     yield takeLatest(PlannerItemsTypes.REQUEST, loadPlannerItems);
 }
 
-export function* loadPlannerItems()
-{
+export function* loadPlannerItems() {
     yield call(setUsersLoadingState, true);
-    try{
+    try {
         const currentCalendar = yield select(getCurrentCalendar);
         const currentDateTime = yield select(getCurrentDateTime);
-    
+
         const dateRangeService = dateRangeServiceFactory.create(currentCalendar);
         const currentDateRange = dateRangeService.calculateDateRange(currentDateTime);
-    
-        const groups : IPlannerGroup[] = yield select(getPlannerGroups);
+
+        const groups: IPlannerGroup[] = yield select(getPlannerGroups);
 
         console.log("groups", groups)
-    
-        let records : IPlannerItem[] = [];
-        
+
+        let records: IPlannerItem[] = [];
+
         for (let index = 0; index < groups.length; index++) {
             const group = groups[index];
-    
-            const groupRecords : IPlannerItem[] = yield call(plannerDataService.getRecords, currentDateRange, group);
-    
-            records = records.concat(groupRecords);
+
+            try {
+                const groupRecords: IPlannerItem[] = yield call(plannerDataService.getRecords, currentDateRange, group);
+                records = records.concat(groupRecords);
+            } catch (e) {
+                console.log(e);
+            }
         }
-    
+
         yield put(PlannerItemsActions.updateItems(records));
 
         yield put(PlannerItemsActions.success());
-    }catch(e){        
-        console.log(e);
+    } catch (outerException) {
+        console.log();
         yield put(PlannerItemsActions.failure());
     }
-
     yield setUsersLoadingState(false);
 }
