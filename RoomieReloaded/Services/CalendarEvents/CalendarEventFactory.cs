@@ -3,6 +3,7 @@ using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using Microsoft.Extensions.Logging;
 using RoomieReloaded.Models.Calendar;
+using RoomieReloaded.Models.Users;
 using RoomieReloaded.Services.Chat;
 using RoomieReloaded.Services.Users;
 
@@ -10,11 +11,12 @@ namespace RoomieReloaded.Services.CalendarEvents
 {
     public class CalendarEventFactory : ICalendarEventFactory
     {
+        private readonly IChatService _chatService;
         private readonly ILogger<CalendarEventFactory> _logger;
         private readonly ICachingUserLookupService _userLookupService;
-        private readonly IChatService _chatService;
 
-        public CalendarEventFactory(ILogger<CalendarEventFactory> logger, ICachingUserLookupService userLookupService, IChatService chatService)
+        public CalendarEventFactory(ILogger<CalendarEventFactory> logger, ICachingUserLookupService userLookupService,
+            IChatService chatService)
         {
             _logger = logger;
             _userLookupService = userLookupService;
@@ -25,12 +27,26 @@ namespace RoomieReloaded.Services.CalendarEvents
         {
             LogOccurence(occurrence);
             var calendarEvent = (CalendarEvent) occurrence.Source;
+            var isPrivateEvent = IsPrivateEvent(calendarEvent);
 
-            var user = await _userLookupService.GetUserAsync(calendarEvent.Organizer);
-            var eventOccurence = new IcalCalendarEventOccurence(occurrence);
+            var user = isPrivateEvent
+                ? new PrivateEventUser()
+                : await GetUser(calendarEvent);
+            var eventOccurence = new IcalCalendarEventOccurence(occurrence, isPrivateEvent);
             var chatInfo = await _chatService.GetChatInfoAsync(user, eventOccurence);
 
             return new RoomieCalendarEvent(user, eventOccurence, chatInfo);
+        }
+
+        private async Task<IUser> GetUser(CalendarEvent calendarEvent)
+        {
+            var user = await _userLookupService.GetUserAsync(calendarEvent.Organizer);
+            return user;
+        }
+
+        public bool IsPrivateEvent(CalendarEvent calendarEvent)
+        {
+            return calendarEvent.Class == Constants.IcsConstants.PrivateEventClass;
         }
 
         private void LogOccurence(Occurrence occurence)
@@ -48,6 +64,14 @@ namespace RoomieReloaded.Services.CalendarEvents
                 $"### period start. utc: {occurence.Period.StartTime.AsUtc}, local: {occurence.Period.StartTime.AsSystemLocal}, timezone: {occurence.Period.StartTime.TimeZoneName}");
             _logger.LogInformation(
                 $"### period end. utc: {occurence.Period.EndTime.AsUtc}, local: {occurence.Period.EndTime.AsSystemLocal}, timezone: {occurence.Period.EndTime.TimeZoneName}");
+        }
+
+        private class PrivateEventUser : IUser
+        {
+            public string DisplayName { get; } = "Private";
+            public string FirstName { get; } = string.Empty;
+            public string UserName { get; } = string.Empty;
+            public string MailAddress { get; } = string.Empty;
         }
     }
 }

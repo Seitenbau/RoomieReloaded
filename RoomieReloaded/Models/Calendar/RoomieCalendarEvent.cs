@@ -20,6 +20,8 @@ namespace RoomieReloaded.Models.Calendar
             this.ChatInfo = chatInfo;
         }
 
+        public bool IsPrivate => _occurence.IsPrivateEvent;
+
         public string Id => _occurence.EventId;
 
         public string Name => string.Empty; // currently not shown due to data security reasons

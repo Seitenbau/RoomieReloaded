@@ -6,6 +6,8 @@ namespace RoomieReloaded.Models.Calendar
 {
     public interface ICalendarEvent
     {
+        bool IsPrivate { get; }
+
         string Id { get; }
         
         string Name { get; }
