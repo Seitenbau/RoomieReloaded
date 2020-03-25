@@ -44,6 +44,8 @@ namespace RoomieReloaded.Models.Presentation
 
         public string ChatHint { get; private set; }
 
+        public bool IsPrivate { get; private set; }
+
         public static CalendarEventModel FromCalendarEvent([NotNull] ICalendarEvent ev)
         {
             if (ev == null)
@@ -60,7 +62,8 @@ namespace RoomieReloaded.Models.Presentation
                 End = ev.To,
                 ChatWithOrganizerLink = ev.ChatInfo?.ChatWithOrganizerLink,
                 ChatMessage = ev.ChatInfo?.ChatMessage,
-                ChatHint = ev.ChatInfo?.ChatHint
+                ChatHint = ev.ChatInfo?.ChatHint,
+                IsPrivate = ev.IsPrivate
             };
         }
     }

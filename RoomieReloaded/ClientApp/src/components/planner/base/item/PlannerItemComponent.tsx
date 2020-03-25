@@ -3,8 +3,9 @@ import {
     TooltipHost,
     ITooltipProps,
     getId,
-    DirectionalHint,
- } from 'office-ui-fabric-react';
+    DirectionalHint
+} from 'office-ui-fabric-react';
+import { FontIcon } from "office-ui-fabric-react/lib/Icon";
 import { IPoint } from 'office-ui-fabric-react/lib/utilities/positioning';
 import { 
     IRenderablePlannerItem,
@@ -80,11 +81,11 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
                         className={"draggable-planner-item item-border" + (isStartingInView ? " start-item" : "") + (isEndingInView ? " end-item" : "") }
                         style={cssPresentationProperties}
                     >
-                        <div className={"item-data"}>
+                        <div className="item-data">
                             <div className="plannertext item item-text" 
                                 style={cssTextProperties}
                             >
-                                {item.title}
+                                {this.getItemText()}
                             </div>
                         </div>
                     </span>
@@ -125,15 +126,26 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         window.removeEventListener("rerenderItem", this.triggerRerender);
     }
 
+    private getItemText = (): string | JSX.Element =>
+    {
+        const item = this.props.item;
+        if (item.isPrivate) {
+            return <div className="item-data">
+                <FontIcon iconName="Lock" className="icon" />
+                <div className="item-text">{item.title}</div>
+            </div>;
+        }
+        return item.title;
+    }
+
     private onDoubleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) : void => 
     {
         const item = this.props.item;
 
         console.log("Trying to open chat with organizer");
 
-        if(item.chatLink === undefined || item.chatLink === null)
-        {
-            console.log("No chat link found")
+        if(item.chatLink === undefined || item.chatLink === null) {
+            console.log("No chat link found");
             return;
         }
 

@@ -138,7 +138,7 @@
     text-align: left;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 .item-border.start-item
 {
@@ -151,6 +151,12 @@
 	border-right: 1px solid #aaaaaa;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+.item .icon 
+{
+    height: 16px;
+    width: 16px;
 }
 
 .tooltip-text-seperator
@@ -255,6 +261,7 @@
 .item-data
 {
     width: 100%;
+    display: flex;
 }
 
 .drag-handle
