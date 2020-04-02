@@ -17,7 +17,7 @@
     },
     "RoomieReloaded": {
       "commandName": "Project",
-      "launchBrowser": true, 
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
