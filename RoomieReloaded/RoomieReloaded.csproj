@@ -11,6 +11,7 @@
     <UserSecretsId>7c720215-ae6c-4b92-8233-f0e113a9735a</UserSecretsId>
   </PropertyGroup>
 
+
   <ItemGroup>
     <PackageReference Include="Ical.Net" Version="4.1.11" />
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
