@@ -13,7 +13,8 @@ export interface IPlannerItem extends IHasDateRange {
     color?: string,
     tooltip?:string | JSX.Element,
     chatLink?:string,
-    chatMessage?:string,
+    chatMessage?: string,
+    isPrivate:boolean,
 }
 
 export interface IPlannerGroup{

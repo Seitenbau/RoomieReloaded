@@ -65,7 +65,7 @@ namespace RoomieReloaded.Controllers.Api
         private async Task<CalendarRoomModel> CreateCalendarRoomModel(IRoom room, DateTime from, DateTime to)
         {
             var calendarEvents =
-                await _calendarService.GetCalendarEventsAsync(room.Name, from.Date, to.Date.AddDays(1));
+                await _calendarService.GetCalendarEventsAsync(room, from.Date, to.Date.AddDays(1));
 
             var calendarEventModels = calendarEvents.Select(CalendarEventModel.FromCalendarEvent)
                 .Distinct(_calendarEventModelComparer);

@@ -64,6 +64,7 @@ export class DataService implements IDataService
             color: "#7a8cb6",
             chatLink: event.chatWithOrganizerLink,
             chatMessage: event.chatMessage,
+            isPrivate: event.isPrivate
         };
 
         result.tooltip = this.createTooltip(result, event);
@@ -104,5 +105,6 @@ interface IApiEvent
     end:moment.Moment,
     chatWithOrganizerLink?:string,
     chatMessage?:string,
-    chatHint?:string,
+    chatHint?: string,
+    isPrivate:boolean
 }
