@@ -41,7 +41,7 @@ namespace RoomieReloaded.Services.Calendar
             IEnumerable<Occurrence> eventOccurrences, IRoom room)
         {
             var tasks = eventOccurrences.Where(occ => IsValidOccurence(occ, room))
-                .Select(_calendarEventFactory.CreateFromOccurenceAsync);
+                .Select(occ => _calendarEventFactory.CreateFromOccurenceAsync(occ, room));
 
             var taskArray = tasks.ToArray();
 

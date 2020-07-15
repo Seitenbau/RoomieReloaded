@@ -24,7 +24,7 @@ namespace RoomieReloaded.Models.Calendar
 
         public string Id => _occurence.EventId;
 
-        public string Name => string.Empty; // currently not shown due to data security reasons
+        public string Name => _occurence.ShowSubject ? _occurence.Subject : null;
 
         public string Organizer => _organizer.DisplayName;
 
