@@ -10,6 +10,8 @@ namespace RoomieReloaded.Configuration
 		public string Mail { get; set; }
 
 		public string NiceName { get; set; }
+
+		public bool ShowSubject { get; set; }
 	}
 
     public class RoomConfiguration : List<Room>

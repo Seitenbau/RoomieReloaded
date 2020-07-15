@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Models.Users;
 using RoomieReloaded.Services.Chat;
+using RoomieReloaded.Services.Rooms;
 using RoomieReloaded.Services.Users;
 
 namespace RoomieReloaded.Services.CalendarEvents
@@ -23,16 +24,19 @@ namespace RoomieReloaded.Services.CalendarEvents
             _chatService = chatService;
         }
 
-        public async Task<ICalendarEvent> CreateFromOccurenceAsync(Occurrence occurrence)
+        public async Task<ICalendarEvent> CreateFromOccurenceAsync(Occurrence occurrence, IRoom room)
         {
             LogOccurence(occurrence);
             var calendarEvent = (CalendarEvent) occurrence.Source;
             var isPrivateEvent = IsPrivateEvent(calendarEvent);
+            var eventId = $"{calendarEvent.Uid}-{occurrence.Period}";
+            var subject = room.ShowSubject ? calendarEvent.Summary : string.Empty;
 
             var user = isPrivateEvent
                 ? new PrivateEventUser()
                 : await GetUser(calendarEvent);
-            var eventOccurence = new IcalCalendarEventOccurence(occurrence, isPrivateEvent);
+            
+            var eventOccurence = new IcalCalendarEventOccurence(occurrence, isPrivateEvent, room.ShowSubject);
             var chatInfo = await _chatService.GetChatInfoAsync(user, eventOccurence);
 
             return new RoomieCalendarEvent(user, eventOccurence, chatInfo);

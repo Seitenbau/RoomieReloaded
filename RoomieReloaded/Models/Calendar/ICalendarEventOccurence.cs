@@ -8,6 +8,10 @@ namespace RoomieReloaded.Models.Calendar
 
         string EventId { get; }
 
+        bool ShowSubject { get; }
+
+        string Subject { get; }
+
         DateTime From { get; }
 
         DateTime To { get; }
