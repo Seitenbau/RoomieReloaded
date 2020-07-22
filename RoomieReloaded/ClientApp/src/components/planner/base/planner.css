@@ -12,6 +12,9 @@
     display: table-row;
     width: 100%;
 }
+.divTableRow.hide{
+    display: none;
+}
 .divTableHeading {
 	background-color: #ddd;
 	display: table-header-group;
@@ -21,12 +24,18 @@
     display: table-cell;
     vertical-align: top;
 }
+.divTableCell.no-border{
+    border: none;
+}
 .divTableCell.weekend {
     background-color: rgb(246, 227, 217);
 }
-.divTableCell.padded, .divTableHead.padded {
+.divTableCell.padded, 
+.divTableHead.padded,
+.rowHeaderContainer .padded {
     padding-top: 2px;
     padding-bottom: 2px;
+    flex: 1;
 }
 .divTableHead{
     background-color: #ddd;
@@ -178,6 +187,7 @@
     display: flex;
     flex-direction: row;
     padding-top: 5px;
+    padding-bottom: 9px;
     align-items: center;
 }
 
@@ -185,6 +195,36 @@
 .header
 {
     text-align: left;
+    flex: 1;
+}
+
+.rowHeaderContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.categoryHeader{
+    display: flex;
+}
+
+.category{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.categoryText{    
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 20px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.categoryMarker{
+    width: 5px;
+    height: auto;
+    background: #aaa;
 }
 
 .rowHeaderCell

@@ -3,12 +3,14 @@ import { calendarReducer, CalendarState } from './calendarReducer';
 import { plannerItemsReducer, PlannerItemsState } from './plannerItemsReducer';
 import { plannerGroupReducer, PlannerGroupState } from './plannerGroupReducer';
 import { bootstrapReducer, BootstrapState } from './bootstrapReducer';
+import { categoryReducer, CategoryState}  from './categoryReducer';
 
 export const rootReducer = combineReducers({
   bootstrap: bootstrapReducer,
   calendar: calendarReducer,
   plannerItems: plannerItemsReducer,
-  plannerGroups: plannerGroupReducer
+  plannerGroups: plannerGroupReducer,
+  categories: categoryReducer
 });
 
 interface ILocalState {
@@ -16,6 +18,7 @@ interface ILocalState {
   calendar: CalendarState;
   plannerItems: PlannerItemsState;
   plannerGroups: PlannerGroupState;
+  categories: CategoryState;
 }
 
 export type RootState = Readonly<ILocalState>;

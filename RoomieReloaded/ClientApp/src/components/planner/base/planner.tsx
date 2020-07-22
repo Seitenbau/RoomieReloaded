@@ -1,16 +1,18 @@
 import * as React from 'react';
-import { IPlannerStateProps, IPlannerItem, IPlannerGroup, IHasDateRange } from './plannerTypes';
+import { IPlannerStateProps, IPlannerDispatchProps, IPlannerItem, IPlannerGroup, IHasDateRange } from './plannerTypes';
 import './planner.css';
 import { IHeaderRenderer } from './renderer/headerRenderer';
 import { IItemRenderer, ItemRenderer } from './renderer/itemRenderer';
 import { isItemTouchingRangeStrict, isDateTimeInRange } from '../utility/dateRangeHelper';
 import { isWeekend } from '../utility/dateTimeHelper';
 import { IPlannerItemParentData } from './item/PlannerItemComponent';
-import { Spinner } from 'office-ui-fabric-react';
+import { Spinner, Icon } from 'office-ui-fabric-react';
 import { PlannerLane } from './item/PlannerLaneComponent';
 import moment from 'moment';
 
-export abstract class Planner extends React.Component<IPlannerStateProps>
+type PlannerProps = IPlannerStateProps & IPlannerDispatchProps;
+
+export abstract class Planner extends React.Component<PlannerProps>
 {
     render = () => 
     {
@@ -51,9 +53,79 @@ export abstract class Planner extends React.Component<IPlannerStateProps>
             items
         } = this.props;
 
+        const groupsByCategory = new Map();
+
+        groups.forEach(group => {
+            const category = group.category || "";
+            if(groupsByCategory.has(category)){
+                const currentGroups = groupsByCategory.get(category);
+                currentGroups.push(group);
+                groupsByCategory.set(category, currentGroups);
+            }else{
+                const newCategoryGroup = [];
+                newCategoryGroup.push(group);
+                groupsByCategory.set(category, newCategoryGroup);
+            }
+        });
+        
+        const result: JSX.Element[] = [];
+
+        for (const entry of groupsByCategory) {
+            const category = entry[0];
+            const currentGroups = entry[1];
+            if(category !== ""){
+                result.push(this.renderCategoryHeader(category))
+            }
+            const renderedGroups = this.renderGroupArray(currentGroups, items);
+            renderedGroups.forEach(renderedGroup => {
+                result.push(renderedGroup);
+            });
+        }
+
+        return result;
+    }
+
+    private renderCategoryHeader = (category: string) : JSX.Element => {
+        const key = `category-header-${category}`;
+        const iconName = this.isCategoryCollapsed(category)
+            ? "ChevronUpSmall"
+            : "ChevronDownSmall";
+
+        const viewPartRanges = this.getViewPartRanges();
+
+        // add an empty column for eatch view part range to satisfy the table
+        const emptyColumns:JSX.Element[] = [];
+        viewPartRanges.forEach(_ => {
+            emptyColumns.push(<div className="divTableCell no-border"></div>);
+        })
+
+        return  <div key={key} className="divTableRow" onClick={() => this.switchCategoryCollapsed(category)}>
+                    <div className="divTableCell no-border">
+                        <div className="category">
+                            <div className="categoryText">{category}</div>
+                            <Icon iconName={iconName} />
+                        </div>
+                    </div>    
+                    {emptyColumns}
+                </div>
+    }
+
+    private isCategoryCollapsed = (category: string) : boolean => {
+        const categoryStates = this.props.categoryStates;
+        const existingCategory = categoryStates.find(c => c.category === category);
+        const isCurrentlyCollapsed = existingCategory && existingCategory.isCollapsed;
+        return !!isCurrentlyCollapsed;
+    }
+
+    private switchCategoryCollapsed = (category: string) : void => {
+        const isCurrentlyCollapsed = this.isCategoryCollapsed(category);
+        this.props.setCategoryState(category, !isCurrentlyCollapsed);
+    }
+
+    private renderGroupArray = (groups: IPlannerGroup[], items: IPlannerItem[]): JSX.Element[] => {
         return groups.map(group => {
             const groupItems = items.filter(item => item.groupId === group.id)
-                .sort((item1, item2 ) => this.sortDate(item1.start, item2.start));
+                .sort((item1, item2) => this.sortDate(item1.start, item2.start));
             return this.renderGroup(group, groupItems);
         });
     }
@@ -67,13 +139,8 @@ export abstract class Planner extends React.Component<IPlannerStateProps>
                 return -1;
             }
 
-            //if(!date1.hasOwnProperty("diff")){
-            //    return 1;
-            //}
-
             return date1.diff(date2);
         }catch(e){
-            console.log(date1)
             return 0;
         }
     }
@@ -196,18 +263,32 @@ export abstract class Planner extends React.Component<IPlannerStateProps>
             ? <Spinner className="header" />
             : null;
 
+        const optionalCategoryMarker = group.category 
+            ? <div className="categoryMarker"></div>
+            : null;
+
+        const hideLaneClass = !!group.category && this.isCategoryCollapsed(group.category)
+            ? "hide"
+            : "";
+
+        const laneClass = `divTableRow ${hideLaneClass}`;
+
         return (
-            <div key={`group:${group.id}`} className="divTableRow">
-                <div key={`group:${group.id}-header`} 
-                    className="divTableCell padded" >
-                    <div className="rowHeaderCell" >
-                        <div className="rowHeaderInner">
-                            {optionalImage}
-                            <span className="header">{group.title}</span>
-                            {optionalSpinner}
-                        </div>
+            <div key={`group:${group.id}`} className={laneClass}>
+                <div key={`group:${group.id}-header`} className="divTableCell">
+                    <div className="rowHeaderContainer">
+                        {optionalCategoryMarker}
+                        <div className="padded" >
+                            <div className="rowHeaderCell" >
+                                <div className="rowHeaderInner">                                
+                                    {optionalImage}
+                                    <div className="header">{group.title}</div>
+                                    {optionalSpinner}
+                                </div>
+                            </div>
+                        </div> 
                     </div>
-                </div>                
+                </div>               
                 {columns}
             </div>
         );

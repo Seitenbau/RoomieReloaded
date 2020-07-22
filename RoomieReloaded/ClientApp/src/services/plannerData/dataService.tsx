@@ -46,7 +46,8 @@ export class DataService implements IDataService
         return {
             id:room.name,
             title:room.niceName,
-            isLoading:false
+            isLoading:false,
+            category: "Test"
         };
     }
 

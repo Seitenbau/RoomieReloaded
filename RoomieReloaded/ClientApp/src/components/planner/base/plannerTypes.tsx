@@ -1,4 +1,6 @@
 import moment from 'moment';
+import {ICategoryState} from '../../../reducers/categoryReducer';
+import { Action } from 'redux';
 
 export interface IHasDateRange {
     start:moment.Moment,
@@ -22,6 +24,7 @@ export interface IPlannerGroup{
     title:string,
     isLoading:boolean,
     imageSource?:string,
+    category?: string,
 }
 
 export interface IPlannerStateProps {
@@ -30,4 +33,9 @@ export interface IPlannerStateProps {
     groups:IPlannerGroup[],
     startHour:number,
     endHour:number,
+    categoryStates: ICategoryState[],
+}
+
+export interface IPlannerDispatchProps{
+    setCategoryState: (category:string, isCollapsed:boolean) => Action<any>,
 }
