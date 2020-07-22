@@ -12,6 +12,8 @@ namespace RoomieReloaded.Configuration
 		public string NiceName { get; set; }
 
 		public bool ShowSubject { get; set; }
+
+		public string Category { get; set; }
 	}
 
     public class RoomConfiguration : List<Room>
