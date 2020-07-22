@@ -52,10 +52,26 @@ namespace RoomieReloaded.Services.Calendar
         private bool IsValidOccurence(Occurrence occurrence, string roomEmail)
         {
             var calendarEvent = (CalendarEvent) occurrence.Source;
-            // check if the room has accepted the appointment. if it hasn't, an appointment was created although there already was another appointment
-            return calendarEvent.Attendees.Any(att => IsAcceptedRoomAttendee(att, roomEmail)) 
-                   // we don't get attendee information for private appointments, so we have to assume the appointment is accepted
-                   || _calendarEventFactory.IsPrivateEvent(calendarEvent);
+
+            if (calendarEvent.Organizer?.Value.AbsoluteUri.Contains(room.Mail) ?? false)
+            {
+                // resources, that appear as organizer for their own events, are always valid, as the resource was actively planned
+                return true;
+            }
+
+            if (calendarEvent.Attendees?.Any(att => IsAcceptedRoomAttendee(att, room.Name)) ?? false)
+            {
+                // check if the room has accepted the appointment. if it hasn't, an appointment was created although there already was another appointment
+                return true;
+            }
+
+            if (_calendarEventFactory.IsPrivateEvent(calendarEvent))
+            {
+                //we don't get attendee information for private appointments, so we have to assume the appointment is accepted
+                return true;
+            }
+
+            return false;
         }
 
         private bool IsAcceptedRoomAttendee(Attendee attendee, string roomEmail)
