@@ -54,13 +54,13 @@ namespace RoomieReloaded.Services.Calendar
         {
             var calendarEvent = (CalendarEvent) occurrence.Source;
 
-            if (calendarEvent.Organizer.Value.AbsoluteUri.Contains(room.Mail))
+            if (calendarEvent.Organizer?.Value.AbsoluteUri.Contains(room.Mail) ?? false)
             {
                 // resources, that appear as organizer for their own events, are always valid, as the resource was actively planned
                 return true;
             }
 
-            if (calendarEvent.Attendees.Any(att => IsAcceptedRoomAttendee(att, room.Name)))
+            if (calendarEvent.Attendees?.Any(att => IsAcceptedRoomAttendee(att, room.Name)) ?? false)
             {
                 // check if the room has accepted the appointment. if it hasn't, an appointment was created although there already was another appointment
                 return true;
