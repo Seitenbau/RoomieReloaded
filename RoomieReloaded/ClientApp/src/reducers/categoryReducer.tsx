@@ -2,9 +2,12 @@ import { Action } from 'redux';
 import { createActions, createReducer } from 'reduxsauce';
 import { ISauceTypes } from '.';
 
+export const CategoryStateCookieName = "CategoryStates";
+
 const { Types, Creators }: ISauceTypes<ILocalTypes, ILocalCreators> = createActions(
   {
     setCategoryState: ['category', 'value'],
+    overwriteCategoryStates: ['newStates'],
   },
   {
     prefix: 'CATEGORY_',
@@ -13,10 +16,12 @@ const { Types, Creators }: ISauceTypes<ILocalTypes, ILocalCreators> = createActi
 
 interface ILocalTypes {
   SET_CATEGORY_STATE: string;
+  OVERWRITE_CATEGORY_STATES: string
 }
 
 interface ILocalCreators {
   setCategoryState: (category?: string, value?: boolean) => Action<any>;
+  overwriteCategoryStates: (newStates: ICategoryState[]) => Action<any>;
 }
 
 interface ILocalState {
@@ -50,9 +55,21 @@ const setCategoryState = (state: CategoryState, { category, value }: any) => {
         };
         categoryStates.push( newState );
     }
-    return {categoryStates};
+
+    return {
+        ...state,
+        categoryStates:categoryStates
+    };
 };
+
+const overwriteCategoryStates = (state: CategoryState, {newStates}:any) => {
+    return {
+        ...state,
+        categoryStates:newStates
+    };
+}
 
 export const categoryReducer = createReducer(initialState, {
   [Types.SET_CATEGORY_STATE]: setCategoryState,
+  [Types.OVERWRITE_CATEGORY_STATES]: overwriteCategoryStates,
 });

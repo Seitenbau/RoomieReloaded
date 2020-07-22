@@ -95,9 +95,10 @@ export abstract class Planner extends React.Component<PlannerProps>
 
         // add an empty column for eatch view part range to satisfy the table
         const emptyColumns:JSX.Element[] = [];
-        viewPartRanges.forEach(_ => {
-            emptyColumns.push(<div className="divTableCell no-border"></div>);
-        })
+        for (let index = 0; index < viewPartRanges.length; index++) {
+            const key = `empty-column-${category}-${index}`;
+            emptyColumns.push(<div key={key} className="divTableCell no-border"></div>);            
+        }
 
         return  <div key={key} className="divTableRow" onClick={() => this.switchCategoryCollapsed(category)}>
                     <div className="divTableCell no-border">

@@ -25,7 +25,8 @@
     vertical-align: top;
 }
 .divTableCell.no-border{
-    border: none;
+    border-left: none;
+    border-right: none;
 }
 .divTableCell.weekend {
     background-color: rgb(246, 227, 217);
