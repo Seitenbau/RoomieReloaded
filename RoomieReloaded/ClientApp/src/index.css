@@ -49,7 +49,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+/* Additions */
+.item-data {
+    cursor: pointer;
+}
+.category-header {
+    cursor: pointer;
+}
 /* Theming */
 body {
     color: black;
@@ -74,6 +80,9 @@ body {
 }
 .divTableCell {
     border: 1px solid #aaa;
+}
+.divTableCell.weekend {
+    background-color: rgb(246, 227, 217);
 }
 .divTableMainHeader.divTableMainHeaderForContainer {
     border-top: 1px solid #aaa;
@@ -103,52 +112,91 @@ body {
 .draggable-planner-item {
     background-color: #7a8cb6;
 }
+/*************/
+/* DARK MODE */
+/*************/
 body.dark-mode {
-    color: #e3e3e3;
+    color: rgba(255,255,255,0.87);
     background-color: #121212;
 }
-body.dark-mode .App-header {
-    color: inherit;
+body.dark-mode .ms-Spinner-circle {
+     border-color: #BB86FC #e4d2f9 #e4d2f9;
 }
-body.dark-mode .ms-Button.timeFrameNavigation-button {
-    background-color: transparent;
-    /* color: #e3e3e3 !important; */
-}
-body.dark-mode .timeFrameNavigation-text {
-    color: #e3e3e3;
-}
-body.dark-mode .ms-Button.timeFrameNavigation-button .ms-Button-icon {
-    color: #e3e3e3;
-}
-body.dark-mode .divTable {
+/********/
+/* GRID */
+/********/
+body .dark-mode .divTable {
     border-color: #666;
 }
-body.dark-mode .divTableHead {
-    background-color: #1f1f1f;
-}
+
 body.dark-mode .divTableCell {
     border-color: #666;
 }
+
 body.dark-mode .divTableMainHeader.divTableMainHeaderForContainer {
     border-top-color: #666;
     border-bottom-color: #666;
 }
+
 body.dark-mode .divTableMainHeader.divTableMainHeaderForContainer.first {
     border-left-color: #666;
 }
+
 body.dark-mode .divTableMainHeader.divTableMainHeaderForContainer.last {
     border-right-color: #666;
 }
+
 body.dark-mode .divTableMainHeader.bordered, .divTableMainHeaderSmall.bordered {
     border-bottom-color: 1px #666;
 }
+
 body.dark-mode .categoryMarker {
     background: #BB86FC;
 }
+
 body.dark-mode .additional-row {
     border-bottom-color: #666;
     border-left-color: #666;
     border-right-color: #666;
+}
+body.dark-mode .draggable-planner-item {
+    background-color: #3a2d49;
+    color: #BB86FC;
+}
+body.dark-mode .draggable-planner-item:hover {
+    background-color: #413550;
+    color: #fff;
+}
+body.dark-mode .item-border {
+    border: 0 none;
+    border-radius: 0;
+    border-right: 1px solid #121212;
+}
+body.dark-mode .divTable {
+    background: repeating-linear-gradient( 45deg, #000, #000 10px, #242424 10px, #242424 20px );
+}
+body.dark-mode .divTableCell:not(.weekend) {
+    background-color: #121212;
+}
+body.dark-mode .divTableCell.weekend {
+    background-color: transparent;
+}
+body.dark-mode .divTableCell.divTableHead {
+    background-color: #1f1f1f;
+}
+body.dark-mode .rowHeaderContainer {
+    background-color: #1f1f1f;
+}
+
+/**************/
+/* NAVIGATION */
+/**************/
+
+body.dark-mode .App-header {
+    color: inherit;
+}
+body.dark-mode .timeFrameNavigation-text {
+    color: inherit;
 }
 body.dark-mode .boardNavigation-button.boardNavigation-button {
     background-color: #03dac6;
@@ -157,13 +205,181 @@ body.dark-mode .boardNavigation-button.boardNavigation-button {
 }
 body.dark-mode .boardNavigation-button:hover.boardNavigation-button:hover {
     background-color: #018786;
+    color: rgba(255,255,255,0.87);
 }
-body.dark-mode .draggable-planner-item {
-    background-color: #BB86FC;
+body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date {
+    width: auto;
 }
-body.dark-mode .item-border {
-    border: 0 none;
-    color: #121212;
+body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup {
     border-radius: 0;
-    border-right: 1px solid #121212;
+    min-width: 40px;
+    justify-content: center;
+    cursor: pointer;
+}
+body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup i {
+    color: rgba(255,255,255,0.87);
+    right: auto;
+}
+body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date.is-open .ms-TextField-fieldGroup,
+body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup:hover {
+    background-color: #333;
+}
+body.dark-mode .ms-Button.timeFrameNavigation-button:hover {
+    background-color: #333;
+}
+body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup:hover i,
+body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date.is-open .ms-TextField-fieldGroup i {
+    color: #03dac6;
+}
+/***************/
+/* DATE PICKER */
+/***************/
+body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:hover, 
+body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:active {
+    background-color: #018786;
+}
+body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:hover .ms-DatePicker-day--today,
+body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:active .ms-DatePicker-day--today {
+    background-color: #018786;
+    border: 0 none;
+}
+body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:hover .ms-DatePicker-day-button,
+body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:active .ms-DatePicker-day-button {
+    color: rgba(255,255,255,0.87);
+}
+body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-field {
+    display: none;
+}
+body.dark-mode .ms-Button.timeFrameNavigation-button {
+    border-radius: 0;
+    color: inherit;
+}
+body.dark-mode .ms-Button.timeFrameNavigation-button .ms-Button-icon {
+    color: inherit;
+}
+body.dark-mode .ms-Button.timeFrameNavigation-button:hover .ms-Button-icon {
+    color: #03dac6;
+}
+body.dark-mode .ms-DatePicker-callout .ms-Callout-main {
+    background-color: #333;
+}
+body.dark-mode .ms-DatePicker-day-button {
+    color: rgba(255,255,255,0.87);
+}
+body.dark-mode .ms-DatePicker-monthAndYear {
+    color: rgba(255,255,255,0.87);
+}
+body.dark-mode .ms-DatePicker-monthAndYear:hover,
+body.dark-mode .ms-DatePicker-monthAndYear:active {
+    background-color: #444;
+    color: #03dac6;
+}
+body.dark-mode .ms-DatePicker .ms-DatePicker-day--highlighted {
+    background-color: #03dac6;
+    font-weight: bold;
+}
+body.dark-mode .ms-DatePicker .ms-DatePicker-day--highlighted .ms-DatePicker-day-button {
+    color: #121212;
+}
+body.dark-mode .ms-DatePicker .ms-DatePicker-day--today {
+    border: 2px solid #BB86FC;
+    background: transparent;
+}
+body.dark-mode .ms-DatePicker .ms-DatePicker-day--highlighted .ms-DatePicker-day--today {
+    border: 0 none;
+}
+body.dark-mode .ms-DatePicker .ms-DatePicker-weekNumbers {
+    color: rgba(255,255,255,0.6);
+    border-right: 1px solid #666;
+}
+body.dark-mode .ms-DatePicker .ms-DatePicker-weekday {
+    color: rgba(255,255,255,0.6);
+}
+body.dark-mode .ms-DatePicker .ms-DatePicker-day--outfocus .ms-DatePicker-day-button {
+    color: rgba(255,255,255,0.38);
+}
+body.dark-mode .ms-DatePicker .ms-DatePicker-day--outfocus.ms-DatePicker-day--highlighted .ms-DatePicker-day-button {
+    color: #121212;
+}
+body.dark-mode .ms-DatePicker-prevMonth {
+    color: rgba(255,255,255,0.87);
+}
+body.dark-mode .ms-DatePicker-nextMonth {
+    color: rgba(255,255,255,0.87);
+}
+body.dark-mode .ms-DatePicker-prevMonth:hover,
+body.dark-mode .ms-DatePicker-prevMonth:active {
+    background-color: #444;
+    color: #03dac6;
+}
+body.dark-mode .ms-DatePicker-nextMonth:hover,
+body.dark-mode .ms-DatePicker-nextMonth:active {
+    background-color: #444;
+    color: #03dac6;
+}
+body.dark-mode .ms-DatePicker-monthOption {
+    color: rgba(255,255,255,0.87);
+}
+body.dark-mode .ms-DatePicker-monthOption:hover,
+body.dark-mode .ms-DatePicker-monthOption:active {
+    background-color: #444;
+    color: #03dac6;
+}
+body.dark-mode .ms-DatePicker-currentYear {
+    color: rgba(255,255,255,0.87);
+    flex-grow: 0;
+}
+body.dark-mode .ms-DatePicker-currentYear:hover,
+body.dark-mode .ms-DatePicker-currentYear:active {
+    background-color: #444;
+    color: #03dac6;
+}
+body.dark-mode .ms-DatePicker-prevYear {
+    color: rgba(255,255,255,0.87);
+}
+body.dark-mode .ms-DatePicker-nextYear {
+    color: rgba(255,255,255,0.87);
+}
+body.dark-mode .ms-DatePicker-prevYear:hover,
+body.dark-mode .ms-DatePicker-prevYear:active {
+    background-color: #444;
+    color: #03dac6;
+}
+body.dark-mode .ms-DatePicker-nextYear:hover,
+body.dark-mode .ms-DatePicker-nextYear:active {
+    background-color: #444;
+    color: #03dac6;
+}
+body.dark-mode .ms-DatePicker-header {
+    justify-content: space-between;
+    border-bottom: 1px solid #666;
+}
+body.dark-mode .ms-DatePicker-goToday {
+    color: rgba(255,255,255,0.87);
+}
+body.dark-mode .ms-DatePicker-goToday:hover,
+body.dark-mode .ms-DatePicker-goToday:active {
+    background-color: #444;
+    color: #03dac6;
+}
+body.dark-mode .ms-DatePicker-goToday[disabled] {
+    color: rgba(255,255,255,0.38);
+}
+
+/***********/
+/* TOOLTIP */
+/***********/
+
+body.dark-mode .ms-Tooltip .ms-Callout-main {
+    background-color: #333;
+}
+body.dark-mode .ms-Tooltip .ms-Callout-beakCurtain {
+    background-color: #333;
+    border-radius: 0;
+}
+body.dark-mode .ms-Tooltip .ms-Callout-beak {
+    background-color: #333;
+}
+body.dark-mode .ms-Tooltip .ms-Tooltip-content {
+    color: rgba(255,255,255,0.87);
 }

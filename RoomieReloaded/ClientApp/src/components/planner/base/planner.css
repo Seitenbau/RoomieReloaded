@@ -26,9 +26,6 @@
     border-left: none;
     border-right: none;
 }
-.divTableCell.weekend {
-    background-color: rgb(246, 227, 217);
-}
 .divTableCell.padded, 
 .divTableHead.padded,
 .rowHeaderContainer .padded {
