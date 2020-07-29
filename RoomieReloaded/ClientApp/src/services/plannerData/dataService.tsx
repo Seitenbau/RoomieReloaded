@@ -46,7 +46,8 @@ export class DataService implements IDataService
         return {
             id:room.name,
             title:room.niceName,
-            isLoading:false
+            isLoading:false,
+            category: room.category
         };
     }
 
@@ -93,7 +94,8 @@ interface IApiRoom
 {
     name:string,
     mail:string,
-    niceName:string
+    niceName:string,
+    category?:string
 }
 
 interface IApiEvent

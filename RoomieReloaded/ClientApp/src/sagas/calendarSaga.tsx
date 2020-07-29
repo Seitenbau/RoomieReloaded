@@ -5,7 +5,6 @@ import { getCurrentCalendar, getCurrentDateTime } from "../selectors/calendarSel
 import {Moment } from 'moment';
 import { createTimeFrameTextGenerator } from "../services/timeframeText/timeFrameTextGeneratorFactory";
 import { PlannerItemsActions } from "../reducers/plannerItemsReducer";
-import { setUsersLoadingState } from "./plannerGroupSaga";
 
 export function* calendarSaga(){
     yield takeLatest(CalendarTypes.SET_CURRENT_CALENDAR, setCalendar);

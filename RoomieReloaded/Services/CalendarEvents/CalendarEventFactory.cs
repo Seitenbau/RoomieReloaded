@@ -72,7 +72,7 @@ namespace RoomieReloaded.Services.CalendarEvents
 
         private class PrivateEventUser : IUser
         {
-            public string DisplayName { get; } = "Private";
+            public string DisplayName { get; } = "Privat";
             public string FirstName { get; } = string.Empty;
             public string UserName { get; } = string.Empty;
             public string MailAddress { get; } = string.Empty;

@@ -2,18 +2,17 @@ import './calendarView.css';
 import * as React from 'react';
 import { CalendarType } from '../../reducers/calendarReducer';
 import { Action } from 'redux';
-import { CommandBarButton } from 'office-ui-fabric-react';
-import { IPlannerStateProps } from '../planner/base/plannerTypes';
+import { IPlannerStateProps, IPlannerDispatchProps } from '../planner/base/plannerTypes';
 import { MonthPlanner, WeekPlanner, DayPlanner } from '../planner';
 
-type CalendarProps = ICalendarStateProps & ICalendarDispatchProps;
+export type CalendarProps = ICalendarStateProps & ICalendarDispatchProps;
 
 export interface ICalendarStateProps extends IPlannerStateProps {
   calendarType: CalendarType;
   shownRooms: string[];
 }
 
-export interface ICalendarDispatchProps {
+export interface ICalendarDispatchProps extends IPlannerDispatchProps {
   onShowChooseRooms?: () => Action<any>;
 }
 

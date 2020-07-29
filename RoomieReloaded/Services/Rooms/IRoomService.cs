@@ -19,5 +19,7 @@ namespace RoomieReloaded.Services.Rooms
 		string Mail { get; }
 
         bool ShowSubject { get; }
+
+        string Category { get; }
 	}
 }

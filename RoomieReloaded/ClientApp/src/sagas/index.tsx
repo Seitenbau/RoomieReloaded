@@ -4,6 +4,7 @@ import { bootstrapSaga } from './bootstrapSaga';
 import { plannerGroupsSaga } from './plannerGroupSaga';
 import { plannerItemsSaga } from './plannerItemsSaga';
 import { navigationSaga } from './navigationSaga';
+import { categorySaga } from './categorySaga';
 
 export default function* root() {
   yield all([
@@ -11,6 +12,7 @@ export default function* root() {
     fork(calendarSaga),
     fork(navigationSaga),
     fork(plannerGroupsSaga),
-    fork(plannerItemsSaga)
+    fork(plannerItemsSaga),
+    fork(categorySaga)
   ]);
 }
