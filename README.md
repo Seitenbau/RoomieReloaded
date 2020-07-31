@@ -2,6 +2,7 @@
 Zimbra room booking overview.
 
 ## Build/Start with docker
+cd /path/to/repo/root
 docker-compose up -d
 (will take some time at the first run)
 
