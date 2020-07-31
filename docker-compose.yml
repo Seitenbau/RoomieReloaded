@@ -1,6 +1,8 @@
 version: '3'
 services:
   web:
-    build: ./RoomieReloaded
+    build: 
+      context: .
+      dockerfile: ./RoomieReloaded/Dockerfile
     ports:
       - "8080:80"
