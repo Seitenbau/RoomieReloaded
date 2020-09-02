@@ -228,6 +228,9 @@ body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fiel
 body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date.is-open .ms-TextField-fieldGroup i {
     color: #03dac6;
 }
+body.dark-mode .link{
+    color: #bb86fc
+}
 /***************/
 /* DATE PICKER */
 /***************/

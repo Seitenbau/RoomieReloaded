@@ -47,7 +47,8 @@ export class DataService implements IDataService
             id:room.name,
             title:room.niceName,
             isLoading:false,
-            category: room.category
+            category: room.category,
+            link: room.link,
         };
     }
 
@@ -94,7 +95,8 @@ interface IApiRoom
     name:string,
     mail:string,
     niceName:string,
-    category?:string
+    category?:string,
+    link?:string
 }
 
 interface IApiEvent

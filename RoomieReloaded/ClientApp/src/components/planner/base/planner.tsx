@@ -6,7 +6,7 @@ import { IItemRenderer, ItemRenderer } from './renderer/itemRenderer';
 import { isItemTouchingRangeStrict, isDateTimeInRange } from '../utility/dateRangeHelper';
 import { isWeekend } from '../utility/dateTimeHelper';
 import { IPlannerItemParentData } from './item/PlannerItemComponent';
-import { Spinner, Icon } from 'office-ui-fabric-react';
+import { Spinner, Icon, GroupFooter } from 'office-ui-fabric-react';
 import { PlannerLane } from './item/PlannerLaneComponent';
 import moment from 'moment';
 
@@ -282,8 +282,8 @@ export abstract class Planner extends React.Component<PlannerProps>
                         <div className="padded" >
                             <div className="rowHeaderCell" >
                                 <div className="rowHeaderInner">                                
-                                    {optionalImage}
-                                    <div className="header">{group.title}</div>
+                                    {optionalImage}                                                                        
+                                    {this.renderGroupTitle(group)}
                                     {optionalSpinner}
                                 </div>
                             </div>
@@ -370,6 +370,19 @@ export abstract class Planner extends React.Component<PlannerProps>
             getParentWidth: () => this.getParentWidth(parentRefKey),
         };
         return parentData;
+    }
+
+    private renderGroupTitle(group: IPlannerGroup) : JSX.Element {
+
+        const groupHasLink = group.link && group.link !== "";
+        
+        const subElement = groupHasLink
+            ? <a href={group.link} target="_blank" className="link">{group.title}</a>
+            : group.title;
+
+        return <div className="header">
+                {subElement}
+            </div>;
     }
 
     private isItemRenderingStartingInRange(item:IRenderablePlannerItem, range:IHasDateRange, addItemsStartedBeforeRange:boolean) : boolean{
