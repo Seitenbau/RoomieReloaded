@@ -60,9 +60,6 @@ code {
 body {
     color: black;
 }
-.App-header {
-    color: white;
-}
 .ms-Button.timeFrameNavigation-button {
     background-color: transparent;
 }
@@ -382,4 +379,25 @@ body.dark-mode .ms-Tooltip .ms-Callout-beak {
 }
 body.dark-mode .ms-Tooltip .ms-Tooltip-content {
     color: rgba(255,255,255,0.87);
+}
+
+/****************/
+/* THEME TOGGLE */
+/****************/
+
+body.dark-mode .themeSettings .ms-Icon {
+    color: inherit;
+}
+.themeSettings .dark-mode-icon {
+    visibility: hidden;
+}
+body.dark-mode .themeSettings .light-mode-icon {
+    visibility: hidden;
+}
+body.dark-mode .themeSettings .dark-mode-icon {
+    visibility: visible;
+}
+body.dark-mode .ms-Toggle-background {
+    background-color: inherit;
+    border-color: #03dac6;
 }
