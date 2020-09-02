@@ -1,22 +1,10 @@
 .App {  
   text-align: center;
-  color:black;
-}
-
-.App-header {
-  /*background-color: #ddd;*/
-  height: 15px;
-  padding: 0px;
-  color: white;
 }
 
 .App-mainArea{
   margin: auto;
   width: 95%;
-}
-
-.App-navigation{
-  height: 60px;
 }
 
 .App-content{

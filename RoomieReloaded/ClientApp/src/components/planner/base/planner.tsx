@@ -100,7 +100,7 @@ export abstract class Planner extends React.Component<PlannerProps>
             emptyColumns.push(<div key={key} className="divTableCell no-border"></div>);            
         }
 
-        return  <div key={key} className="divTableRow" onClick={() => this.switchCategoryCollapsed(category)}>
+        return  <div key={key} className="divTableRow category-header" onClick={() => this.switchCategoryCollapsed(category)}>
                     <div className="divTableCell no-border">
                         <div className="category">
                             <div className="categoryText">{category}</div>

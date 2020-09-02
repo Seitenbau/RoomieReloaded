@@ -62,7 +62,6 @@ export class DataService implements IDataService
             start: moment(event.start),
             end: moment(event.end),
             title: event.name || event.organizer,
-            color: "#7a8cb6",
             chatLink: event.chatWithOrganizerLink,
             chatMessage: event.chatMessage,
             isPrivate: event.isPrivate

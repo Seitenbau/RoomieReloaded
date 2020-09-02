@@ -1,17 +1,16 @@
-.timeFrameNavigation 
-{
-    float: left;
+.navigation {
     display: flex;
-    margin-top: 15px;
-    width: 60%;
-    text-align: left;
+}
+
+.timeFrameNavigation {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
 }
 
 .boardNavigation 
 {
-    float: right;
-    width: 30%;
-    text-align: right;
+    padding-left: 50px;
 }
 
 .boardNavigation-button.boardNavigation-button
@@ -36,9 +35,21 @@
 .timeFrameNavigation-text 
 {
     color:black;
-    padding-top: 4px;
     text-align: center;
     width: 300px;
+}
+
+.timeFrameNavigation > .ms-Button {
+    height: 32px;
+}
+
+.themeSettings {
+    display: flex;
+    align-items: center;
+}
+
+.themeSettings .ms-Toggle {
+    margin: 0 5px;
 }
 
 .ms-Button.timeFrameNavigation-button 
