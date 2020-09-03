@@ -25,6 +25,7 @@ export interface IPlannerGroup{
     isLoading:boolean,
     imageSource?:string,
     category?: string,
+    link?:string,
 }
 
 export interface IPlannerStateProps {

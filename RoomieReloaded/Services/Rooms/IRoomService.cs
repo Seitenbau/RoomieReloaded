@@ -21,5 +21,7 @@ namespace RoomieReloaded.Services.Rooms
         bool ShowSubject { get; }
 
         string Category { get; }
-	}
+
+        string Link { get; }
+    }
 }

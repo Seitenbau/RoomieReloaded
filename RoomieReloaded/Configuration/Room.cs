@@ -14,6 +14,8 @@ namespace RoomieReloaded.Configuration
 		public bool ShowSubject { get; set; }
 
 		public string Category { get; set; }
+
+		public string Link { get; set; }
 	}
 
     public class RoomConfiguration : List<Room>

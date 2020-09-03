@@ -47,7 +47,8 @@ export class DataService implements IDataService
             id:room.name,
             title:room.niceName,
             isLoading:false,
-            category: room.category
+            category: room.category,
+            link: room.link,
         };
     }
 
@@ -62,7 +63,6 @@ export class DataService implements IDataService
             start: moment(event.start),
             end: moment(event.end),
             title: event.name || event.organizer,
-            color: "#7a8cb6",
             chatLink: event.chatWithOrganizerLink,
             chatMessage: event.chatMessage,
             isPrivate: event.isPrivate
@@ -95,7 +95,8 @@ interface IApiRoom
     name:string,
     mail:string,
     niceName:string,
-    category?:string
+    category?:string,
+    link?:string
 }
 
 interface IApiEvent

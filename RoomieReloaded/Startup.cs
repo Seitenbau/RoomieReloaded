@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RoomieReloaded.Configuration;
 using System.Collections.Generic;
+using System.Linq;
 using RoomieReloaded.Models.Presentation;
 using RoomieReloaded.Services.Accessors;
 using RoomieReloaded.Services.Calendar;
@@ -45,6 +46,8 @@ namespace RoomieReloaded
             services.AddOptions<RocketChatConfiguration>()
                 .Bind(Configuration.GetSection("RocketChat"));
 
+            ConfigureCors(services);
+
             services.AddSingleton<IRoomService, RoomService>();
             services.AddSingleton<IRoomAccessor, RoomAccessor>();
             services.AddSingleton<ICalendarService, CalendarService>();
@@ -59,6 +62,15 @@ namespace RoomieReloaded
             services.AddSingleton<IEqualityComparer<CalendarEventModel>, CalendarEventModelEqualityComparer>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        }
+
+        private void ConfigureCors(IServiceCollection services)
+        {
+            var corsConfig = Configuration.GetSection("Cors").Get<CorsConfiguration>();
+            var allowedOrigins = corsConfig?.AllowedOrigins ?? new string[0];
+            services.AddCors(
+                options => options.AddDefaultPolicy(
+                    policy => policy.WithOrigins(allowedOrigins)));
         }
 
         private static void BindUserLookupService(IServiceCollection services)
@@ -84,6 +96,8 @@ namespace RoomieReloaded
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseCors();
 
             app.UseMvc(routes =>
             {

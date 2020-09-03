@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { DefaultButton, CommandBarButton } from 'office-ui-fabric-react/lib/Button';
+import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
+import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import './navigation.css';
 import { DatePicker, DayOfWeek } from 'office-ui-fabric-react/lib/DatePicker';
 import moment from 'moment';
 import { CalendarType } from '../../reducers/calendarReducer';
 import { VoidCreator, AnyValueCreator } from '../../actions/actions';
+
+export interface INavigationState{
+    darkMode: boolean;
+}
 
 export interface INavigationStateProps{
     currentTimeFrameText:string;
@@ -24,7 +30,13 @@ export interface INavigationDispatchProps{
 
 type NavigationProps = INavigationStateProps & INavigationDispatchProps;
 
-class NavigationView extends React.Component<NavigationProps> {
+class NavigationView extends React.Component<NavigationProps, INavigationState> {
+    constructor(props: NavigationProps) {
+        super(props);
+        var darkMode = this.readDarkMode();
+        this.state = { darkMode };
+        this.updateBodyClass();
+    }
 
     render(){
         const{
@@ -67,6 +79,11 @@ class NavigationView extends React.Component<NavigationProps> {
                     />
                 </div>
                 
+                <div className="themeSettings">
+                    <Icon iconName="Sunny" className="light-mode-icon" />
+                    <Toggle onChange={(event: React.MouseEvent<HTMLElement>, checked?: boolean) => this.onDarkModeChange(checked)} checked={this.state.darkMode} />
+                    <Icon iconName="ClearNight" className="dark-mode-icon" />
+                </div>
                 <div className="boardNavigation">
                     <DefaultButton onClick={() => onMonthClick()} className={this.getButtonClassName("MONTH", activeCalendar)} >
                         Monat
@@ -105,6 +122,36 @@ class NavigationView extends React.Component<NavigationProps> {
         }
         const selectedDate = moment(date);
         updateFunc(selectedDate);
+    }
+
+    private onDarkModeChange(checked?: boolean) {
+        this.setState( 
+            state => ({ darkMode: checked || false }),
+            () => {
+                this.updateBodyClass();
+                this.storeDarkMode();
+            } );
+    }
+
+    private updateBodyClass() {
+        if (this.state.darkMode) {
+            document.body.classList.add("dark-mode");
+        } else {
+            document.body.classList.remove("dark-mode");
+        }
+    }
+
+    private readDarkMode() {
+        var darkMode = localStorage.getItem( "dark-mode" );
+        return (darkMode === "on");
+    }
+
+    private storeDarkMode() {
+        if (this.state.darkMode) {
+            localStorage.setItem("dark-mode", "on");
+        } else {
+            localStorage.setItem( "dark-mode", "off");
+        }
     }
 }
 
