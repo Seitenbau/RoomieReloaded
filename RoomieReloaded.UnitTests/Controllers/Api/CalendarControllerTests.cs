@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using RoomieReloaded.Controllers.Api;
-using RoomieReloaded.Models;
 using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Models.Presentation;
-using RoomieReloaded.Services;
 using RoomieReloaded.Services.Calendar;
 using RoomieReloaded.Services.CalendarEvents;
 using RoomieReloaded.Services.Rooms;
@@ -72,7 +69,8 @@ namespace RoomieReloaded.Tests.Controllers.Api
 		public async Task Test_InputDataIsSentToCalendarService()
 		{
 			const string expectedRoomName = "some expected RoomName";
-			var roomService = CreateRoomServiceMock(expectedRoomName);
+			var room = CreateRoomMock(expectedRoomName);
+			var roomService = CreateRoomServiceMock(room);
 			var calendarService = new Mock<ICalendarService>
 			{
 				DefaultValue = DefaultValue.Mock
@@ -84,7 +82,7 @@ namespace RoomieReloaded.Tests.Controllers.Api
 			var end = start.AddDays(1);
 			await sut.Index(null, start.ToString("s"), end.ToString("s"));
 
-			calendarService.Verify(m => m.GetCalendarEventsAsync(expectedRoomName, start, end.AddDays(1) ));
+			calendarService.Verify(m => m.GetCalendarEventsAsync(room.Object, start, end.AddDays(1) ));
 		}
 
 		[Fact]
@@ -106,7 +104,7 @@ namespace RoomieReloaded.Tests.Controllers.Api
 				calendarEvent.Object
 			};
 
-			calendarService.Setup(m => m.GetCalendarEventsAsync(It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
+			calendarService.Setup(m => m.GetCalendarEventsAsync(It.IsAny<IRoom>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
 				.ReturnsAsync(calendarEvents);
 
 			var sut = CreateController(roomService, calendarService);
@@ -128,16 +126,29 @@ namespace RoomieReloaded.Tests.Controllers.Api
 			Assert.Equal(expectedEvent.To, actualEvent.End);
 		}
 
-		private Mock<IRoomService> CreateRoomServiceMock(string roomName = null, string mail = null)
+		private Mock<IRoom> CreateRoomMock(string roomName = null, string mail = null)
 		{
 			var room = new Mock<IRoom>();
 			room.Setup(m => m.Name).Returns(roomName);
 			room.Setup(m => m.NiceName).Returns(roomName + "Nice");
 			room.Setup(m => m.Mail).Returns(mail);
 
+			return room;
+		}
+
+		private Mock<IRoomService> CreateRoomServiceMock(Mock<IRoom> room)
+		{
 			var roomService = new Mock<IRoomService>();
 			roomService.Setup(m => m.GetRoomByNameAsync(It.IsAny<string>()))
 				.ReturnsAsync(room.Object);
+
+			return roomService;
+		}
+
+		private Mock<IRoomService> CreateRoomServiceMock(string roomName = null, string mail = null)
+		{
+			var room = CreateRoomMock(roomName, mail);
+			var roomService = CreateRoomServiceMock(room);
 
 			return roomService;
 		}
