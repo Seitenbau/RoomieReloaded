@@ -6,8 +6,10 @@ import { CalendarActions } from "../reducers/calendarReducer";
 import moment from "moment";
 import { CookieServiceFactory } from "../services/cookies/ICookieService";
 import { CategoryStateCookieName, CategoryActions } from "../reducers/categoryReducer";
+import { ParameterService } from "../services/parameter/parameterService";
 
 const cookieService = new CookieServiceFactory().create();
+const parameterService = new ParameterService();
 
 export function* bootstrapSaga(){
     yield takeEvery(BootstrapTypes.REQUEST, initialize);
@@ -18,8 +20,11 @@ function* initialize()
     console.log("loading planner data")
     try
     {
-        yield put(CalendarActions.setCurrentDateTime(moment()));
-        yield put(CalendarActions.setCurrentCalendar('DAY'));
+        const currentCalendar = parameterService.getCalendar() || 'DAY';
+        yield put(CalendarActions.setCurrentCalendar(currentCalendar));
+
+        const currentDateTime = parameterService.getDateTime() || moment();
+        yield put(CalendarActions.setCurrentDateTime(currentDateTime));
         yield loadPlannerData();
 
         yield put(BootstrapActions.success());
