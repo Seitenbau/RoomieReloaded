@@ -7,6 +7,9 @@ import { DatePicker, DayOfWeek } from 'office-ui-fabric-react/lib/DatePicker';
 import moment from 'moment';
 import { CalendarType } from '../../reducers/calendarReducer';
 import { VoidCreator, AnyValueCreator } from '../../actions/actions';
+import { ClipboardService } from '../../services/clipboard/clipboardService';
+import { ParameterService } from '../../services/parameter/parameterService';
+import { QueryService } from '../../services/query/queryService';
 
 export interface INavigationState{
     darkMode: boolean;
@@ -77,6 +80,9 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                         value={currentTimeFrame.toDate()}
                         allowTextInput={false}
                     />
+                    <CommandBarButton onClick={() => this.onShareClick()}
+                        className="timeFrameNavigation-button"
+                        iconProps={{iconName:'Share'}} />
                 </div>
                 
                 <div className="themeSettings">
@@ -122,6 +128,14 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
         }
         const selectedDate = moment(date);
         updateFunc(selectedDate);
+    }
+
+    private onShareClick() {
+        const clipboardService = new ClipboardService();
+        const queryService = new QueryService();
+
+        const url = queryService.getUrl();
+        clipboardService.copyTextToClipboard(url);
     }
 
     private onDarkModeChange(checked?: boolean) {
