@@ -5,8 +5,11 @@ import { IQueryService, QueryService } from "../query/queryService";
 const queryService : IQueryService = new QueryService();
 
 export interface IParameterService
-{   
-    setDateTime(dateTime: Moment) : void;
+{
+    getDate() : Moment | null;
+    getCalendar() : CalendarType | null;
+
+    setDate(date: Moment) : void;
     setCalendar(calendar: CalendarType) : void;
 }
 
@@ -15,7 +18,7 @@ export class ParameterService implements IParameterService
     dateParamName:string = "viewDate";
     calendarParamName:string = "viewCalendar";
 
-    getDateTime = () : Moment | null => {
+    getDate = () : Moment | null => {
         const dateParam = queryService.getUrlParam(this.dateParamName);
 
         if(dateParam == null) {
@@ -48,8 +51,8 @@ export class ParameterService implements IParameterService
         }
     }
 
-    setDateTime = (dateTime:Moment)  => {
-        const formattedDate = dateTime.format("YYYY-MM-DD");
+    setDate = (date:Moment)  => {
+        const formattedDate = date.format("YYYY-MM-DD");
         queryService.setUrlParam(this.dateParamName, formattedDate);
     }
 

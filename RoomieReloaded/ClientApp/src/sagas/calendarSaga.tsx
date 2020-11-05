@@ -36,7 +36,7 @@ function* updateCurrentData(calendar:CalendarType, currentDateTime:Moment)
     const newTimeFrameText = timeFrameTextGenerator.getTimeFrameText(currentDateTime);
     yield put(CalendarActions.setCurrentTimeframeText(newTimeFrameText));
 
-    parameterService.setDateTime(currentDateTime);
+    parameterService.setDate(currentDateTime);
     parameterService.setCalendar(calendar);
 
     yield put(PlannerItemsActions.request());

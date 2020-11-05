@@ -23,7 +23,7 @@ function* initialize()
         const currentCalendar = parameterService.getCalendar() || 'DAY';
         yield put(CalendarActions.setCurrentCalendar(currentCalendar));
 
-        const currentDateTime = parameterService.getDateTime() || moment();
+        const currentDateTime = parameterService.getDate() || moment();
         yield put(CalendarActions.setCurrentDateTime(currentDateTime));
         yield loadPlannerData();
 
