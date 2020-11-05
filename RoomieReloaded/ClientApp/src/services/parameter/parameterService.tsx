@@ -57,6 +57,6 @@ export class ParameterService implements IParameterService
     }
 
     setCalendar = (calendar:CalendarType) => {
-        queryService.setUrlParam(this.calendarParamName, calendar);
+        queryService.setUrlParam(this.calendarParamName, calendar.toLowerCase());
     }
 }
