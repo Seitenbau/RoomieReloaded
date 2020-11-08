@@ -8,11 +8,15 @@ import moment from 'moment';
 import { CalendarType } from '../../reducers/calendarReducer';
 import { VoidCreator, AnyValueCreator } from '../../actions/actions';
 import { ClipboardService } from '../../services/clipboard/clipboardService';
-import { ParameterService } from '../../services/parameter/parameterService';
 import { QueryService } from '../../services/query/queryService';
+import Toast from '../toast/toast';
+
+const clipboardService = new ClipboardService();
+const queryService = new QueryService();
 
 export interface INavigationState{
     darkMode: boolean;
+    showShareToast: boolean;
 }
 
 export interface INavigationStateProps{
@@ -37,7 +41,8 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
     constructor(props: NavigationProps) {
         super(props);
         var darkMode = this.readDarkMode();
-        this.state = { darkMode };
+        var showShareToast = false;
+        this.state = { darkMode, showShareToast };
         this.updateBodyClass();
     }
 
@@ -83,6 +88,10 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                     <CommandBarButton onClick={() => this.onShareClick()}
                         className="timeFrameNavigation-button"
                         iconProps={{iconName:'Share'}} />
+                    {this.state.showShareToast ?
+                        <Toast message="Link wurde in die Zwischenablage kopiert" /> 
+                        : null
+                    }
                 </div>
                 
                 <div className="themeSettings">
@@ -131,11 +140,14 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
     }
 
     private onShareClick() {
-        const clipboardService = new ClipboardService();
-        const queryService = new QueryService();
-
         const url = queryService.getUrl();
         clipboardService.copyTextToClipboard(url);
+
+        this.setState({showShareToast: true});
+
+        setTimeout(() => {
+            this.setState({showShareToast: false});
+        }, 3000);
     }
 
     private onDarkModeChange(checked?: boolean) {
