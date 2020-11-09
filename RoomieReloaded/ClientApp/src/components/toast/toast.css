@@ -3,6 +3,7 @@
 	bottom: 12px;
 	left: 12px;
 	animation: toast-in-left .7s;
+	z-index:1;
 }
 
 @keyframes toast-in-left {
