@@ -7,6 +7,8 @@ Zimbra room booking overview
 Simply execute `docker-compose` to start the web application:
 
 ```sh
+cd /path/to/repo/root
+
 docker-compose up -d
 ```
 
