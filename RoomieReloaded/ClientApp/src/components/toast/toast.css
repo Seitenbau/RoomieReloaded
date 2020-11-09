@@ -1,0 +1,16 @@
+.notification {
+	position: fixed;
+	bottom: 12px;
+	left: 12px;
+	animation: toast-in-left .7s;
+}
+
+@keyframes toast-in-left {
+	from {
+		transform: translateX(-100%);
+		
+	}
+	to {
+		transform: translateX(0);
+	}
+}
