@@ -5,6 +5,9 @@ import { getCurrentCalendar, getCurrentDateTime } from "../selectors/calendarSel
 import {Moment } from 'moment';
 import { createTimeFrameTextGenerator } from "../services/timeframeText/timeFrameTextGeneratorFactory";
 import { PlannerItemsActions } from "../reducers/plannerItemsReducer";
+import { IParameterService, ParameterService } from "../services/parameter/parameterService";
+
+const parameterService : IParameterService = new ParameterService();
 
 export function* calendarSaga(){
     yield takeLatest(CalendarTypes.SET_CURRENT_CALENDAR, setCalendar);
@@ -32,6 +35,9 @@ function* updateCurrentData(calendar:CalendarType, currentDateTime:Moment)
     const timeFrameTextGenerator = createTimeFrameTextGenerator(calendar);
     const newTimeFrameText = timeFrameTextGenerator.getTimeFrameText(currentDateTime);
     yield put(CalendarActions.setCurrentTimeframeText(newTimeFrameText));
+
+    parameterService.setDate(currentDateTime);
+    parameterService.setCalendar(calendar);
 
     yield put(PlannerItemsActions.request());
 }
