@@ -12,14 +12,19 @@ docker-compose up -d
 
 Building the container will take some time during the first run
 
-## Build/Start/Develop with Visual Studio, JetBrains Rider or VS Code
+## Working with Visual Studio (Code) or JetBrains Rider
 
 - Install the [dotnet core SDK](https://dotnet.microsoft.com/download) that matches your OS
 - Install npm (should work with versions 5.6.0+)
 - Open the solution in Visual Studio or JetBrains Rider and start the app
 
-Visual Studio Code can also be used.
+Visual Studio Code can be used as well.
 It should automatically detect the solution when the folder is opened and ask to install the C# development tools.
+
+## Working with the Remote-Containers extension in Visual Studio Code
+
+If you do not want to install npm and .NET Core locally, you can use the provided `.devcontainer` directory.
+After setting up the [Remote-Containers extension](https://code.visualstudio.com/docs/remote/containers) and opening the root directory of the Roomie project, Visual Studio Code should offer to reopen the folder within a container.
 
 ## To decouple front end development from Visual Studio / JetBrains Rider
 
