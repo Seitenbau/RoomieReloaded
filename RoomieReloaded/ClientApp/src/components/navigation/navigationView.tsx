@@ -7,9 +7,16 @@ import { DatePicker, DayOfWeek } from 'office-ui-fabric-react/lib/DatePicker';
 import moment from 'moment';
 import { CalendarType } from '../../reducers/calendarReducer';
 import { VoidCreator, AnyValueCreator } from '../../actions/actions';
+import { ClipboardService } from '../../services/clipboard/clipboardService';
+import { UrlService } from '../../services/url/urlService';
+import Toast from '../toast/toast';
+
+const clipboardService = new ClipboardService();
+const urlService = new UrlService();
 
 export interface INavigationState{
     darkMode: boolean;
+    showShareToast: boolean;
 }
 
 export interface INavigationStateProps{
@@ -34,7 +41,8 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
     constructor(props: NavigationProps) {
         super(props);
         var darkMode = this.readDarkMode();
-        this.state = { darkMode };
+        var showShareToast = false;
+        this.state = { darkMode, showShareToast };
         this.updateBodyClass();
     }
 
@@ -77,6 +85,13 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                         value={currentTimeFrame.toDate()}
                         allowTextInput={false}
                     />
+                    <CommandBarButton onClick={() => this.onShareClick()}
+                        className="timeFrameNavigation-button"
+                        iconProps={{iconName:'Share'}} />
+                    {this.state.showShareToast ?
+                        <Toast message="Link wurde in die Zwischenablage kopiert" /> 
+                        : null
+                    }
                 </div>
                 
                 <div className="themeSettings">
@@ -122,6 +137,17 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
         }
         const selectedDate = moment(date);
         updateFunc(selectedDate);
+    }
+
+    private onShareClick() {
+        const url = urlService.getFullUrl();
+        clipboardService.copyTextToClipboard(url);
+
+        this.setState({showShareToast: true});
+
+        setTimeout(() => {
+            this.setState({showShareToast: false});
+        }, 3000);
     }
 
     private onDarkModeChange(checked?: boolean) {
