@@ -8,10 +8,10 @@ import moment from 'moment';
 import { CalendarType } from '../../reducers/calendarReducer';
 import { VoidCreator, AnyValueCreator } from '../../actions/actions';
 import { ClipboardService } from '../../services/clipboard/clipboardService';
-import { QueryService } from '../../services/query/queryService';
+import { UrlService } from '../../services/url/urlService';
 
 const clipboardService = new ClipboardService();
-const queryService = new QueryService();
+const urlService = new UrlService();
 
 export interface INavigationState{
     darkMode: boolean;
@@ -133,7 +133,7 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
     }
 
     private onShareClick() {
-        const url = queryService.getUrl();
+        const url = urlService.getFullUrl();
         clipboardService.copyTextToClipboard(url);
     }
 

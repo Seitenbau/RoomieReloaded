@@ -1,8 +1,8 @@
 import moment, { Moment } from "moment"
 import { CalendarType } from "../../reducers/calendarReducer"
-import { IQueryService, QueryService } from "../query/queryService";
+import { IUrlService, UrlService } from "../url/urlService";
 
-const queryService : IQueryService = new QueryService();
+const urlService : IUrlService = new UrlService();
 
 export interface IParameterService
 {
@@ -19,7 +19,7 @@ export class ParameterService implements IParameterService
     calendarParamName:string = "viewCalendar";
 
     getDate = () : Moment | null => {
-        const dateParam = queryService.getUrlParam(this.dateParamName);
+        const dateParam = urlService.getUrlParam(this.dateParamName);
 
         if(dateParam == null) {
             return null;
@@ -32,7 +32,7 @@ export class ParameterService implements IParameterService
     }
 
     getCalendar = () : CalendarType | null => {
-        const calendarParam = queryService.getUrlParam(this.calendarParamName);
+        const calendarParam = urlService.getUrlParam(this.calendarParamName);
 
         if(calendarParam == null){
             return null;
@@ -53,10 +53,10 @@ export class ParameterService implements IParameterService
 
     setDate = (date:Moment)  => {
         const formattedDate = date.format("YYYY-MM-DD");
-        queryService.setUrlParam(this.dateParamName, formattedDate);
+        urlService.setUrlParam(this.dateParamName, formattedDate);
     }
 
     setCalendar = (calendar:CalendarType) => {
-        queryService.setUrlParam(this.calendarParamName, calendar.toLowerCase());
+        urlService.setUrlParam(this.calendarParamName, calendar.toLowerCase());
     }
 }

@@ -1,6 +1,6 @@
 import moment from "moment";
 import { CalendarType } from "../../reducers/calendarReducer";
-import { IQueryService } from "../query/queryService";
+import { IUrlService } from "../url/urlService";
 import { IParameterService, ParameterService } from "./parameterService";
 
 describe('Getting and setting calendar', () => {
@@ -37,8 +37,8 @@ describe('Getting and setting date', () => {
 })
 
 function testSetGetCalendar(calendar?:string, expected?:string | null) {
-    const queryServiceMock:IQueryService = new QueryServiceMock();
-    const parameterService:IParameterService = new ParameterService(queryServiceMock);
+    const urlServiceMock:IUrlService = new UrlServiceMock();
+    const parameterService:IParameterService = new ParameterService(urlServiceMock);
 
     if(calendar) {
         parameterService.setCalendar(calendar as CalendarType);
@@ -49,8 +49,8 @@ function testSetGetCalendar(calendar?:string, expected?:string | null) {
 }
 
 function testSetGetDate(date?:string, expected?:string | null) {
-    const queryServiceMock:IQueryService = new QueryServiceMock();
-    const parameterService:IParameterService = new ParameterService(queryServiceMock);
+    const urlServiceMock:IUrlService = new UrlServiceMock();
+    const parameterService:IParameterService = new ParameterService(urlServiceMock);
 
     if(date) {
         parameterService.setDate(moment(date))
@@ -65,7 +65,7 @@ function testSetGetDate(date?:string, expected?:string | null) {
     }
 }
 
-class QueryServiceMock implements IQueryService {
+class UrlServiceMock implements IUrlService {
     private url:URL;
 
     constructor(url?:string) {
@@ -84,7 +84,7 @@ class QueryServiceMock implements IQueryService {
         return this.url.searchParams.get(param);
     }
 
-    getUrl() : string {
+    getFullUrl() : string {
         return this.url.toString();
     }
 } 
