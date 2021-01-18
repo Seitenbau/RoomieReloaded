@@ -29,8 +29,8 @@ namespace RoomieReloaded.Services.Calendar
 
             var calendar = Ical.Net.Calendar.Load(icsCalendar);
 
-            var eventOccurrences = calendar.GetOccurrences(from, to)
-                .ToList();
+            var eventOccurrences = calendar?.GetOccurrences(from, to)
+                ?.ToList() ?? new List<Occurrence>();
 
             var events = await CreateCalendarEventsAsync(eventOccurrences, room);
 

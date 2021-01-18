@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RoomieReloaded.Configuration;
 
@@ -13,10 +14,12 @@ namespace RoomieReloaded.Services.Zimbra
         private const string Dateformat = "yyyy/MM/dd";
 
         private readonly IOptions<ZimbraAdapterConfiguration> _configuration;
+        private readonly ILogger<ZimbraAdapter> _logger;
 
-        public ZimbraAdapter(IOptions<ZimbraAdapterConfiguration> configuration)
+        public ZimbraAdapter(IOptions<ZimbraAdapterConfiguration> configuration, ILogger<ZimbraAdapter> logger)
         {
             this._configuration = configuration;
+            _logger = logger;
         }
 
         public async Task<string> GetRoomCalendarAsIcsStringAsync(string room, DateTime start, DateTime end)
@@ -31,18 +34,27 @@ namespace RoomieReloaded.Services.Zimbra
 
             request.Headers["Authorization"] = CreateBasicAuthHeader();
 
-            // TODO exception handling
-
-            using (var response = (HttpWebResponse) request.GetResponse())
+            try
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                using (var response = (HttpWebResponse) request.GetResponse())
                 {
-                    using (var stream = response.GetResponseStream())
-                    using (var reader = new StreamReader(stream))
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        return await reader.ReadToEndAsync();
+                        using (var stream = response.GetResponseStream())
+                        using (var reader = new StreamReader(stream))
+                        {
+                            return await reader.ReadToEndAsync();
+                        }
                     }
+                    
+                    _logger.LogError("Invalid status code {0} when requesting data for resource '{1}' from Zimbra. Resource is ignored.",
+                        response.StatusCode,
+                        room);
                 }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error when requesting data for resource '{0}' from Zimbra. Resource is ignored.", room);
             }
 
             return string.Empty;
