@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RoomieReloaded.Configuration;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Hosting;
 using RoomieReloaded.Models.Presentation;
 using RoomieReloaded.Services.Accessors;
 using RoomieReloaded.Services.Calendar;
@@ -25,7 +27,7 @@ namespace RoomieReloaded
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices( [NotNull] IServiceCollection services)
@@ -60,13 +62,14 @@ namespace RoomieReloaded
 
             services.AddSingleton<IEqualityComparer<CalendarEventModel>, CalendarEventModelEqualityComparer>();
 
+            services.AddHttpClient();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         private void ConfigureCors(IServiceCollection services)
         {
             var corsConfig = Configuration.GetSection("Cors").Get<CorsConfiguration>();
-            var allowedOrigins = corsConfig?.AllowedOrigins ?? new string[0];
+            var allowedOrigins = corsConfig?.AllowedOrigins ?? Array.Empty<string>();
             services.AddCors(
                 options => options.AddDefaultPolicy(
                     policy => policy.WithOrigins(allowedOrigins)));
@@ -79,7 +82,7 @@ namespace RoomieReloaded
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
