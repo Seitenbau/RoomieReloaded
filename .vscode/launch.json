@@ -16,7 +16,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/RoomieReloaded/bin/Debug/netcoreapp2.2/RoomieReloaded.dll",
+            "program": "${workspaceFolder}/RoomieReloaded/bin/Debug/net6.0/RoomieReloaded.dll",
             "args": [],
             "cwd": "${workspaceFolder}/RoomieReloaded",
             "stopAtEntry": false,
