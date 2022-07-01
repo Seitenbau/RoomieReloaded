@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Moq;
 using RoomieReloaded.Controllers.Api;
 using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Models.Presentation;
 using RoomieReloaded.Services.Calendar;
 using RoomieReloaded.Services.CalendarEvents;
 using RoomieReloaded.Services.Rooms;
-using Xunit;
 
-namespace RoomieReloaded.Tests.Controllers.Api;
+namespace RoomieReloaded.UnitTests.Controllers.Api;
 
 public class CalendarControllerTests
 {

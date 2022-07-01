@@ -1,5 +1,4 @@
 ﻿using Ical.Net.DataTypes;
-using JetBrains.Annotations;
 using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;
 using RoomieReloaded.Configuration;

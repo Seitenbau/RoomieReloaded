@@ -1,4 +1,4 @@
-﻿namespace RoomieReloaded.Tests.Services;
+﻿namespace RoomieReloaded.UnitTests.Services;
 
 public class RoomServiceTests
 {

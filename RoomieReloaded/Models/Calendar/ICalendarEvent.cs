@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using RoomieReloaded.Models.Chat;
+﻿using RoomieReloaded.Models.Chat;
 
 namespace RoomieReloaded.Models.Calendar;
 

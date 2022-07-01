@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace RoomieReloaded.Models.Users;
+﻿namespace RoomieReloaded.Models.Users;
 
 public interface IUser
 {

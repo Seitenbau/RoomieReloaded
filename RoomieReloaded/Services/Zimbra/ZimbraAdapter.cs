@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.Net;
-using JetBrains.Annotations;
 using Microsoft.Extensions.Options;
 using RoomieReloaded.Configuration;
 

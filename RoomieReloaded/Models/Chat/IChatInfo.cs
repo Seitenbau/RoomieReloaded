@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace RoomieReloaded.Models.Chat;
+﻿namespace RoomieReloaded.Models.Chat;
 
 public interface IChatInfo
 {

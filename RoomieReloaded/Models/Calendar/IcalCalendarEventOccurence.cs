@@ -1,6 +1,5 @@
 ﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
-using JetBrains.Annotations;
 
 namespace RoomieReloaded.Models.Calendar;
 

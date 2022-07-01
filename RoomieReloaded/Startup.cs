@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using RoomieReloaded.Configuration;
-using JetBrains.Annotations;
 using RoomieReloaded.Models.Presentation;
 using RoomieReloaded.Services.Accessors;
 using RoomieReloaded.Services.Calendar;
