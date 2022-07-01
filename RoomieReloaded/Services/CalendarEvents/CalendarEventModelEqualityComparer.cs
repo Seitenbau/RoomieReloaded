@@ -2,28 +2,27 @@
 using RoomieReloaded.Models;
 using RoomieReloaded.Models.Presentation;
 
-namespace RoomieReloaded.Services.CalendarEvents
+namespace RoomieReloaded.Services.CalendarEvents;
+
+public class CalendarEventModelEqualityComparer : IEqualityComparer<CalendarEventModel>
 {
-    public class CalendarEventModelEqualityComparer : IEqualityComparer<CalendarEventModel>
+    public bool Equals(CalendarEventModel x, CalendarEventModel y)
     {
-        public bool Equals(CalendarEventModel x, CalendarEventModel y)
+        if(x == null)
         {
-            if(x == null)
-            {
-                return y == null;
-            }
-
-            if(y == null)
-            {
-                return false;
-            }
-
-            return x.Id == y.Id;
+            return y == null;
         }
 
-        public int GetHashCode(CalendarEventModel obj)
+        if(y == null)
         {
-            return obj.Id != null ? obj.Id.GetHashCode() : obj.GetHashCode();
+            return false;
         }
+
+        return x.Id == y.Id;
+    }
+
+    public int GetHashCode(CalendarEventModel obj)
+    {
+        return obj.Id != null ? obj.Id.GetHashCode() : obj.GetHashCode();
     }
 }

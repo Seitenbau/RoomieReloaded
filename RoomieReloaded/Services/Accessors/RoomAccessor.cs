@@ -5,53 +5,52 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using RoomieReloaded.Services.Rooms;
 
-namespace RoomieReloaded.Services.Accessors
+namespace RoomieReloaded.Services.Accessors;
+
+public class RoomAccessor : IRoomAccessor
 {
-    public class RoomAccessor : IRoomAccessor
+    private IHttpContextAccessor _httpContextAccessor;
+    private IRoomService _roomService;
+
+    public RoomAccessor(IHttpContextAccessor httpContextAccessor, IRoomService roomService)
     {
-        private IHttpContextAccessor _httpContextAccessor;
-        private IRoomService _roomService;
+        _httpContextAccessor = httpContextAccessor;
+        _roomService = roomService;
+    }
 
-        public RoomAccessor(IHttpContextAccessor httpContextAccessor, IRoomService roomService)
+    public async Task<IRoom> GetCurrentRoomAsync()
+    {
+        var roomName = GetRoomName();
+        var room = await GetRoom(roomName);
+        return room;
+    }
+
+    [NotNull]
+    [ItemNotNull]
+    private async Task<IRoom> GetRoom(string roomName)
+    {
+        var room = await _roomService.GetRoomByNameAsync(roomName);
+
+        if (room == null)
         {
-            _httpContextAccessor = httpContextAccessor;
-            _roomService = roomService;
+            throw new InvalidOperationException($"The room '{roomName}' does not exist.");
         }
 
-        public async Task<IRoom> GetCurrentRoomAsync()
+        return room;
+    }
+
+    [NotNull]
+    private string GetRoomName()
+    {
+        var roomName =
+            _httpContextAccessor.HttpContext.GetRouteValue(Constants.RouteConstants.RoomPathIdentifier) as string;
+
+        if (string.IsNullOrEmpty(roomName))
         {
-            var roomName = GetRoomName();
-            var room = await GetRoom(roomName);
-            return room;
+            throw new InvalidOperationException(
+                $"Accessing the requests room is only possible for requests with parameter '{Constants.RouteConstants.RoomPathIdentifier}'.");
         }
 
-        [NotNull]
-        [ItemNotNull]
-        private async Task<IRoom> GetRoom(string roomName)
-        {
-            var room = await _roomService.GetRoomByNameAsync(roomName);
-
-            if (room == null)
-            {
-                throw new InvalidOperationException($"The room '{roomName}' does not exist.");
-            }
-
-            return room;
-        }
-
-        [NotNull]
-        private string GetRoomName()
-        {
-            var roomName =
-                _httpContextAccessor.HttpContext.GetRouteValue(Constants.RouteConstants.RoomPathIdentifier) as string;
-
-            if (string.IsNullOrEmpty(roomName))
-            {
-                throw new InvalidOperationException(
-                    $"Accessing the requests room is only possible for requests with parameter '{Constants.RouteConstants.RoomPathIdentifier}'.");
-            }
-
-            return roomName;
-        }
+        return roomName;
     }
 }

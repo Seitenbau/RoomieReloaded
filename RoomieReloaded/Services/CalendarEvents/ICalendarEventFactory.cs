@@ -4,12 +4,11 @@ using Ical.Net.DataTypes;
 using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Services.Rooms;
 
-namespace RoomieReloaded.Services.CalendarEvents
-{
-    public interface ICalendarEventFactory
-    {
-        Task<ICalendarEvent> CreateFromOccurenceAsync(Occurrence occurrence, IRoom room);
+namespace RoomieReloaded.Services.CalendarEvents;
 
-        bool IsPrivateEvent(CalendarEvent calendarEvent);
-    }
+public interface ICalendarEventFactory
+{
+    Task<ICalendarEvent> CreateFromOccurenceAsync(Occurrence occurrence, IRoom room);
+
+    bool IsPrivateEvent(CalendarEvent calendarEvent);
 }

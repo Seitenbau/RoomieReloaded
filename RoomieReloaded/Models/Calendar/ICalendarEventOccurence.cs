@@ -1,19 +1,18 @@
 ﻿using System;
 
-namespace RoomieReloaded.Models.Calendar
+namespace RoomieReloaded.Models.Calendar;
+
+public interface ICalendarEventOccurence
 {
-    public interface ICalendarEventOccurence
-    {
-        bool IsPrivateEvent { get; }
+    bool IsPrivateEvent { get; }
 
-        string EventId { get; }
+    string EventId { get; }
 
-        bool ShowSubject { get; }
+    bool ShowSubject { get; }
 
-        string Subject { get; }
+    string Subject { get; }
 
-        DateTime From { get; }
+    DateTime From { get; }
 
-        DateTime To { get; }
-    }
+    DateTime To { get; }
 }

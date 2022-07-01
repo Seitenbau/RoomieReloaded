@@ -1,7 +1,6 @@
-﻿namespace RoomieReloaded.Tests.Services
+﻿namespace RoomieReloaded.Tests.Services;
+
+public class RoomServiceTests
 {
-	public class RoomServiceTests
-	{
-		// TODO create RoomService tests
-	}
+	// TODO create RoomService tests
 }

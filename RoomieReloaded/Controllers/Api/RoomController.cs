@@ -7,34 +7,33 @@ using Microsoft.AspNetCore.Mvc;
 using RoomieReloaded.Services;
 using RoomieReloaded.Services.Rooms;
 
-namespace RoomieReloaded.Controllers.Api
+namespace RoomieReloaded.Controllers.Api;
+
+[Route("api/[controller]")]
+public class RoomsController : ControllerBase
 {
-    [Route("api/[controller]")]
-    public class RoomsController : ControllerBase
+    private readonly IRoomService _roomService;
+
+    public RoomsController(IRoomService roomService)
     {
-        private readonly IRoomService _roomService;
+        _roomService = roomService;
+    }
 
-        public RoomsController(IRoomService roomService)
+    [HttpGet()]
+    [ProducesResponseType(typeof(RoomsModel), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Index()
+    {
+        var rooms = await _roomService.GetAllRoomsAsync();
+        return this.Ok(new RoomsModel(rooms));
+    }
+
+    public class RoomsModel
+    {
+        public RoomsModel(IEnumerable<IRoom> rooms)
         {
-            _roomService = roomService;
+            Rooms = rooms?.ToList() ?? new List<IRoom>();
         }
 
-        [HttpGet()]
-        [ProducesResponseType(typeof(RoomsModel), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Index()
-        {
-            var rooms = await _roomService.GetAllRoomsAsync();
-            return this.Ok(new RoomsModel(rooms));
-        }
-
-        public class RoomsModel
-        {
-            public RoomsModel(IEnumerable<IRoom> rooms)
-            {
-                Rooms = rooms?.ToList() ?? new List<IRoom>();
-            }
-
-            public List<IRoom> Rooms { get; }
-        }
+        public List<IRoom> Rooms { get; }
     }
 }

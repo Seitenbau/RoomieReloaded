@@ -1,7 +1,6 @@
-﻿namespace RoomieReloaded.Configuration
+﻿namespace RoomieReloaded.Configuration;
+
+public class CorsConfiguration
 {
-    public class CorsConfiguration
-    {
-        public string[] AllowedOrigins { get; set; }
-    }
+    public string[] AllowedOrigins { get; set; }
 }

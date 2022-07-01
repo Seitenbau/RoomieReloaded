@@ -4,11 +4,10 @@ using JetBrains.Annotations;
 using RoomieReloaded.Models;
 using RoomieReloaded.Models.Users;
 
-namespace RoomieReloaded.Services.Users
+namespace RoomieReloaded.Services.Users;
+
+public interface IUserLookupService
 {
-    public interface IUserLookupService
-    {
-        [NotNull]
-        Task<IUser> GetUserAsync([NotNull] Organizer organizer);
-    }
+    [NotNull]
+    Task<IUser> GetUserAsync([NotNull] Organizer organizer);
 }
