@@ -2,20 +2,20 @@
 using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Models.Chat;
 using RoomieReloaded.Models.Users;
-using RoomieReloaded.Services.Accessors;
 
 namespace RoomieReloaded.Services.Chat;
 
 public class RocketChatService : IChatService
 {
-    private readonly IOptions<RocketChatConfiguration> _rocketChatConfiguration;
-    private readonly IChatMessageService _chatMessageService;
+    [NotNull] private readonly IOptions<RocketChatConfiguration> _rocketChatConfiguration;
+    [NotNull] private readonly IChatMessageService _chatMessageService;
 
-    public RocketChatService(IOptions<RocketChatConfiguration> rocketChatConfiguration, IRoomAccessor roomAccessor,
-        IChatMessageService chatMessageService)
+    public RocketChatService(
+        [NotNull] IOptions<RocketChatConfiguration> rocketChatConfiguration,
+        [NotNull] IChatMessageService chatMessageService)
     {
         this._rocketChatConfiguration = rocketChatConfiguration;
-        _chatMessageService = chatMessageService;
+        this._chatMessageService = chatMessageService;
     }
 
     public async Task<IChatInfo> GetChatInfoAsync(IUser user, ICalendarEventOccurence occurence)

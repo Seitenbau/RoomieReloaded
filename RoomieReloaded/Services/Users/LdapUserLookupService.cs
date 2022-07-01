@@ -9,11 +9,12 @@ namespace RoomieReloaded.Services.Users;
 
 public class LdapUserLookupService : IUserLookupService
 {
-    private readonly IOptions<LdapConfiguration> _ldapConfiguration;
-    private readonly ILogger<LdapUserLookupService> _logger;
+    [NotNull] private readonly IOptions<LdapConfiguration> _ldapConfiguration;
+    [NotNull] private readonly ILogger<LdapUserLookupService> _logger;
 
-    public LdapUserLookupService(IOptions<LdapConfiguration> ldapConfiguration,
-        ILogger<LdapUserLookupService> logger)
+    public LdapUserLookupService(
+        [NotNull] IOptions<LdapConfiguration> ldapConfiguration,
+        [NotNull] ILogger<LdapUserLookupService> logger)
     {
         _ldapConfiguration = ldapConfiguration;
         _logger = logger;
@@ -47,7 +48,7 @@ public class LdapUserLookupService : IUserLookupService
         var connection = OpenConnection();
 
         var requestState = new SearchRequestState(connection, taskCompletionSource, organizer);
-            
+
         Task.Run(() => ExecuteSearchSafe(requestState));
 
         return taskCompletionSource.Task;
@@ -172,7 +173,7 @@ public class LdapUserLookupService : IUserLookupService
         }
         catch (Exception e)
         {
-            this._logger.LogError(e, "Could not open a connection to ldap.");
+            this._logger.LogError(e, "Could not open a connection to LDAP");
         }
 
         return connection;

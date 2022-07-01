@@ -10,12 +10,14 @@ namespace RoomieReloaded.Services.CalendarEvents;
 
 public class CalendarEventFactory : ICalendarEventFactory
 {
-    private readonly IChatService _chatService;
-    private readonly ILogger<CalendarEventFactory> _logger;
-    private readonly ICachingUserLookupService _userLookupService;
+    [NotNull] private readonly IChatService _chatService;
+    [NotNull] private readonly ILogger<CalendarEventFactory> _logger;
+    [NotNull] private readonly ICachingUserLookupService _userLookupService;
 
-    public CalendarEventFactory(ILogger<CalendarEventFactory> logger, ICachingUserLookupService userLookupService,
-        IChatService chatService)
+    public CalendarEventFactory(
+        [NotNull] ILogger<CalendarEventFactory> logger,
+        [NotNull] ICachingUserLookupService userLookupService,
+        [NotNull] IChatService chatService)
     {
         _logger = logger;
         _userLookupService = userLookupService;
@@ -27,13 +29,11 @@ public class CalendarEventFactory : ICalendarEventFactory
         LogOccurence(occurrence);
         var calendarEvent = (CalendarEvent) occurrence.Source;
         var isPrivateEvent = IsPrivateEvent(calendarEvent);
-        var eventId = $"{calendarEvent.Uid}-{occurrence.Period}";
-        var subject = room.ShowSubject ? calendarEvent.Summary : string.Empty;
 
         var user = isPrivateEvent
             ? new PrivateEventUser()
             : await GetUser(calendarEvent);
-            
+
         var eventOccurence = new IcalCalendarEventOccurence(occurrence, isPrivateEvent, room.ShowSubject);
         var chatInfo = await _chatService.GetChatInfoAsync(user, eventOccurence);
 
