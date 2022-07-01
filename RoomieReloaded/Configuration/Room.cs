@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using RoomieReloaded.Services.Rooms;
+﻿using RoomieReloaded.Services.Rooms;
 
 namespace RoomieReloaded.Configuration;
 

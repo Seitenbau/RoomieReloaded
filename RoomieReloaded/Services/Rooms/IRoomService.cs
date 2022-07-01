@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace RoomieReloaded.Services.Rooms;
+﻿namespace RoomieReloaded.Services.Rooms;
 
 public interface IRoomService
 {

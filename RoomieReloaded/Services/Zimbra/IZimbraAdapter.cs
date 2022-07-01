@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace RoomieReloaded.Services.Zimbra;
+﻿namespace RoomieReloaded.Services.Zimbra;
 
 public interface IZimbraAdapter
 {

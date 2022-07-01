@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-using Ical.Net.DataTypes;
+﻿using Ical.Net.DataTypes;
 using JetBrains.Annotations;
-using RoomieReloaded.Models;
 using RoomieReloaded.Models.Users;
 
 namespace RoomieReloaded.Services.Users;

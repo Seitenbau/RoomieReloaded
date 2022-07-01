@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoomieReloaded.Models.Calendar;
+﻿namespace RoomieReloaded.Models.Calendar;
 
 public interface ICalendarEventOccurence
 {

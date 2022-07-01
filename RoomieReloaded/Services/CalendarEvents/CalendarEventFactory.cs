@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-using Ical.Net.CalendarComponents;
+﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
-using Microsoft.Extensions.Logging;
 using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Models.Users;
 using RoomieReloaded.Services.Chat;

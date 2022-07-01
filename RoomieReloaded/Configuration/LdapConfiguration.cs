@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoomieReloaded.Configuration;
+﻿namespace RoomieReloaded.Configuration;
 
 public class LdapConfiguration
 {

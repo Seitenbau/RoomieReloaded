@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using RoomieReloaded.Models.Calendar;
+﻿using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Models.Users;
 using RoomieReloaded.Services.Accessors;
 

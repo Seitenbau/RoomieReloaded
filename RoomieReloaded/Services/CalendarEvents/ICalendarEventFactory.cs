@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Ical.Net.CalendarComponents;
+﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Services.Rooms;

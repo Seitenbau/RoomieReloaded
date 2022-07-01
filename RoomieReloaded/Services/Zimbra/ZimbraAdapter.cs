@@ -1,11 +1,6 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
+﻿using System.Globalization;
 using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RoomieReloaded.Configuration;
 

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Models.Chat;
 using RoomieReloaded.Models.Users;

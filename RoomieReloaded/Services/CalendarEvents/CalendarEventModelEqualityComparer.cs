@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using RoomieReloaded.Models;
-using RoomieReloaded.Models.Presentation;
+﻿using RoomieReloaded.Models.Presentation;
 
 namespace RoomieReloaded.Services.CalendarEvents;
 

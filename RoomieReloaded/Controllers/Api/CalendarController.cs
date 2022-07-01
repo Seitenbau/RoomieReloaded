@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using RoomieReloaded.Models;
 using RoomieReloaded.Models.Presentation;
-using RoomieReloaded.Services;
 using RoomieReloaded.Services.Calendar;
 using RoomieReloaded.Services.Rooms;
 

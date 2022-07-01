@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Ical.Net.DataTypes;
+﻿using Ical.Net.DataTypes;
 using Microsoft.Extensions.Caching.Memory;
 using RoomieReloaded.Models.Users;
 

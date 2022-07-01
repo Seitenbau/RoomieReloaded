@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using Ical.Net.DataTypes;
+﻿using Ical.Net.DataTypes;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;
 using RoomieReloaded.Configuration;

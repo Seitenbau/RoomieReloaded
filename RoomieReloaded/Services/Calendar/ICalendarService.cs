@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using RoomieReloaded.Models;
-using RoomieReloaded.Models.Calendar;
+﻿using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Services.Rooms;
 
 namespace RoomieReloaded.Services.Calendar;

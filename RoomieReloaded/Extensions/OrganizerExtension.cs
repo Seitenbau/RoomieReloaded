@@ -1,5 +1,4 @@
 ﻿using Ical.Net.DataTypes;
-using JetBrains.Annotations;
 
 namespace RoomieReloaded.Extensions;
 

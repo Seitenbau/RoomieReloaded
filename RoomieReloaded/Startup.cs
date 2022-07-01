@@ -1,14 +1,6 @@
-using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using RoomieReloaded.Configuration;
-using System.Collections.Generic;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Hosting;
 using RoomieReloaded.Models.Presentation;
 using RoomieReloaded.Services.Accessors;
 using RoomieReloaded.Services.Calendar;
