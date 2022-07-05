@@ -1,6 +1,5 @@
-﻿namespace RoomieReloaded.Services.Users
+﻿namespace RoomieReloaded.Services.Users;
+
+public interface ICachingUserLookupService : IUserLookupService
 {
-    public interface ICachingUserLookupService : IUserLookupService
-    {
-    }
 }

@@ -1,13 +1,10 @@
-﻿using JetBrains.Annotations;
+﻿namespace RoomieReloaded.Models.Chat;
 
-namespace RoomieReloaded.Models.Chat
+public interface IChatInfo
 {
-    public interface IChatInfo
-    {
-        [NotNull] string ChatWithOrganizerLink { get; }
+    [NotNull] string ChatWithOrganizerLink { get; }
 
-        [NotNull] string ChatMessage { get; }
+    [NotNull] string ChatMessage { get; }
 
-        [NotNull] string ChatHint { get; }
-    }
+    [NotNull] string ChatHint { get; }
 }
