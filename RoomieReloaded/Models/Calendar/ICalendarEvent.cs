@@ -1,24 +1,21 @@
-﻿using System;
-using JetBrains.Annotations;
-using RoomieReloaded.Models.Chat;
+﻿using RoomieReloaded.Models.Chat;
 
-namespace RoomieReloaded.Models.Calendar
+namespace RoomieReloaded.Models.Calendar;
+
+public interface ICalendarEvent
 {
-    public interface ICalendarEvent
-    {
-        bool IsPrivate { get; }
+    bool IsPrivate { get; }
 
-        string Id { get; }
+    string Id { get; }
         
-        string Name { get; }
+    string Name { get; }
 
-        string Organizer { get; }
+    string Organizer { get; }
 
-        DateTime From { get; }
+    DateTime From { get; }
 
-        DateTime To { get; }
+    DateTime To { get; }
 
-        [CanBeNull]
-        IChatInfo ChatInfo { get; }
-    }
+    [CanBeNull]
+    IChatInfo ChatInfo { get; }
 }

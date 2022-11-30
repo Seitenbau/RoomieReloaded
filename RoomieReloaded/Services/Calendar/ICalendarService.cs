@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using RoomieReloaded.Models;
-using RoomieReloaded.Models.Calendar;
+﻿using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Services.Rooms;
 
-namespace RoomieReloaded.Services.Calendar
+namespace RoomieReloaded.Services.Calendar;
+
+public interface ICalendarService
 {
-	public interface ICalendarService
-	{
-		Task<IEnumerable<ICalendarEvent>> GetCalendarEventsAsync(IRoom room, DateTime @from, DateTime to);
-	}
+	Task<IEnumerable<ICalendarEvent>> GetCalendarEventsAsync(IRoom room, DateTime @from, DateTime to);
 }

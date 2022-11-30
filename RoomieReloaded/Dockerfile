@@ -1,5 +1,5 @@
 #build image
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 as builder
+FROM mcr.microsoft.com/dotnet/sdk:6.0 as builder
 WORKDIR /etc/apt/apt.conf.d
 COPY ./RoomieReloaded/docker-build-image-apt-get-fix ./99fixbadproxy
 
@@ -19,7 +19,7 @@ RUN /bin/bash -c "dotnet publish -c Release -o /out/"
 
 
 #runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /out .
 ENTRYPOINT ["dotnet", "RoomieReloaded.dll"]

@@ -1,7 +1,6 @@
-﻿namespace RoomieReloaded.Services.Chat
+﻿namespace RoomieReloaded.Services.Chat;
+
+public class RocketChatConfiguration
 {
-    public class RocketChatConfiguration
-    {
-        public string Host { get; set; }
-    }
+    public string Host { get; set; }
 }
