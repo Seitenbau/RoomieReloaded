@@ -12,7 +12,7 @@
     "@types/react-router-redux": "5.0.18",
     "@types/redux-logger": "3.0.7",
     "history": "^4.9.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "office-ui-fabric-react": "7.105.3",
     "react": "16.8.6",
     "react-dom": "16.8.6",
