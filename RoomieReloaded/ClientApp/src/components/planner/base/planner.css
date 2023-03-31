@@ -3,7 +3,6 @@
 	display: table;
     width: 100%;
     height: auto;
-    font-family: Calibri, sans-serif;
     font-size: 14px;
     border-collapse: collapse;
 }
@@ -15,8 +14,9 @@
     display: none;
 }
 .divTableHeading {
-	background-color: #ddd;
 	display: table-header-group;
+    background-color: #EEE;
+    font-weight: bold;
 }
 .divTableCell {
     display: table-cell;
@@ -47,11 +47,6 @@
 }
 .divTableMainHeader.divTableMainHeaderSmall{
     padding: 5px;
-}
-.divTableHeading {
-	background-color: #EEE;
-	display: table-header-group;
-	font-weight: bold;
 }
 .divTableFoot {
 	background-color: #EEE;
@@ -202,7 +197,7 @@
     margin-bottom: 8px;
     margin-left: 20px;
     margin-right: 10px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .categoryMarker{

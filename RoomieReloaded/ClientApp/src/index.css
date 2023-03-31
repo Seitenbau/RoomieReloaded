@@ -1,65 +1,26 @@
-@font-face {
-    font-family: "Segoe UI";
-    font-weight: 200;
-    src: local("Segoe UI Light");
-}
-@font-face {
-    font-family: "Segoe UI";
-    font-weight: 300;
-    src: local("Segoe UI Semilight");
-}
-@font-face {
-    font-family: "Segoe UI";
-    font-weight: 400;
-    src: local("Segoe UI");
-}
-@font-face {
-    font-family: "Segoe UI";
-    font-weight: 600;
-    src: local("Segoe UI Semibold");
-}
-@font-face {
-    font-family: "Segoe UI";
-    font-weight: 700;
-    src: local("Segoe UI Bold");
-}
-@font-face {
-    font-family: "Segoe UI";
-    font-style: italic;
-    font-weight: 400;
-    src: local("Segoe UI Italic");
-}
-@font-face {
-    font-family: "Segoe UI";
-    font-style: italic;
-    font-weight: 700;
-    src: local("Segoe UI Bold Italic");
-}
-
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: black;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 /* Additions */
 .item-data {
     cursor: pointer;
 }
+
 .category-header {
     cursor: pointer;
 }
-/* Theming */
-body {
-    color: black;
-}
+
 .ms-Button.timeFrameNavigation-button {
     background-color: transparent;
 }
