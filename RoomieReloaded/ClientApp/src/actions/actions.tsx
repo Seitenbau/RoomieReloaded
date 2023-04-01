@@ -2,7 +2,6 @@ import {AnyAction} from "redux";
 
 export type AnyValueCreator = (value?: any) => AnyAction;
 export type VoidCreator = () => AnyAction;
-export type VoidFunc = () => void;
 
 /* Common State */
 export interface IRequestState {

@@ -7,7 +7,7 @@ export interface IBootstrapProps extends React.HTMLAttributes<any>, IRequestStat
 }
 
 export interface IBootstrapDispatchProps{
-    initialize:() => Action<any>;
+    initialize:() => Action;
 }
 
 export class BootstrapView extends React.Component<IBootstrapProps & IBootstrapDispatchProps>{
@@ -23,17 +23,17 @@ export class BootstrapView extends React.Component<IBootstrapProps & IBootstrapD
           fetching,
           error,
         } = this.props;
-            
-        return fetching ? (
-            <Spinner />
-        ) : success ? (
-            children
-        ) : error ? (
-            <MessageBar messageBarType={MessageBarType.error}>
-            There was an error retrieving the application data.
-            </MessageBar>
-        ) : (
-            "Something went terribly wrong."
-        );
+
+        if (success) {
+            return fetching ? ( <Spinner/> ) : children;
+        } else {
+            if (error) {
+                return fetching ? (<Spinner/>) : <MessageBar messageBarType={MessageBarType.error}>
+                    There was an error retrieving the application data.
+                </MessageBar>;
+            } else {
+                return fetching ? (<Spinner/>) : "Something went terribly wrong.";
+            }
+        }
     }
 }

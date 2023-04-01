@@ -16,4 +16,4 @@ const mapDispatchToProps = (dispatch: any): IBootstrapDispatchProps => bindActio
     initialize:BootstrapActions.request,
   }, dispatch);
 
-  export const Bootstrap = connect(mapStateToProps, mapDispatchToProps)(BootstrapView);
+export const Bootstrap = connect(mapStateToProps, mapDispatchToProps)(BootstrapView);

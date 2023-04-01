@@ -1,5 +1,5 @@
-import { Planner } from "./base/planner";
-import { getDayOfWeek, Days } from './utility/dateTimeHelper';
+import { Planner } from "./base";
+import { getDayOfWeek, Days } from '../../utility/dateTimeHelper';
 import { IHasDateRange } from './base/plannerTypes';
 import { MainHeaderDefinesViewPartRenderer, IHeaderRenderer } from './base/renderer/headerRenderer';
 
@@ -20,36 +20,6 @@ export class WeekPlanner extends Planner {
             start,
             end
         };
-    }
-
-    getShownViewRange = ():IHasDateRange =>
-    {
-        const{
-            startHour,
-            endHour
-        } = this.props;
-        
-        const lastDayHoursSubtract = 24 - endHour;
-        const viewRange = this.getViewRange();
-
-        return {
-            start:viewRange.start.add(startHour, 'hours'),
-            end:viewRange.end.subtract(lastDayHoursSubtract, 'hours')
-        };
-    }
-
-    getHoursShownPerColumn = ():number =>
-    {
-        const{
-            startHour,
-            endHour
-        } = this.props;
-        return endHour - startHour;
-    }
-
-    getDragIntervalInMinutes():number
-    {
-        return 15;
     }
 
     getViewPartRanges():IHasDateRange[]{
@@ -104,11 +74,7 @@ export class WeekPlanner extends Planner {
             this.getTimeString(endHour === 0 ? 24 : endHour)
         ]
     }
-
-    getSubheadersDefineViewParts():boolean{
-        return false;
-    }
-
+    
     getHeaderRenderer(): IHeaderRenderer{
         return new MainHeaderDefinesViewPartRenderer();
     }

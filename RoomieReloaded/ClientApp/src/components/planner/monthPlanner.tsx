@@ -1,6 +1,6 @@
-import { Planner } from "./base/planner";
-import { IHasDateRange } from './base/plannerTypes';
-import { SubHeaderDefinesViewPartRenderer, IHeaderRenderer } from './base/renderer/headerRenderer';
+import {Planner} from "./base";
+import {IHasDateRange} from './base/plannerTypes';
+import {IHeaderRenderer, SubHeaderDefinesViewPartRenderer} from './base/renderer/headerRenderer';
 
 export  class MonthPlanner extends Planner{
     
@@ -19,36 +19,6 @@ export  class MonthPlanner extends Planner{
             start,
             end
         };
-    }
-
-    getShownViewRange = ():IHasDateRange =>
-    {
-        const{
-            startHour,
-            endHour
-        } = this.props;
-        
-        const lastDayHoursSubtract = 24 - endHour;
-        const viewRange = this.getViewRange();
-
-        return {
-            start:viewRange.start.add(startHour, 'hours'),
-            end:viewRange.end.subtract(lastDayHoursSubtract, 'hours')
-        };
-    }
-
-    getHoursShownPerColumn = ():number =>
-    {
-        const{
-            startHour,
-            endHour
-        } = this.props;
-        return endHour - startHour;
-    }
-
-    getDragIntervalInMinutes():number
-    {
-        return 60;
     }
 
     getViewPartRanges():IHasDateRange[]{
@@ -77,11 +47,9 @@ export  class MonthPlanner extends Planner{
     getHeaderValues():string[] {
         const {date} = this.props;
 
-        const headerStrings : string[] = [
+        return [
             date.format('MMMM YYYY')
         ];
-
-        return headerStrings;
     }
 
     getSubHeaderValues():string[]    
@@ -95,10 +63,6 @@ export  class MonthPlanner extends Planner{
         }
 
         return subHeaderValues;
-    }
-
-    getSubheadersDefineViewParts():boolean{
-        return true;
     }
 
     getHeaderRenderer(): IHeaderRenderer {

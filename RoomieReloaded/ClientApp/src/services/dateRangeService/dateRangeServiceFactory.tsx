@@ -1,4 +1,4 @@
-import { IDateRangeService, DayRangeService, WeekRangeService, MonthRangeService } from './IDateRangeService';
+import { IDateRangeService, DayRangeService, WeekRangeService, MonthRangeService } from './dateRangeService';
 import { CalendarType } from '../../reducers/calendarReducer';
 
 export interface IDateRangeServiceFactory{

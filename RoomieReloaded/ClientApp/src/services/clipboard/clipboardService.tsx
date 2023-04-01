@@ -1,9 +1,3 @@
-
-export function createClipboardService() : IClipboardService
-{
-    return new ClipboardService();
-}
-
 export interface IClipboardService
 {
     copyTextToClipboard(text:string) : void;
@@ -27,16 +21,16 @@ export class ClipboardService implements IClipboardService
     }
 
     private fallbackCopyTextToClipboard = (text:string) : void => 
-    {        
-        var textArea = document.createElement("textarea");
+    {
+        let textArea = document.createElement("textarea");
         textArea.value = text;
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
   
         try {
-            var successful = document.execCommand('copy');
-            var msg = successful ? 'successful' : 'unsuccessful';
+            let successful = document.execCommand('copy');
+            let msg = successful ? 'successful' : 'unsuccessful';
             console.log('Fallback: Copying text command was ' + msg);
         } catch (err) {
             console.error('Fallback: Unable to copy', err);

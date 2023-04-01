@@ -11,8 +11,8 @@ class CookieService implements ICookieService{
 
         const ca = decodedCookie.split(';');
 
-        for(var i = 0; i <ca.length; i++) {
-            var c = ca[i];
+        for(const element of ca) {
+            let c = element;
             while (c.charAt(0) == ' ') {
             c = c.substring(1);
             }
@@ -28,8 +28,7 @@ class CookieService implements ICookieService{
     setCookieValue = (key:string,value:any) : void => {
         const cookieValue = JSON.stringify(value);
         const base64Value = btoa(cookieValue);
-        const cookieString = `${key}=${base64Value};path=/;`
-        document.cookie = cookieString;
+        document.cookie = `${key}=${base64Value};path=/;`;
     }
 }
 

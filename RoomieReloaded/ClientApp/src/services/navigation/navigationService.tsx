@@ -3,11 +3,6 @@ import { getCurrentDateTime } from '../../selectors/calendarSelectors';
 import { RootState } from '../../reducers';
 
 export abstract class NavigationService {
-    navigateToday = ():moment.Moment =>
-    {
-        return moment();
-    }
-
     abstract getNavigationInterval():any;
 
     navigateNext = (state:RootState):moment.Moment =>

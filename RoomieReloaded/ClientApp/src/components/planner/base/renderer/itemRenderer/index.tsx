@@ -1,2 +1,2 @@
 export * from './itemRenderer';
-export * from './DefaultItemRenderer';
+export * from './defaultItemRenderer';
