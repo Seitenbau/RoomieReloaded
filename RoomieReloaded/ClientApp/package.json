@@ -50,6 +50,6 @@
   "devDependencies": {
     "prettier": "^1.18.2",
     "tslint": "^5.18.0",
-    "tslint-react": "^4.0.0"
+    "tslint-react": "^4.1.0"
   }
 }
