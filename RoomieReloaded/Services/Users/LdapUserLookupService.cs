@@ -34,14 +34,15 @@ public class LdapUserLookupService : IUserLookupService
 
     private bool UseLdap()
     {
-        return IsValidLdapConfig();
+        return IsValidLdapConfig() && this._ldapConfiguration.Value!.UseLdap;
     }
 
     private bool IsValidLdapConfig()
     {
-        return _ldapConfiguration?.Value != null && _ldapConfiguration.Value.Validate();
+        return _ldapConfiguration.Value != null && _ldapConfiguration.Value.Validate();
     }
 
+    [NotNull]
     private Task<IUser> SearchOrganizerAsync(Organizer organizer)
     {
         var taskCompletionSource = new TaskCompletionSource<IUser>();
@@ -115,7 +116,7 @@ public class LdapUserLookupService : IUserLookupService
         requestState.SetResult(user);
     }
 
-    private class SearchRequestState : IDisposable
+    private sealed class SearchRequestState : IDisposable
     {
         private readonly TaskCompletionSource<IUser> _taskCompletionSource;
         private readonly Organizer _organizer;
