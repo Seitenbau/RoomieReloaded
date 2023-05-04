@@ -13,7 +13,6 @@
 @font-face {
     font-family: 'Roboto';
     font-weight: 700;
-    src: local('Segoe UI Semibold');
     src: url('../public/fonts/Roboto-Bold.ttf');
 }
 
