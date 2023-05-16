@@ -40,8 +40,8 @@ type NavigationProps = INavigationStateProps & INavigationDispatchProps;
 class NavigationView extends React.Component<NavigationProps, INavigationState> {
     constructor(props: NavigationProps) {
         super(props);
-        var darkMode = this.readDarkMode();
-        var showShareToast = false;
+        let darkMode = this.readDarkMode();
+        let showShareToast = false;
         this.state = { darkMode, showShareToast };
         this.updateBodyClass();
     }
@@ -168,7 +168,7 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
     }
 
     private readDarkMode() {
-        var darkMode = localStorage.getItem( "dark-mode" );
+        let darkMode = localStorage.getItem( "dark-mode" );
         return (darkMode === "on");
     }
 

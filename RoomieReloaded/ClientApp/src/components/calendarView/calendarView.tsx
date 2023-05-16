@@ -13,15 +13,13 @@ export interface ICalendarStateProps extends IPlannerStateProps {
 }
 
 export interface ICalendarDispatchProps extends IPlannerDispatchProps {
-  onShowChooseRooms?: () => Action<any>;
+  onShowChooseRooms?: () => Action;
 }
 
 class CalendarView extends React.Component<CalendarProps> {
   render() {
-    const { onShowChooseRooms } = this.props;
-
-    return (
-      <div>
+      return (
+          <div>
         {this.renderBoard()}
         <div className="additional-row">
           <div className="command-bar">

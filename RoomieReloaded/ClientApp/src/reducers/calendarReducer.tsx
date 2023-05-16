@@ -44,7 +44,6 @@ export const CalendarTypes = Types;
 export const CalendarActions = Creators;
 
 export type CalendarState = Readonly<ILocalState>;
-export type CalendarCreators = Readonly<ILocalCreators>;
 
 const setCalendar = (state: CalendarState, { value }: any) => ({ ...state, currentCalendar: value });
 const setDateTime = (state: CalendarState, { value }: any) => ({ ...state, currentDateTime: value });

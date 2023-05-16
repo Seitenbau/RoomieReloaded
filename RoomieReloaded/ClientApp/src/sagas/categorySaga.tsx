@@ -1,8 +1,7 @@
-import { push } from "react-router-redux";
-import { takeLatest, put, select, call } from "redux-saga/effects";
+import { takeLatest, select, call } from "redux-saga/effects";
 import { getCategoryStates } from "../selectors/categorySelectors";
 import { CategoryTypes, ICategoryState, CategoryStateCookieName } from "../reducers/categoryReducer";
-import { CookieServiceFactory } from "../services/cookies/ICookieService";
+import { CookieServiceFactory } from "../services/cookies/cookieService";
 
 const cookieService = new CookieServiceFactory().create();
 

@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { IPlannerStateProps, IPlannerDispatchProps, IPlannerItem, IPlannerGroup, IHasDateRange } from './plannerTypes';
+import {IHasDateRange, IPlannerDispatchProps, IPlannerGroup, IPlannerItem, IPlannerStateProps} from './plannerTypes';
 import './planner.css';
-import { IHeaderRenderer } from './renderer/headerRenderer';
-import { IItemRenderer, ItemRenderer } from './renderer/itemRenderer';
-import { isItemTouchingRangeStrict, isDateTimeInRange } from '../utility/dateRangeHelper';
-import { isWeekend } from '../utility/dateTimeHelper';
-import { IPlannerItemParentData } from './item/PlannerItemComponent';
-import { Spinner, Icon, GroupFooter } from 'office-ui-fabric-react';
-import { PlannerLane } from './item/PlannerLaneComponent';
+import {IHeaderRenderer} from './renderer/headerRenderer';
+import {IItemRenderer, ItemRenderer} from './renderer/itemRenderer';
+import {isDateTimeInRange, isItemTouchingRangeStrict} from '../utility/dateRangeHelper';
+import {isWeekend} from '../../../utility/dateTimeHelper';
+import {IPlannerItemParentData} from './item/PlannerItemComponent';
+import {Icon, Spinner} from 'office-ui-fabric-react';
+import {PlannerLane} from './item/PlannerLaneComponent';
 import moment from 'moment';
 
 type PlannerProps = IPlannerStateProps & IPlannerDispatchProps;
@@ -161,13 +161,13 @@ export abstract class Planner extends React.Component<PlannerProps>
         {
             let foundLane : IPlannerItem[] | null = null;
 
-            for (let laneIndex = 0; laneIndex < lanes.length; laneIndex++) {
-                const lane = lanes[laneIndex];
+            for (const lane of lanes) {
                 if(this.itemFitsLane(item, lane)){
                     foundLane = lane;
                     break;
                 }
             }
+            
             if(foundLane === null){
                 foundLane = [];                
                 lanes.push(foundLane);
@@ -190,8 +190,8 @@ export abstract class Planner extends React.Component<PlannerProps>
 
     private itemFitsLane(item:IPlannerItem, lane:IPlannerItem[]):boolean
     {
-        for (let index = 0; index < lane.length; index++) {
-            const laneItem = lane[index];
+        for ( const laneItem of lane)
+        {
             if(isItemTouchingRangeStrict(item, laneItem))
             {
                 return false;
@@ -348,8 +348,7 @@ export abstract class Planner extends React.Component<PlannerProps>
     
     private isItemShownInAnyRange = (item:IPlannerItem, ranges:IHasDateRange[]) : boolean =>
     {
-        for (let index = 0; index < ranges.length; index++) {
-            const element = ranges[index];
+        for ( const element of ranges ) {
             if(this.isItemShownInRange(item, element))
             {
                 return true;
@@ -398,8 +397,7 @@ export abstract class Planner extends React.Component<PlannerProps>
         }
 
         // item is shown but started before the current range
-        const result = item.start.isBefore(range.start);
-        return result;
+        return item.start.isBefore(range.start);
     }
 
     getTimeString(hour:number) : string {
@@ -451,8 +449,7 @@ export abstract class Planner extends React.Component<PlannerProps>
             return undefined;
         }
 
-        const rect : DOMRect = parent.getBoundingClientRect();
-        return rect;
+        return parent.getBoundingClientRect();
     }
 
     private getParentWidth = (parentRefKey:string) : number|undefined =>
@@ -462,10 +459,7 @@ export abstract class Planner extends React.Component<PlannerProps>
     }
 
     abstract getDaysToRender():number;
-    abstract getDragIntervalInMinutes():number;
-    abstract getHoursShownPerColumn():number;
     abstract getViewRange():IHasDateRange;
-    abstract getShownViewRange():IHasDateRange;
     abstract getViewPartRanges():IHasDateRange[];
     abstract getHeaderValues():string[];
     abstract getSubHeaderValues():string[];   

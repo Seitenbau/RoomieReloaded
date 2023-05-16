@@ -4,7 +4,7 @@ import { loadPlannerGroups } from "./plannerGroupSaga";
 import { loadPlannerItems } from "./plannerItemsSaga";
 import { CalendarActions } from "../reducers/calendarReducer";
 import moment from "moment";
-import { CookieServiceFactory } from "../services/cookies/ICookieService";
+import { CookieServiceFactory } from "../services/cookies/cookieService";
 import { CategoryStateCookieName, CategoryActions } from "../reducers/categoryReducer";
 import { ParameterService } from "../services/parameter/parameterService";
 

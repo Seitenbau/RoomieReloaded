@@ -10,15 +10,11 @@ export enum Days {
     SUNDAY
 }
 
-export function getDay(dayIndexInWeek:number) : Days {
-
-    while(dayIndexInWeek < 0){
+export function getDay(dayIndexInWeek: number): Days {
+    while (dayIndexInWeek < 0) {
         dayIndexInWeek = dayIndexInWeek + 7;
     }
-
-    const dayIndex = dayIndexInWeek % 7;
-
-    return dayIndex;
+    return dayIndexInWeek % 7;
 }
 
 export function getDayOfCurrentWeek(day:Days) : moment.Moment {
@@ -26,12 +22,8 @@ export function getDayOfCurrentWeek(day:Days) : moment.Moment {
 }
 
 export function getDayOfWeek(day:Days, time:moment.Moment) : moment.Moment {
-
     const weekStart = time.clone().startOf('isoWeek');
-
-    var requestedDay = weekStart.add(day, "days");
-
-    return requestedDay;
+    return weekStart.add(day, "days");
 }
 
 export function isDayOfWeek(day:Days, time:moment.Moment) : boolean {

@@ -57,7 +57,7 @@ export class DataService implements IDataService
     }
 
     private mapEventToPlannerItem = (groupId:string, event:IApiEvent) : IPlannerItem => {
-        var result:IPlannerItem = {
+        let result:IPlannerItem = {
             id: event.id,
             groupId: groupId,
             start: moment(event.start),

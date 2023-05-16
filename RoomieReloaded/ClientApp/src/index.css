@@ -1,65 +1,43 @@
 @font-face {
-    font-family: "Segoe UI";
-    font-weight: 200;
-    src: local("Segoe UI Light");
-}
-@font-face {
-    font-family: "Segoe UI";
-    font-weight: 300;
-    src: local("Segoe UI Semilight");
-}
-@font-face {
-    font-family: "Segoe UI";
+    font-family: 'Roboto';
     font-weight: 400;
-    src: local("Segoe UI");
+    src: url('../public/fonts/Roboto-Regular.ttf');
 }
+
 @font-face {
-    font-family: "Segoe UI";
+    font-family: 'Roboto';
     font-weight: 600;
-    src: local("Segoe UI Semibold");
+    src: url('../public/fonts/Roboto-Medium.ttf');
 }
+
 @font-face {
-    font-family: "Segoe UI";
+    font-family: 'Roboto';
     font-weight: 700;
-    src: local("Segoe UI Bold");
-}
-@font-face {
-    font-family: "Segoe UI";
-    font-style: italic;
-    font-weight: 400;
-    src: local("Segoe UI Italic");
-}
-@font-face {
-    font-family: "Segoe UI";
-    font-style: italic;
-    font-weight: 700;
-    src: local("Segoe UI Bold Italic");
+    src: url('../public/fonts/Roboto-Bold.ttf');
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: black;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
 /* Additions */
 .item-data {
     cursor: pointer;
 }
+
 .category-header {
     cursor: pointer;
 }
-/* Theming */
-body {
-    color: black;
-}
+
 .ms-Button.timeFrameNavigation-button {
     background-color: transparent;
 }
