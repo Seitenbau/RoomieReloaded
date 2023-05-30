@@ -24,7 +24,9 @@ public class Startup
     public void ConfigureServices( [NotNull] IServiceCollection services)
     {
         services.AddMvc(options => options!.EnableEndpointRouting = false);
-        services.AddMemoryCache();
+            
+        services.AddMemoryCache()
+                .AddObservability("RoomieReloaded");
 
         // In production, the React files will be served from this directory
         services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
@@ -40,14 +42,13 @@ public class Startup
 
         ConfigureCors(services);
 
-        services.AddSingleton<IRoomService, RoomService>();
-        services.AddSingleton<IRoomAccessor, RoomAccessor>();
-        services.AddSingleton<ICalendarService, CalendarService>();
-        services.AddSingleton<ICalendarEventFactory, CalendarEventFactory>();
-        services.AddSingleton<IZimbraAdapter, ZimbraAdapter>();
-
-        services.AddSingleton<IChatService, RocketChatService>();
-        services.AddSingleton<IChatMessageService, ChatMessageService>();
+        services.AddSingleton<IRoomService, RoomService>()
+            .AddSingleton<IRoomAccessor, RoomAccessor>()
+            .AddSingleton<ICalendarService, CalendarService>()
+            .AddSingleton<ICalendarEventFactory, CalendarEventFactory>()
+            .AddSingleton<IZimbraAdapter, ZimbraAdapter>()
+            .AddSingleton<IChatService, RocketChatService>()
+            .AddSingleton<IChatMessageService, ChatMessageService>();
 
         BindUserLookupService(services);
 
@@ -91,6 +92,12 @@ public class Startup
         app.UseSpaStaticFiles();
 
         app.UseCors();
+
+        app.UseRouting();
+        app.UseEndpoints(route =>
+        {
+            route.MapObservability();
+        });
 
         app.UseMvc(routes =>
         {
