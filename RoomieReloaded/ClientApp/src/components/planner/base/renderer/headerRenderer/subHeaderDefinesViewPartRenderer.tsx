@@ -9,10 +9,8 @@ export class SubHeaderDefinesViewPartRenderer extends HeaderRenderer {
 
         const headerValue = headerValues[0]; // should be only one here, ignore the rest
             
-        const firstHeaderWidth = 102 * (subHeaderValues.length);
-        
         const headerContents:JSX.Element[] = [
-            this.renderHeaderContent(0, headerValue, firstHeaderWidth)
+            this.renderHeaderContent(0, headerValue, 100)
         ];
         
         const emptyHeaderCount = subHeaderValues.length - 1;
