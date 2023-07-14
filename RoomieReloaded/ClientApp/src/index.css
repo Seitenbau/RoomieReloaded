@@ -49,6 +49,7 @@ code {
 }
 .divTable {
     border: 1px solid #aaa;
+    box-sizing: border-box;
 }
 .divTableHead {
     background-color: #ddd;
@@ -79,6 +80,7 @@ code {
     border-bottom: 1px solid #aaa;
     border-left: 1px solid #aaa;
     border-right: 1px solid #aaa;
+    box-sizing: border-box;
 }
 .boardNavigation-button.boardNavigation-button {
     background-color: #ddd;
