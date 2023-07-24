@@ -23,7 +23,7 @@
     "redux": "4.0.4",
     "redux-logger": "3.0.6",
     "redux-saga": "1.0.5",
-    "reduxsauce": "1.1.0",
+    "reduxsauce": "1.2.1",
     "typescript": "3.4.3",
     "typescript-tslint-plugin": "0.5.4"
   },
