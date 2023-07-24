@@ -22,7 +22,7 @@
     "react-scripts": "5.0.1",
     "redux": "4.0.4",
     "redux-logger": "3.0.6",
-    "redux-saga": "1.0.5",
+    "redux-saga": "1.2.3",
     "reduxsauce": "1.1.0",
     "typescript": "3.4.3",
     "typescript-tslint-plugin": "0.5.4"
