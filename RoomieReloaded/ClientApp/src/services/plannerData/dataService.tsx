@@ -74,10 +74,11 @@ export class DataService implements IDataService
     }
 
     private createTooltip(item: IPlannerItem, event:IApiEvent): string | JSX.Element | undefined {
+        const dateFormatString: string = item.start.isSame(item.end, 'day') ? "HH:mm" : "DD.MM. HH:mm";
         return (<div>
             <div>Organizer: {event.organizer}</div>
-            <div>Start: {item.start.format("HH:mm")}</div>
-            <div>End: {item.end.format("HH:mm")}</div>
+            <div>Start: {item.start.format(dateFormatString)}</div>
+            <div>End: &nbsp;&nbsp;{item.end.format(dateFormatString)}</div>
             <div>{this.renderChatHint(event)}</div>
         </div>);
     }
