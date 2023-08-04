@@ -10,6 +10,7 @@ import { VoidCreator, AnyValueCreator } from '../../actions/actions';
 import { ClipboardService } from '../../services/clipboard/clipboardService';
 import { UrlService } from '../../services/url/urlService';
 import Toast from '../toast/toast';
+import { Tooltip } from 'office-ui-fabric-react';
 
 const clipboardService = new ClipboardService();
 const urlService = new UrlService();
@@ -73,9 +74,11 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                         className="timeFrameNavigation-button next"
                         iconProps={{iconName:'ChevronRightSmall'}} />
                     <CommandBarButton onClick={() => onTodayClick()}
+                        title="zum heutigen Datum springen"
                         className="timeFrameNavigation-button today"
                         iconProps={{iconName:'GotoToday'}} />
                     <DatePicker 
+                        title="Datum wählen"
                         className="timeFrameNavigation-button date"
                         showWeekNumbers={true}
                         showMonthPickerAsOverlay={true}
@@ -86,6 +89,7 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                         allowTextInput={false}
                     />
                     <CommandBarButton onClick={() => this.onShareClick()}
+                        title="Diese Ansicht teilen"
                         className="timeFrameNavigation-button"
                         iconProps={{iconName:'Share'}} />
                     {this.state.showShareToast ?
@@ -94,7 +98,7 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                     }
                 </div>
                 
-                <div className="themeSettings">
+                <div className="themeSettings" title="darkmode an/aus">
                     <Icon iconName="Sunny" className="light-mode-icon" />
                     <Toggle onChange={(event: React.MouseEvent<HTMLElement>, checked?: boolean) => this.onDarkModeChange(checked)} checked={this.state.darkMode} />
                     <Icon iconName="ClearNight" className="dark-mode-icon" />
