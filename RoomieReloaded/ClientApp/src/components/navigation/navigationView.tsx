@@ -10,7 +10,6 @@ import { VoidCreator, AnyValueCreator } from '../../actions/actions';
 import { ClipboardService } from '../../services/clipboard/clipboardService';
 import { UrlService } from '../../services/url/urlService';
 import Toast from '../toast/toast';
-import { Tooltip } from 'office-ui-fabric-react';
 
 const clipboardService = new ClipboardService();
 const urlService = new UrlService();
