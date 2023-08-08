@@ -1,4 +1,4 @@
-import { CalendarType } from '../../utility/dateTimeHelper';
+import { CalendarType } from '../../reducers/calendarReducer';
 import { 
     ITimeFrameTextGenerator, 
     DayTimeFrameTextGenerator, 

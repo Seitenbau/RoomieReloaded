@@ -1,12 +1,11 @@
 import { push } from "react-router-redux";
 import { takeLatest, put, select, call } from "redux-saga/effects";
-import { CalendarTypes, CalendarActions } from "../reducers/calendarReducer";
+import { CalendarTypes, CalendarType, CalendarActions } from "../reducers/calendarReducer";
 import { getCurrentCalendar, getCurrentDateTime } from "../selectors/calendarSelectors";
 import {Moment } from 'moment';
 import { createTimeFrameTextGenerator } from "../services/timeframeText/timeFrameTextGeneratorFactory";
 import { PlannerItemsActions } from "../reducers/plannerItemsReducer";
 import { IParameterService, ParameterService } from "../services/parameter/parameterService";
-import { CalendarType } from "../utility/dateTimeHelper";
 
 const parameterService : IParameterService = new ParameterService();
 

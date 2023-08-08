@@ -1,5 +1,5 @@
-import { CalendarType } from '../../utility/dateTimeHelper';
 import { NavigationService, DayNavigationService, WeekNavigationService, MonthNavigationService } from './navigationService';
+import { CalendarType } from '../../reducers/calendarReducer';
 
 export function createNavigationService(calendar:CalendarType):NavigationService {
     switch(calendar){

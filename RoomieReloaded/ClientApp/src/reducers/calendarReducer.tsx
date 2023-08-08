@@ -2,7 +2,8 @@
 import { createActions, createReducer } from 'reduxsauce';
 import { ISauceTypes } from '.';
 import moment from 'moment';
-import { CalendarType } from '../utility/dateTimeHelper';
+
+export type CalendarType = 'MONTH' | 'WEEK' | 'WORKWEEK' | 'DAY';
 
 const { Types, Creators }: ISauceTypes<ILocalTypes, ILocalCreators> = createActions(
   {
