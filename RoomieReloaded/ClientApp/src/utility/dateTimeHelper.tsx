@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+export type CalendarType = 'MONTH' | 'WEEK' | 'WORKWEEK' | 'DAY';
+
 export enum Days {
     MONDAY = 0,
     TUESDAY,
@@ -34,4 +36,14 @@ export function isDayOfWeek(day:Days, time:moment.Moment) : boolean {
 
 export function isWeekend(time:moment.Moment) : boolean {
     return isDayOfWeek(Days.SATURDAY, time) || isDayOfWeek(Days.SUNDAY, time);
+}
+
+export function getCalendarTypeText(calendarType: CalendarType) {
+    switch(calendarType) {
+        case "DAY": return "Tag";
+        case "MONTH": return "Monat";
+        case "WEEK":
+        case "WORKWEEK": return "Woche";
+        default: return "Not Implemented";
+    }
 }
