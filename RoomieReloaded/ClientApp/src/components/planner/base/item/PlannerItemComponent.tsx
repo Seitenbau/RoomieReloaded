@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { 
     TooltipHost,
-    ITooltipProps,
     getId,
     DirectionalHint
-} from 'office-ui-fabric-react';
-import { FontIcon } from "office-ui-fabric-react/lib/Icon";
-import { IPoint } from 'office-ui-fabric-react/lib/utilities/positioning';
+} from '@fluentui/react';
+import { ITooltipProps } from '@fluentui/react/lib/Tooltip';
+import { FontIcon } from "@fluentui/react/lib/Icon";
 import { 
     IRenderablePlannerItem,
 } from '../planner';
@@ -162,7 +161,7 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         return item.id !== "";
     }
 
-    private getTooltipPosition = (verticalAlign:'top'|'bottom') : IPoint | undefined =>
+    private getTooltipPosition = (verticalAlign:'top'|'bottom') : { x: number; y: number } | undefined =>
     {
         const {
             widthFactor,

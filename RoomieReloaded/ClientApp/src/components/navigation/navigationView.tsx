@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { DefaultButton, CommandBarButton } from 'office-ui-fabric-react/lib/Button';
-import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
+import { DefaultButton, CommandBarButton } from '@fluentui/react/lib/Button';
+import { Toggle } from '@fluentui/react/lib/Toggle';
+import { Icon } from '@fluentui/react/lib/Icon';
 import './navigation.css';
-import { DatePicker, DayOfWeek } from 'office-ui-fabric-react/lib/DatePicker';
+import { DatePicker } from '@fluentui/react/lib/DatePicker';
+import { DayOfWeek } from '@fluentui/react';
 import moment from 'moment';
 import { CalendarType } from '../../reducers/calendarReducer';
 import { VoidCreator, AnyValueCreator } from '../../actions/actions';
