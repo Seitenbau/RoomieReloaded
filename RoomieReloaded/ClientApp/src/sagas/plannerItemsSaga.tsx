@@ -1,7 +1,7 @@
-import { takeLatest, put, call, select, all } from "redux-saga/effects";
+import { takeLatest, put, call, select } from "redux-saga/effects";
 import { PlannerItemsActions, PlannerItemsTypes } from '../reducers/plannerItemsReducer';
 import { getPlannerGroups } from '../selectors/plannerItemSelectors';
-import { IHasDateRange, IPlannerGroup, IPlannerItem } from '../components/planner/base/plannerTypes';
+import { IPlannerGroup, IPlannerItem } from '../components/planner/base/plannerTypes';
 import { setUsersLoadingState } from './plannerGroupSaga';
 import { getCurrentCalendar, getCurrentDateTime } from "../selectors/calendarSelectors";
 import { DateRangeServiceFactory } from "../services/dateRangeService/dateRangeServiceFactory";
@@ -25,27 +25,27 @@ export function* loadPlannerItems() {
 
         const groups: IPlannerGroup[] = yield select(getPlannerGroups);
 
-        const groupPromises = groups.map(group => getRecords(currentDateRange, group));
-        const groupRecords : IPlannerItem[][] = yield all(groupPromises);
+        console.log("groups", groups)
 
-        const allPlannerItems : IPlannerItem[] = [];
-        groupRecords.forEach(plannerItems => allPlannerItems.push(...plannerItems));
+        let records: IPlannerItem[] = [];
 
-        yield put(PlannerItemsActions.updateItems(allPlannerItems));
+        for (let index = 0; index < groups.length; index++) {
+            const group = groups[index];
+
+            try {
+                const groupRecords: IPlannerItem[] = yield call(plannerDataService.getRecords, currentDateRange, group);
+                records = records.concat(groupRecords);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        yield put(PlannerItemsActions.updateItems(records));
+
         yield put(PlannerItemsActions.success());
     } catch (outerException) {
         console.log();
         yield put(PlannerItemsActions.failure());
     }
     yield setUsersLoadingState(false);
-}
-
-function getRecords(currentDateRange: IHasDateRange, group: IPlannerGroup) : Promise<IPlannerItem[]> {
-    try {
-        return plannerDataService.getRecords(currentDateRange, group);
-    } catch (e) {
-        console.log(e);
-        const empty : IPlannerItem[] = [];
-        return new Promise<IPlannerItem[]>( () => empty);
-    }
 }
