@@ -10,10 +10,10 @@
     display: table-row;
     width: 100%;
 }
-.divTableRow:not(.category-header):nth-child(odd) {
+.divTableRow:not(.category-header):nth-child(odd) .divTableCell:not(.weekend) {
     background: #dddddd;
 }
-body.dark-mode .divTableRow:not(.category-header):nth-child(odd) .divTableCell {
+body.dark-mode .divTableRow:not(.category-header):nth-child(odd) .divTableCell:not(.weekend) {
         background: #1f1f1f;
 }
 .divTableRow.hide{
