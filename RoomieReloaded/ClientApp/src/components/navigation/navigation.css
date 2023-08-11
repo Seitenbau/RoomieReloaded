@@ -65,7 +65,8 @@
 
 .ms-DatePicker.timeFrameNavigation-button.date 
 {
-    width: 35px;
+    width: 32px;
+    height: 32px;
 }
 
 .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup
