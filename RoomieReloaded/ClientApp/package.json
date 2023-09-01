@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fluentui/react": "^8.110.12",
     "@types/history": "4.7.2",
     "@types/jest": "24.0.15",
     "@types/node": "12.6.2",
@@ -14,7 +15,6 @@
     "@uifabric/icons": "^7.9.5",
     "history": "^4.9.0",
     "moment": "^2.29.4",
-    "office-ui-fabric-react": "7.105.3",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-redux": "7.1.0",
