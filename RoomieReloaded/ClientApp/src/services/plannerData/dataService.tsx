@@ -8,8 +8,11 @@ export interface IDataService
     getRecords(dateRange:IHasDateRange, group:IPlannerGroup) : Promise<IPlannerItem[]>;
 }
 
+let controller: AbortController;
+
 export class DataService implements IDataService
 {
+
     getGroups = () : Promise<IPlannerGroup[]> => 
     {
         const url:string = 'api/rooms';
@@ -26,11 +29,14 @@ export class DataService implements IDataService
     }
 
     getRecords = (dateRange:IHasDateRange, group:IPlannerGroup) : Promise<IPlannerItem[]> => {
+        if(controller) controller.abort();
+        controller = new AbortController()
+        const signal = controller.signal
 
         const start = this.convertDateToRequestDate(dateRange.start);
         const end = this.convertDateToRequestDate(dateRange.end);
         const url:string = `api/calendar/${group.id}?start=${start}&end=${end}`;
-        return fetch(url)
+        return fetch(url, {signal})
         .then(r => {
                 if(!r.ok){
                     throw new Error(`Unexpected status code of ${r.status} when calling ${r.url}`)
