@@ -8,7 +8,7 @@ export interface IDataService
     getRecords(dateRange:IHasDateRange, group:IPlannerGroup) : Promise<IPlannerItem[]>;
 }
 
-let controller: AbortController;
+let controllers: AbortController[] = [];
 
 export class DataService implements IDataService
 {
@@ -29,9 +29,9 @@ export class DataService implements IDataService
     }
 
     getRecords = (dateRange:IHasDateRange, group:IPlannerGroup) : Promise<IPlannerItem[]> => {
-        if(controller) controller.abort();
-        controller = new AbortController()
-        const signal = controller.signal
+        const currentController = new AbortController()
+        controllers.push(currentController)
+        const signal = currentController.signal
 
         const start = this.convertDateToRequestDate(dateRange.start);
         const end = this.convertDateToRequestDate(dateRange.end);
@@ -45,7 +45,8 @@ export class DataService implements IDataService
                 return r;
             })
             .then(r => r.json())
-            .then(json => json.events.map((event:IApiEvent) => this.mapEventToPlannerItem(json.groupId, event)));
+            .then(json => json.events.map((event:IApiEvent) => this.mapEventToPlannerItem(json.groupId, event)))
+        .finally(() => controllers = controllers.filter(item => item !== currentController));
     }
 
     private mapRoomToPlannerGroup = (room:IApiRoom) : IPlannerGroup => {
@@ -94,6 +95,12 @@ export class DataService implements IDataService
             return null;
         }
         return <div className="tooltip-text-seperator" >{event.chatHint}</div>;
+    }
+}
+
+export function abortRequests() {
+    if(controllers) {
+        controllers.map(controller => controller.abort());
     }
 }
 
