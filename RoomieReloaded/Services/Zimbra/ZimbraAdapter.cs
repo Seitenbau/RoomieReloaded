@@ -15,6 +15,8 @@ public class ZimbraAdapter : IZimbraAdapter
 
     [NotNull] private readonly ILogger<ZimbraAdapter> _logger;
 
+    private IHttpContextAccessor _httpContextAccessor;
+
     public ZimbraAdapter(
         [NotNull] HttpClient httpClient,
         [NotNull] IOptions<ZimbraAdapterConfiguration> configuration,
@@ -35,7 +37,15 @@ public class ZimbraAdapter : IZimbraAdapter
 
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("Authorization", CreateBasicAuthHeader());
-        var response = await this._httpClient.SendAsync(request);
+
+        CancellationToken cancellationToken = _httpContextAccessor.HttpContext.RequestAborted;
+
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return string.Empty;
+        }
+
+        var response = await this._httpClient.SendAsync(request, cancellationToken);
 
         try
         {
