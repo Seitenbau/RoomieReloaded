@@ -296,6 +296,12 @@ body.dark-mode [class^="dayCell-"] {
     color: rgba(255,255,255,0.6);
 }
 
+body.dark-mode [class^="headerContainer-"] {
+    background-color: #018786;
+}
+
+body.dark-mode [class^="dayCell-"]
+
 body.dark-mode .ms-DatePicker .ms-DatePicker-day--outfocus .ms-DatePicker-day-button {
     color: rgba(255,255,255,0.38);
 }
@@ -316,12 +322,26 @@ body.dark-mode [class^="headerIconButton-"] {
 }
 
 body.dark-mode [class^="headerIconButton-"]:hover {
-    color: blue;
+    color: #03dac6;
     background-color: #333;
 }
 
+body.dark-mode .ms-CalendarDay-dayIsToday {
+    background-color: inherit !important;
+    border: 2px solid #bb86fc;
+    color: black;
+}
+
 body.dark-mode .ms-CalendarDay-daySelected {
-    background-color: red !important;
+    background-color: #03dac6 !important;
+
+    span {
+        color: black !important;
+    }
+
+    .ms-CalendarDay-dayIsToday {
+        border: 0px;
+    }
 }
 
 body.dark-mode .ms-DatePicker-prevMonth:hover,
@@ -383,7 +403,7 @@ body.dark-mode [class^="monthAndYear-"] {
 }
 
 body.dark-mode [class^="monthAndYear-"]:hover {
-    color: blue;
+    color: #03dac6;
     background-color: #333;
 }
 

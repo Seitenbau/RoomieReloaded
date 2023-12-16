@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Calendar from './components/calendarView';
 import Navigation from './components/navigation';
+import CalendarView from './components/calendarView/calendarView';
 
 const App: React.FC = () => {
   return (
