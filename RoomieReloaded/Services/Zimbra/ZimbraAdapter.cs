@@ -20,11 +20,13 @@ public class ZimbraAdapter : IZimbraAdapter
     public ZimbraAdapter(
         [NotNull] HttpClient httpClient,
         [NotNull] IOptions<ZimbraAdapterConfiguration> configuration,
-        [NotNull] ILogger<ZimbraAdapter> logger)
+        [NotNull] ILogger<ZimbraAdapter> logger,
+        IHttpContextAccessor httpContextAccessor)
     {
         this._httpClient = httpClient;
         this._configuration = configuration;
         this._logger = logger;
+        this._httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<string> GetRoomCalendarAsIcsStringAsync(string room, DateTime start, DateTime end)
