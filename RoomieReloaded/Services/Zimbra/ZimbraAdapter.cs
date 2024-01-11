@@ -15,14 +15,18 @@ public class ZimbraAdapter : IZimbraAdapter
 
     [NotNull] private readonly ILogger<ZimbraAdapter> _logger;
 
+    private IHttpContextAccessor _httpContextAccessor;
+
     public ZimbraAdapter(
         [NotNull] HttpClient httpClient,
         [NotNull] IOptions<ZimbraAdapterConfiguration> configuration,
-        [NotNull] ILogger<ZimbraAdapter> logger)
+        [NotNull] ILogger<ZimbraAdapter> logger,
+        IHttpContextAccessor httpContextAccessor)
     {
         this._httpClient = httpClient;
         this._configuration = configuration;
         this._logger = logger;
+        this._httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<string> GetRoomCalendarAsIcsStringAsync(string room, DateTime start, DateTime end)
@@ -35,7 +39,15 @@ public class ZimbraAdapter : IZimbraAdapter
 
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("Authorization", CreateBasicAuthHeader());
-        var response = await this._httpClient.SendAsync(request);
+
+        CancellationToken cancellationToken = _httpContextAccessor.HttpContext.RequestAborted;
+
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return string.Empty;
+        }
+
+        var response = await this._httpClient.SendAsync(request, cancellationToken);
 
         try
         {
