@@ -6,7 +6,7 @@ import {IItemRenderer, ItemRenderer} from './renderer/itemRenderer';
 import {isDateTimeInRange, isItemTouchingRangeStrict} from '../utility/dateRangeHelper';
 import {isWeekend} from '../../../utility/dateTimeHelper';
 import {IPlannerItemParentData} from './item/PlannerItemComponent';
-import {Icon, Spinner} from 'office-ui-fabric-react';
+import {Icon, Spinner} from '@fluentui/react';
 import {PlannerLane} from './item/PlannerLaneComponent';
 import moment from 'moment';
 

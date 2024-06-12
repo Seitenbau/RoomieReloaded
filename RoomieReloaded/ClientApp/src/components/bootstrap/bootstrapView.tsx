@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Action } from 'redux';
-import {MessageBar, MessageBarType, Spinner} from "office-ui-fabric-react";
+import {MessageBar, MessageBarType, Spinner} from "@fluentui/react";
 import { IRequestState } from "../../actions/actions";
 
 export interface IBootstrapProps extends React.HTMLAttributes<any>, IRequestState {

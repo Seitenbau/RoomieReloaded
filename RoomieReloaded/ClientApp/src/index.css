@@ -187,7 +187,7 @@ body.dark-mode .boardNavigation-button:hover.boardNavigation-button:hover {
 body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date {
     width: auto;
 }
-body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup {
+.ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup {
     border-radius: 0;
     min-width: 40px;
     justify-content: center;
@@ -195,7 +195,6 @@ body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fiel
 }
 body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup i {
     color: rgba(255,255,255,0.87);
-    right: auto;
 }
 body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date.is-open .ms-TextField-fieldGroup,
 body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup:hover {
@@ -227,7 +226,7 @@ body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:hover .ms-DatePick
 body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:active .ms-DatePicker-day-button {
     color: rgba(255,255,255,0.87);
 }
-body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-field {
+.ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-field {
     display: none;
 }
 body.dark-mode .ms-Button.timeFrameNavigation-button {
