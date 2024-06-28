@@ -1,4 +1,3 @@
-﻿using System.Globalization;
 using System.Net;
 using Microsoft.Extensions.Options;
 using RoomieReloaded.Configuration;
@@ -35,7 +34,7 @@ public class ZimbraAdapter : IZimbraAdapter
         var endString = GetDateString(end);
 
         var baseUrl = _configuration.Value?.GetBaseUri();
-        var url = $"{baseUrl}/{room}?fmt=ics&start={startString}&end={endString}&auth=ba";
+        var url = $"{baseUrl}/{room}?fmt=ics&start={startString}&end={endString}&";
 
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("Authorization", CreateBasicAuthHeader());
