@@ -14,7 +14,7 @@
     "@uifabric/icons": "^7.9.5",
     "history": "^4.9.0",
     "moment": "^2.29.4",
-    "office-ui-fabric-react": "7.105.3",
+    "office-ui-fabric-react": "7.204.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-redux": "7.1.0",
