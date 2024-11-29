@@ -10,7 +10,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-redux": "7.1.1",
     "@types/react-router-redux": "5.0.18",
-    "@types/redux-logger": "3.0.7",
+    "@types/redux-logger": "3.0.10",
     "@uifabric/icons": "^7.9.5",
     "history": "^4.9.0",
     "moment": "^2.29.4",
