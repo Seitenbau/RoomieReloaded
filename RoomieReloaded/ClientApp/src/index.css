@@ -250,6 +250,11 @@ body.dark-mode .ms-DatePicker-day-button {
 body.dark-mode [class^="dayButton-"] {
     color: rgba(255,255,255,0.87);
 }
+body.dark-mode [class^="dayButton-"]:hover {
+    color: #ffffffde;
+    background-color: #018786;
+}
+
 
 body.dark-mode .ms-DatePicker-monthAndYear {
     color: rgba(255,255,255,0.87);
@@ -294,6 +299,11 @@ body.dark-mode .ms-DatePicker .ms-DatePicker-weekday {
 
 body.dark-mode [class^="dayCell-"] {
     color: rgba(255,255,255,0.6);
+}
+
+body.dark-mode td[class^="dayCell-"]:hover {
+    color: #ffffffde;
+    background-color: #018786;
 }
 
 body.dark-mode [class^="headerContainer-"] {
@@ -417,6 +427,14 @@ body.dark-mode .ms-DatePicker-goToday:active {
 }
 body.dark-mode .ms-DatePicker-goToday[disabled] {
     color: rgba(255,255,255,0.38);
+}
+
+body.dark-mode [class^="itemButton-"] {
+    color: white;
+}
+body.dark-mode [class^="itemButton-"]:hover {
+    background-color: #444;
+  color: #03dac6;
 }
 
 /***********/
