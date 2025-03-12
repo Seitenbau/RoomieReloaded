@@ -89,6 +89,9 @@ code {
 .draggable-planner-item {
     background-color: #7a8cb6;
 }
+.error-planner-item {
+    background-color: #f77c7c;
+}
 /*************/
 /* DARK MODE */
 /*************/
@@ -140,8 +143,17 @@ body.dark-mode .draggable-planner-item {
     background-color: #3a2d49;
     color: #BB86FC;
 }
+
+body.dark-mode .draggable-planner-item.error-planner-item {
+    background-color: #750101;
+}
+
 body.dark-mode .draggable-planner-item:hover {
     background-color: #413550;
+    color: #fff;
+}
+body.dark-mode .draggable-planner-item.error-planner-item:hover {
+    background-color: #750101;
     color: #fff;
 }
 body.dark-mode .item-border {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { 
+import {
     TooltipHost,
     ITooltipProps,
     getId,
@@ -7,50 +7,45 @@ import {
 } from 'office-ui-fabric-react';
 import { FontIcon } from "office-ui-fabric-react/lib/Icon";
 import { IPoint } from 'office-ui-fabric-react/lib/utilities/positioning';
-import { 
+import {
     IRenderablePlannerItem,
 } from '../planner';
 
-export interface IPlannerItemParentData
-{
-    parentName:string,
-    getParentWidth:()  => number | undefined,
+export interface IPlannerItemParentData {
+    parentName: string,
+    getParentWidth: () => number | undefined,
 }
 
-export interface IPlannerItemComponentProps
-{
-    item:IRenderablePlannerItem,
-    itemIndex:number,
-    parentIndex:number,
-    leftFactor:number,
-    widthFactor:number,
-    isStartingInView:boolean,
-    isEndingInView:boolean,
-    parentDataFactory: (index:number) => IPlannerItemParentData,
+export interface IPlannerItemComponentProps {
+    item: IRenderablePlannerItem,
+    itemIndex: number,
+    parentIndex: number,
+    leftFactor: number,
+    widthFactor: number,
+    isStartingInView: boolean,
+    isEndingInView: boolean,
+    parentDataFactory: (index: number) => IPlannerItemParentData,
 }
 
-interface IPlannerItemComponentState
-{
-    isTooltipVisible:boolean,
-    rerender:boolean,
+interface IPlannerItemComponentState {
+    isTooltipVisible: boolean,
+    rerender: boolean,
 }
 
-class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, IPlannerItemComponentState>
-{
+class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, IPlannerItemComponentState> {
     private tooltipId = getId("tooltip");
     private calloutTarget = React.createRef<HTMLSpanElement>();
 
-    constructor(props:IPlannerItemComponentProps)
-    {
+    constructor(props: IPlannerItemComponentProps) {
         super(props);
 
         this.state = {
-            isTooltipVisible:false,
-            rerender:false,
+            isTooltipVisible: false,
+            rerender: false,
         }
     }
-    
-    render(){
+
+    render() {
         const {
             itemIndex,
             isStartingInView,
@@ -66,64 +61,61 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
         const key = `item-${itemIndex}`;
 
-        const itemElement =  <div
-                className={innerContainerClassName} 
-                style={cssPositionProperties}
-                onDoubleClick={this.onDoubleClick} >
-                <span ref={this.calloutTarget}>
-                    <span
-                        ref="item"
-                        aria-describedby={this.state.isTooltipVisible ? this.tooltipId : undefined}          
-                        className={"draggable-planner-item item-border" + (isStartingInView ? " start-item" : "") + (isEndingInView ? " end-item" : "") }
-                        style={cssPresentationProperties}
-                    >
-                        <div className="item-data">
-                            <div className="plannertext item item-text" 
-                                style={cssTextProperties}
-                            >
-                                {this.getItemText()}
-                            </div>
+        const itemElement = <div
+            className={innerContainerClassName}
+            style={cssPositionProperties}
+            onDoubleClick={this.onDoubleClick} >
+            <span ref={this.calloutTarget}>
+                <span
+                    ref="item"
+                    aria-describedby={this.state.isTooltipVisible ? this.tooltipId : undefined}
+                    className={"draggable-planner-item item-border" + (isStartingInView ? " start-item" : "") + (isEndingInView ? " end-item" : "") + (this.props.item.hasError ? " error-planner-item" : "")}
+                    style={cssPresentationProperties}
+                >
+                    <div className="item-data">
+                        <div className="plannertext item item-text"
+                            style={cssTextProperties}
+                        >
+                            {this.getItemText()}
                         </div>
-                    </span>
+                    </div>
                 </span>
+            </span>
         </div>;
 
         return (
             <div className={outerContainerClassName} key={key} >
                 <TooltipHost
                     id={this.tooltipId}
-                    calloutProps={{ 
+                    calloutProps={{
                         directionalHint: DirectionalHint.topCenter,
                         directionalHintFixed: true,
                         target: this.getTooltipPosition('top')
                     }}
-                    onTooltipToggle={(isVisible:boolean) => this.setState({...this.state, isTooltipVisible:isVisible})}
+                    onTooltipToggle={(isVisible: boolean) => this.setState({ ...this.state, isTooltipVisible: isVisible })}
                     hidden={!this.showTooltip()}
                     content="placeholder"
                     tooltipProps={{
-                        onRenderContent:this.onRenderTooltip
+                        onRenderContent: this.onRenderTooltip
                     }} >
-                        {itemElement}
+                    {itemElement}
                 </TooltipHost>
             </div>);
     }
 
-    componentDidMount = () =>
-    {
+    componentDidMount = () => {
         // trigger rerender on size change
         window.addEventListener("resize", this.triggerRerender);
         // trigger rerender when parent fires the event
         window.addEventListener("rerenderItem", this.triggerRerender);
     }
 
-    componentWillUnmount = () =>
-    {
-        window.removeEventListener("resize", this.triggerRerender); 
+    componentWillUnmount = () => {
+        window.removeEventListener("resize", this.triggerRerender);
         window.removeEventListener("rerenderItem", this.triggerRerender);
     }
 
-    private getItemText = (): string | JSX.Element =>
-    {
+    private getItemText = (): string | JSX.Element => {
         const item = this.props.item;
         if (item.isPrivate) {
             return <div className="item-data">
@@ -134,13 +126,12 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         return item.title;
     }
 
-    private onDoubleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) : void => 
-    {
+    private onDoubleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
         const item = this.props.item;
 
         console.log("Trying to open chat with organizer");
 
-        if(item.chatLink === undefined || item.chatLink === null) {
+        if (item.chatLink === undefined || item.chatLink === null) {
             console.log("No chat link found");
             return;
         }
@@ -148,13 +139,11 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         window.open(item.chatLink);
     }
 
-    private triggerRerender = () =>
-    {
-        this.setState({...this.state, rerender:!this.state.rerender});
+    private triggerRerender = () => {
+        this.setState({ ...this.state, rerender: !this.state.rerender });
     }
 
-    private showTooltip = () : boolean =>
-    {
+    private showTooltip = (): boolean => {
         const {
             item
         } = this.props;
@@ -162,22 +151,21 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         return item.id !== "";
     }
 
-    private getTooltipPosition = (verticalAlign:'top'|'bottom') : IPoint | undefined =>
-    {
+    private getTooltipPosition = (verticalAlign: 'top' | 'bottom'): IPoint | undefined => {
         const {
             widthFactor,
             parentIndex,
             parentDataFactory,
         } = this.props;
 
-        const item : any = this.refs.item;
+        const item: any = this.refs.item;
 
-        if(item === undefined){
+        if (item === undefined) {
             // not rendered yet
             return undefined;
         }
 
-        const itemRect : DOMRect = item.getBoundingClientRect();
+        const itemRect: DOMRect = item.getBoundingClientRect();
 
         const parentData = parentDataFactory(parentIndex);
 
@@ -185,39 +173,37 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
         const width = parentWidth * widthFactor;
 
-        const tooltipLeft = itemRect.left + width/2;
+        const tooltipLeft = itemRect.left + width / 2;
         const tooltipYCoord = verticalAlign === 'top' ? itemRect.top : itemRect.bottom;
 
         return {
-            x:tooltipLeft,
-            y:tooltipYCoord
+            x: tooltipLeft,
+            y: tooltipYCoord
         };
     }
 
-    private onRenderTooltip = 
-        (props?: ITooltipProps, defaultRender?: (props?: ITooltipProps) => JSX.Element | null) : JSX.Element | null =>
-    {
-        const {
-            item
-        } = this.props;
+    private onRenderTooltip =
+        (props?: ITooltipProps, defaultRender?: (props?: ITooltipProps) => JSX.Element | null): JSX.Element | null => {
+            const {
+                item
+            } = this.props;
 
-        const type = typeof(item.tooltip);
+            const type = typeof (item.tooltip);
 
-        const element = type === "string"
-            ? <div>{item.tooltip}</div>
-            : item.tooltip as JSX.Element || null;
+            const element = type === "string"
+                ? <div>{item.tooltip}</div>
+                : item.tooltip as JSX.Element || null;
 
-        return element;
-    }
-    
-    private createCssPresentationProperties() 
-    {
+            return element;
+        }
+
+    private createCssPresentationProperties() {
         const {
             item,
         } = this.props;
 
         const cssProperties: React.CSSProperties = {
-            opacity: 1,  
+            opacity: 1,
         };
 
         if (item.color) {
@@ -226,15 +212,14 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
         return cssProperties;
     }
-    
-    private createCssPositionProperties() 
-    {
+
+    private createCssPositionProperties() {
         const {
             leftFactor,
             parentIndex,
             parentDataFactory,
         } = this.props;
-        
+
         const parentWidth = parentDataFactory(parentIndex).getParentWidth();
 
         const actualLeft = this.getActualValue(parentWidth, leftFactor);
@@ -242,32 +227,29 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
         const cssProperties: React.CSSProperties = {
             width: actualWidth,
-            left: actualLeft,       
+            left: actualLeft,
         };
         return cssProperties;
     }
 
-    private createCssTextProperties()
-    {
+    private createCssTextProperties() {
         let textWidth = this.canCalculateAbsoluteWidth()
             ? (this.getAbsoluteWidth() - 10) + "px"
             : "100%";
 
         const cssProperties: React.CSSProperties = {
-            width: textWidth,    
+            width: textWidth,
         };
         return cssProperties;
     }
 
-    private getActualWidth = () : string =>
-    {
+    private getActualWidth = (): string => {
         return this.canCalculateAbsoluteWidth()
             ? this.getAbsoluteWidth() + "px"
             : this.getRelativeWidth() + "%";
     }
 
-    private canCalculateAbsoluteWidth = () : boolean =>
-    {
+    private canCalculateAbsoluteWidth = (): boolean => {
         const {
             parentDataFactory,
         } = this.props;
@@ -275,12 +257,11 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         return parentDataFactory(firstColumnIndex).getParentWidth() !== undefined;
     }
 
-    private getFullCoveredColumnWidth = () : number =>
-    {
+    private getFullCoveredColumnWidth = (): number => {
         const {
             parentDataFactory,
         } = this.props;
-        
+
         const firstColumnIndex = this.getFirstColumnIndex();
         const lastColumnIndex = this.getLastColumnIndex();
 
@@ -288,14 +269,13 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
         for (let index = firstColumnIndex + 1; index < lastColumnIndex; index++) {
             const parentData = parentDataFactory(index);
-            width = width + (parentData.getParentWidth() || 0);            
+            width = width + (parentData.getParentWidth() || 0);
         }
 
         return width;
     }
 
-    private getWidthInLastColumn = () : number =>
-    {
+    private getWidthInLastColumn = (): number => {
         const {
             leftFactor,
             widthFactor,
@@ -305,8 +285,7 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         const firstColumnIndex = this.getFirstColumnIndex();
         const lastColumnIndex = this.getLastColumnIndex();
         let lastColumnCovered = leftFactor + widthFactor + firstColumnIndex - lastColumnIndex;
-        if(lastColumnCovered < 0)
-        {
+        if (lastColumnCovered < 0) {
             return 0;
         }
 
@@ -315,21 +294,19 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         return lastColumnWidth * lastColumnCovered;
     }
 
-    private hasMoreThanOneColumnCovered = () : boolean =>
-    {
+    private hasMoreThanOneColumnCovered = (): boolean => {
         const {
             leftFactor,
             widthFactor,
         } = this.props;
 
-        if(widthFactor > 1){
+        if (widthFactor > 1) {
             return true;
         }
         return leftFactor + widthFactor > 1;
     }
 
-    private getWidthInFirstColumn = () : number =>
-    {
+    private getWidthInFirstColumn = (): number => {
         const {
             leftFactor,
             widthFactor,
@@ -344,25 +321,22 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
 
         const firstColumnParent = parentDataFactory(firstColumnIndex);
         let firstColumnWidth = firstColumnParent.getParentWidth() || 0;
-        if(firstColumnWidth < 0)
-        {
+        if (firstColumnWidth < 0) {
             firstColumnWidth = 0;
         }
         return firstColumnWidth * firstColumnCovered;
     }
 
-    private getFirstColumnIndex = () : number =>
-    {
+    private getFirstColumnIndex = (): number => {
         return this.props.parentIndex;
     }
 
-    private getLastColumnIndex = () : number =>
-    {
+    private getLastColumnIndex = (): number => {
         const {
             leftFactor,
             widthFactor,
         } = this.props
-        
+
         const firstColumnIndex = this.getFirstColumnIndex();
 
         const coveredColumnsCountStartingAtCurrentColumn = leftFactor + widthFactor;
@@ -371,8 +345,7 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         return firstColumnIndex + relativIndexOfLastColumn;
     }
 
-    private getAbsoluteWidth = () : number => 
-    {
+    private getAbsoluteWidth = (): number => {
         let actualWidth = this.getWidthInFirstColumn();
         if (this.hasMoreThanOneColumnCovered()) {
             actualWidth = actualWidth + this.getWidthInLastColumn();
@@ -381,15 +354,14 @@ class PlannerItemComponent extends React.Component<IPlannerItemComponentProps, I
         return actualWidth;
     }
 
-    private getRelativeWidth = () : number => 
-    {
+    private getRelativeWidth = (): number => {
         return this.props.widthFactor * 100;
     }
 
-    private getActualValue(parentWidth:number|undefined, value:number){
+    private getActualValue(parentWidth: number | undefined, value: number) {
         return parentWidth === undefined
-        ? value * 100 + "%"
-        : ((parentWidth) * value) + "px"
+            ? value * 100 + "%"
+            : ((parentWidth) * value) + "px"
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
+using Microsoft.AspNetCore.Mvc;
 using RoomieReloaded.Models.Calendar;
 using RoomieReloaded.Services.CalendarEvents;
 using RoomieReloaded.Services.Rooms;
@@ -21,16 +22,36 @@ public class CalendarService : ICalendarService
     public async Task<IEnumerable<ICalendarEvent>> GetCalendarEventsAsync(IRoom room, DateTime @from,
         DateTime to)
     {
-        var icsCalendar = await _zimbraAdapter.GetRoomCalendarAsIcsStringAsync(room.Name, from, to);
+        var icsResult = await _zimbraAdapter.GetRoomCalendarAsIcsStringAsync(room.Name, from, to);
 
-        var calendar = Ical.Net.Calendar.Load(icsCalendar);
+        if (icsResult is OkObjectResult okResult && okResult.Value is string icsCalendar)
+        {
+            var calendar = Ical.Net.Calendar.Load(icsCalendar);
 
-        var eventOccurrences = calendar?.GetOccurrences(from, to)
-            ?.ToList() ?? new List<Occurrence>();
+            var eventOccurrences = calendar?.GetOccurrences(from, to)
+                ?.ToList() ?? new List<Occurrence>();
 
-        var events = await CreateCalendarEventsAsync(eventOccurrences, room);
+            var events = await CreateCalendarEventsAsync(eventOccurrences, room);
 
-        return events;
+            return events;
+        }
+        if (icsResult is BadRequestObjectResult badRequestObjectResult && badRequestObjectResult.Value is string error)
+        {
+            var calendarEvent = new CalendarEvent
+            {
+                Start = new CalDateTime(@from),
+                End = new CalDateTime(to),
+                Summary = "Beispielereignis",
+                Description = "Dies ist ein Beispiel für ein einzelnes Event",
+            };
+            var calendar = new Ical.Net.Calendar();
+            calendar.Events.Add(calendarEvent);
+
+            var events = calendar?.GetOccurrences(from, to).Select(occ =>_calendarEventFactory.CreateErrorEvent(occ, room, error));
+
+            return events.ToArray();
+        }
+        return null;
     }
 
     private async Task<IEnumerable<ICalendarEvent>> CreateCalendarEventsAsync(
@@ -48,7 +69,7 @@ public class CalendarService : ICalendarService
 
     private bool IsValidOccurence(Occurrence occurrence, IRoom room)
     {
-        var calendarEvent = (CalendarEvent) occurrence.Source;
+        var calendarEvent = (CalendarEvent)occurrence.Source;
 
         if (calendarEvent.Organizer?.Value.AbsoluteUri.Contains(room.Mail) ?? false)
         {

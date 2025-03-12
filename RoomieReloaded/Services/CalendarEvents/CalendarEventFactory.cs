@@ -34,10 +34,18 @@ public class CalendarEventFactory : ICalendarEventFactory
             ? new PrivateEventUser()
             : await GetUser(calendarEvent);
 
-        var eventOccurence = new IcalCalendarEventOccurence(occurrence, isPrivateEvent, room.ShowSubject);
+        var eventOccurence = new IcalCalendarEventOccurence(occurrence, isPrivateEvent, room.ShowSubject, false);
         var chatInfo = await _chatService.GetChatInfoAsync(user, eventOccurence);
 
         return new RoomieCalendarEvent(user, eventOccurence, chatInfo);
+    }
+
+    public ICalendarEvent CreateErrorEvent(Occurrence occurrence, IRoom room, string error)
+    {
+        var eventOccurence = new IcalCalendarEventOccurence(occurrence, false, room.ShowSubject, true);
+
+        var myevent = new RoomieCalendarEvent(new ErrorEventUser(error), eventOccurence, null);
+        return myevent;
     }
 
     private async Task<IUser> GetUser(CalendarEvent calendarEvent)
@@ -74,5 +82,16 @@ public class CalendarEventFactory : ICalendarEventFactory
         public string FirstName { get; } = string.Empty;
         public string UserName { get; } = string.Empty;
         public string MailAddress { get; } = string.Empty;
+        public bool HasError { get; } = false;
+    }
+
+    private class ErrorEventUser : IUser
+    {
+        public ErrorEventUser(string name) {DisplayName = name;}
+        public string DisplayName { get;} = "Error";
+        public string FirstName { get; } = string.Empty;
+        public string UserName { get; } = string.Empty;
+        public string MailAddress { get; } = string.Empty;
+        public bool HasError { get; } = true;
     }
 }
