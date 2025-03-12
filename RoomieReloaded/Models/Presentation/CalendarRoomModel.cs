@@ -42,6 +42,8 @@ public class CalendarEventModel
 
     public bool IsPrivate { get; private set; }
 
+    public bool HasError { get; private set; }
+
     public static CalendarEventModel FromCalendarEvent([NotNull] ICalendarEvent ev)
     {
         if (ev == null)
@@ -59,7 +61,8 @@ public class CalendarEventModel
             ChatWithOrganizerLink = ev.ChatInfo?.ChatWithOrganizerLink,
             ChatMessage = ev.ChatInfo?.ChatMessage,
             ChatHint = ev.ChatInfo?.ChatHint,
-            IsPrivate = ev.IsPrivate
+            IsPrivate = ev.IsPrivate,
+            HasError = ev.HasError
         };
     }
 }

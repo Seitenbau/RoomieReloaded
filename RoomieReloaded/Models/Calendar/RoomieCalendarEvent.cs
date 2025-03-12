@@ -26,6 +26,8 @@ public class RoomieCalendarEvent : ICalendarEvent
 
     public string Organizer => _organizer.DisplayName;
 
+    public bool HasError => _occurence.HasError;
+
     public DateTime From => _occurence.From;
 
     public DateTime To => _occurence.To;

@@ -72,7 +72,8 @@ export class DataService implements IDataService
             title: event.name || event.organizer,
             chatLink: event.chatWithOrganizerLink,
             chatMessage: event.chatMessage,
-            isPrivate: event.isPrivate
+            isPrivate: event.isPrivate,
+            hasError: event.hasError
         };
 
         result.tooltip = this.createTooltip(result, event);
@@ -123,5 +124,6 @@ interface IApiEvent
     chatWithOrganizerLink?:string,
     chatMessage?:string,
     chatHint?: string,
-    isPrivate:boolean
+    isPrivate:boolean,
+    hasError:boolean
 }
