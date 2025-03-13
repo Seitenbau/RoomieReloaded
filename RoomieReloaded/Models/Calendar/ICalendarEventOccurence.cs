@@ -13,4 +13,6 @@ public interface ICalendarEventOccurence
     DateTime From { get; }
 
     DateTime To { get; }
+
+    bool HasError {get;}
 }
