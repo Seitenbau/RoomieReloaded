@@ -306,8 +306,22 @@ body.dark-mode td[class^="dayCell-"]:hover {
     background-color: #018786;
 }
 
-body.dark-mode [class^="headerContainer-"] {
-    background-color: #018786;
+body.dark-mode [class^="currentItemButton-"] {
+    color: white;
+}
+
+body.dark-mode [class^="currentItemButton-"]:hover {
+    background-color: #444; 
+  color: #03dac6;
+}
+
+body.dark-mode [class^="navigationButton-"] {
+    color: white;
+}
+
+body.dark-mode [class^="navigationButton-"]:hover {
+    background-color: #444; 
+  color: #03dac6;
 }
 
 body.dark-mode [class^="dayCell-"]
