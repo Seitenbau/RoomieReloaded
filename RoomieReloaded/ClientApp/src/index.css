@@ -243,19 +243,6 @@ body.dark-mode .ms-DatePicker-callout .ms-Callout-main {
     background-color: #333;
 }
 
-/* remove */
-body.dark-mode .ms-DatePicker-day-button {
-    color: rgba(255,255,255,0.87);
-}
-body.dark-mode [class^="dayButton-"] {
-    color: rgba(255,255,255,0.87);
-}
-body.dark-mode [class^="dayButton-"]:hover {
-    color: #ffffffde;
-    background-color: #018786;
-}
-
-
 body.dark-mode .ms-DatePicker-monthAndYear {
     color: rgba(255,255,255,0.87);
 }
@@ -283,16 +270,6 @@ body.dark-mode [class^="weekNumberCell-"] {
     color: rgba(255,255,255,0.6);
     border-right: 1px solid #666;
     background-color: #333;
-}
-
-/* remove */
-body.dark-mode .ms-DatePicker .ms-DatePicker-weekNumbers {
-    color: rgba(255,255,255,0.6);
-    border-right: 1px solid #666;
-}
-/* remove me */
-body.dark-mode .ms-DatePicker .ms-DatePicker-weekday {
-    color: rgba(255,255,255,0.6);
 }
 
 /* dayCell-147 weekDayLabelCell-150 */
