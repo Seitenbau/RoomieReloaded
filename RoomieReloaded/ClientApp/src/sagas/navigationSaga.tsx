@@ -2,11 +2,12 @@ import { takeLatest, put, call, select } from "redux-saga/effects";
 import { NavigationTypes } from '../reducers/navigationReducer';
 import { getCurrentCalendar } from '../selectors/calendarSelectors';
 import moment from 'moment';
-import { CalendarType, CalendarActions } from "../reducers/calendarReducer";
+import { CalendarActions } from "../reducers/calendarReducer";
 import { NavigationService } from "../services/navigation/navigationService";
 import { RootState } from "../reducers";
 import { createNavigationService } from "../services/navigation/navigationServiceFactory";
 import { store } from "..";
+import { CalendarType } from "../utility/dateTimeHelper";
 
 export function* navigationSaga(){
     yield takeLatest(NavigationTypes.ON_MONTH_CLICK, () => navigateCalendar('MONTH'));

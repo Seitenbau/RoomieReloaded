@@ -5,7 +5,7 @@ import { IHasDateRange, IPlannerGroup, IPlannerItem } from '../components/planne
 import { setUsersLoadingState } from './plannerGroupSaga';
 import { getCurrentCalendar, getCurrentDateTime } from "../selectors/calendarSelectors";
 import { DateRangeServiceFactory } from "../services/dateRangeService/dateRangeServiceFactory";
-import { IDataService, DataService } from "../services/plannerData/dataService";
+import { IDataService, DataService, abortRequests } from "../services/plannerData/dataService";
 
 const dateRangeServiceFactory = new DateRangeServiceFactory();
 const plannerDataService: IDataService = new DataService();
@@ -25,6 +25,7 @@ export function* loadPlannerItems() {
 
         const groups: IPlannerGroup[] = yield select(getPlannerGroups);
 
+        abortRequests();
         const groupPromises = groups.map(group => getRecords(currentDateRange, group));
         const groupRecords : IPlannerItem[][] = yield all(groupPromises);
 

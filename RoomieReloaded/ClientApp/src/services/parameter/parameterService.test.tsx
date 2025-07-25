@@ -1,7 +1,7 @@
 import moment from "moment";
-import { CalendarType } from "../../reducers/calendarReducer";
 import { IUrlService } from "../url/urlService";
 import { IParameterService, ParameterService } from "./parameterService";
+import { CalendarType } from "../../utility/dateTimeHelper";
 
 describe('Getting and setting calendar', () => {
     it('day', () => {

@@ -6,11 +6,11 @@ import './navigation.css';
 import { DatePicker } from '@fluentui/react/lib/DatePicker';
 import { DayOfWeek } from '@fluentui/react';
 import moment from 'moment';
-import { CalendarType } from '../../reducers/calendarReducer';
 import { VoidCreator, AnyValueCreator } from '../../actions/actions';
 import { ClipboardService } from '../../services/clipboard/clipboardService';
 import { UrlService } from '../../services/url/urlService';
 import Toast from '../toast/toast';
+import { CalendarType, getCalendarTypeText } from '../../utility/dateTimeHelper';
 
 const clipboardService = new ClipboardService();
 const urlService = new UrlService();
@@ -66,17 +66,23 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                 <div className="timeFrameNavigation" >
                     <CommandBarButton onClick={() => onPreviousTimeFrameClick()}
                         className="timeFrameNavigation-button previous"
-                        iconProps={{iconName:'ChevronLeftSmall'}} />
+                        iconProps={{iconName:'ChevronLeftSmall'}} 
+                        title={this.getPrevButtonText(activeCalendar)}
+                        />
                     <div className="timeFrameNavigation-text">
                         {currentTimeFrameText}
                     </div>
                     <CommandBarButton onClick={() => onNextTimeFrameClick()}
                         className="timeFrameNavigation-button next"
-                        iconProps={{iconName:'ChevronRightSmall'}} />
+                        iconProps={{iconName:'ChevronRightSmall'}} 
+                        title={this.getNextButtonText(activeCalendar)}
+                        />
                     <CommandBarButton onClick={() => onTodayClick()}
+                        title="Zum heutigen Datum springen"
                         className="timeFrameNavigation-button today"
                         iconProps={{iconName:'GotoToday'}} />
                     <DatePicker 
+                        title="Datum wählen"
                         className="timeFrameNavigation-button date"
                         showWeekNumbers={true}
                         showMonthPickerAsOverlay={true}
@@ -87,6 +93,7 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                         allowTextInput={false}
                     />
                     <CommandBarButton onClick={() => this.onShareClick()}
+                        title="Diese Ansicht teilen"
                         className="timeFrameNavigation-button"
                         iconProps={{iconName:'Share'}} />
                     {this.state.showShareToast ?
@@ -95,7 +102,7 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                     }
                 </div>
                 
-                <div className="themeSettings">
+                <div className="themeSettings" title="Darkmode an/aus">
                     <Icon iconName="Sunny" className="light-mode-icon" />
                     <Toggle onChange={(event: React.MouseEvent<HTMLElement>, checked?: boolean) => this.onDarkModeChange(checked)} checked={this.state.darkMode} />
                     <Icon iconName="ClearNight" className="dark-mode-icon" />
@@ -122,6 +129,16 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
         const buttonClass = `${defaultClass} ${buttonCalendar.toLowerCase()}${activeBoardClassName}`;
     
         return buttonClass;
+    }
+
+    private getPrevButtonText(activeCalendar: CalendarType):string {
+        if(activeCalendar === "WEEK") return "Vorherige " + getCalendarTypeText(activeCalendar);
+        return "Vorheriger " + getCalendarTypeText(activeCalendar)
+    }
+
+    private getNextButtonText(activeCalendar: CalendarType):string {
+        if(activeCalendar === "WEEK") return "Nächste " + getCalendarTypeText(activeCalendar);
+        return "Nächster " + getCalendarTypeText(activeCalendar)
     }
     
     private formatDate(date?:Date):string{

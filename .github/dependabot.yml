@@ -7,16 +7,18 @@ version: 2
 updates:
   - package-ecosystem: "docker"
     directory: "/RoomieReloaded/ClientApp"
+    target-branch: "develop"
     schedule:
       interval: "monthly"
 
   - package-ecosystem: "nuget"
     directory: "/RoomieReloaded"
+    target-branch: "develop"
     schedule:
       interval: "monthly"
      
   - package-ecosystem: "npm"
     directory: "/RoomieReloaded/ClientApp"
+    target-branch: "develop"
     schedule:
       interval: "monthly"
- 

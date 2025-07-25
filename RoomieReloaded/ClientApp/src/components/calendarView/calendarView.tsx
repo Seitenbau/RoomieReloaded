@@ -1,9 +1,9 @@
 import './calendarView.css';
 import * as React from 'react';
-import { CalendarType } from '../../reducers/calendarReducer';
 import { Action } from 'redux';
 import { IPlannerStateProps, IPlannerDispatchProps } from '../planner/base/plannerTypes';
 import { MonthPlanner, WeekPlanner, DayPlanner } from '../planner';
+import { CalendarType } from '../../utility/dateTimeHelper';
 
 export type CalendarProps = ICalendarStateProps & ICalendarDispatchProps;
 

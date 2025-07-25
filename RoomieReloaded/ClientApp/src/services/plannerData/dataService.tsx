@@ -8,8 +8,11 @@ export interface IDataService
     getRecords(dateRange:IHasDateRange, group:IPlannerGroup) : Promise<IPlannerItem[]>;
 }
 
+let controllers: AbortController[] = [];
+
 export class DataService implements IDataService
 {
+
     getGroups = () : Promise<IPlannerGroup[]> => 
     {
         const url:string = 'api/rooms';
@@ -26,11 +29,14 @@ export class DataService implements IDataService
     }
 
     getRecords = (dateRange:IHasDateRange, group:IPlannerGroup) : Promise<IPlannerItem[]> => {
+        const currentController = new AbortController()
+        controllers.push(currentController)
+        const signal = currentController.signal
 
         const start = this.convertDateToRequestDate(dateRange.start);
         const end = this.convertDateToRequestDate(dateRange.end);
         const url:string = `api/calendar/${group.id}?start=${start}&end=${end}`;
-        return fetch(url)
+        return fetch(url, {signal})
         .then(r => {
                 if(!r.ok){
                     throw new Error(`Unexpected status code of ${r.status} when calling ${r.url}`)
@@ -39,7 +45,8 @@ export class DataService implements IDataService
                 return r;
             })
             .then(r => r.json())
-            .then(json => json.events.map((event:IApiEvent) => this.mapEventToPlannerItem(json.groupId, event)));
+            .then(json => json.events.map((event:IApiEvent) => this.mapEventToPlannerItem(json.groupId, event)))
+        .finally(() => controllers = controllers.filter(item => item !== currentController));
     }
 
     private mapRoomToPlannerGroup = (room:IApiRoom) : IPlannerGroup => {
@@ -65,7 +72,8 @@ export class DataService implements IDataService
             title: event.name || event.organizer,
             chatLink: event.chatWithOrganizerLink,
             chatMessage: event.chatMessage,
-            isPrivate: event.isPrivate
+            isPrivate: event.isPrivate,
+            hasError: event.hasError
         };
 
         result.tooltip = this.createTooltip(result, event);
@@ -91,6 +99,12 @@ export class DataService implements IDataService
     }
 }
 
+export function abortRequests() {
+    if(controllers) {
+        controllers.map(controller => controller.abort());
+    }
+}
+
 interface IApiRoom
 {
     name:string,
@@ -110,5 +124,6 @@ interface IApiEvent
     chatWithOrganizerLink?:string,
     chatMessage?:string,
     chatHint?: string,
-    isPrivate:boolean
+    isPrivate:boolean,
+    hasError:boolean
 }

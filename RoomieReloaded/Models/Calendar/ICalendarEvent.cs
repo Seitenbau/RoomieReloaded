@@ -6,6 +6,8 @@ public interface ICalendarEvent
 {
     bool IsPrivate { get; }
 
+    bool HasError { get; }
+
     string Id { get; }
         
     string Name { get; }

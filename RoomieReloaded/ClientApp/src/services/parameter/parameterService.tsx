@@ -1,6 +1,7 @@
 import moment, { Moment } from "moment"
-import { CalendarType } from "../../reducers/calendarReducer"
+
 import { IUrlService, UrlService } from "../url/urlService";
+import { CalendarType } from "../../utility/dateTimeHelper";
 
 export interface IParameterService
 {
