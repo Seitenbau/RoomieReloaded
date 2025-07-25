@@ -1,4 +1,4 @@
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType } from '@fluentui/react';
 import React from 'react';
 import './toast.css'
 
