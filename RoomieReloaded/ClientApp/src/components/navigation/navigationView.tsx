@@ -60,6 +60,8 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
             currentTimeFrame,
             activeCalendar
         } = this.props;
+    const formatDate = (date:any) => moment(date).format('de'); // 'L' für lokales Datumsformat
+
 
         return (
             <div className="navigation" >
@@ -83,11 +85,11 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
                         iconProps={{iconName:'GotoToday'}} />
                     <DatePicker 
                         title="Datum wählen"
+                        formatDate={formatDate}
                         className="timeFrameNavigation-button date"
                         showWeekNumbers={true}
                         showMonthPickerAsOverlay={true}
                         firstDayOfWeek={DayOfWeek.Monday}
-                        formatDate={this.formatDate}
                         onSelectDate={(date?:Date | null) => this.onSelectDate(date, onTimeFrameSelected)}
                         value={currentTimeFrame.toDate()}
                         allowTextInput={false}
