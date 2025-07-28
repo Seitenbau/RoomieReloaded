@@ -199,7 +199,7 @@ body.dark-mode .boardNavigation-button:hover.boardNavigation-button:hover {
 body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date {
     width: auto;
 }
-body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup {
+.ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup {
     border-radius: 0;
     min-width: 40px;
     justify-content: center;
@@ -207,7 +207,6 @@ body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fiel
 }
 body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup i {
     color: rgba(255,255,255,0.87);
-    right: auto;
 }
 body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date.is-open .ms-TextField-fieldGroup,
 body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-fieldGroup:hover {
@@ -239,7 +238,7 @@ body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:hover .ms-DatePick
 body.dark-mode .ms-DatePicker-day.ms-DatePicker-dayBackground:active .ms-DatePicker-day-button {
     color: rgba(255,255,255,0.87);
 }
-body.dark-mode .ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-field {
+.ms-DatePicker.timeFrameNavigation-button.date .ms-TextField-field {
     display: none;
 }
 body.dark-mode .ms-Button.timeFrameNavigation-button {
@@ -255,9 +254,7 @@ body.dark-mode .ms-Button.timeFrameNavigation-button:hover .ms-Button-icon {
 body.dark-mode .ms-DatePicker-callout .ms-Callout-main {
     background-color: #333;
 }
-body.dark-mode .ms-DatePicker-day-button {
-    color: rgba(255,255,255,0.87);
-}
+
 body.dark-mode .ms-DatePicker-monthAndYear {
     color: rgba(255,255,255,0.87);
 }
@@ -280,25 +277,78 @@ body.dark-mode .ms-DatePicker .ms-DatePicker-day--today {
 body.dark-mode .ms-DatePicker .ms-DatePicker-day--highlighted .ms-DatePicker-day--today {
     border: 0 none;
 }
-body.dark-mode .ms-DatePicker .ms-DatePicker-weekNumbers {
+
+body.dark-mode [class^="weekNumberCell-"] {
     color: rgba(255,255,255,0.6);
     border-right: 1px solid #666;
+    background-color: #333;
 }
-body.dark-mode .ms-DatePicker .ms-DatePicker-weekday {
+
+/* dayCell-147 weekDayLabelCell-150 */
+
+body.dark-mode [class^="dayCell-"] {
     color: rgba(255,255,255,0.6);
 }
+
+body.dark-mode td[class^="dayCell-"]:hover {
+    color: #ffffffde;
+    background-color: #018786;
+}
+
+body.dark-mode [class^="currentItemButton-"] {
+    color: white;
+}
+
+body.dark-mode [class^="currentItemButton-"]:hover {
+    background-color: #444; 
+  color: #03dac6;
+}
+
+body.dark-mode [class^="navigationButton-"] {
+    color: white;
+}
+
+body.dark-mode [class^="navigationButton-"]:hover {
+    background-color: #444; 
+  color: #03dac6;
+}
+
+body.dark-mode [class^="dayCell-"]
+
 body.dark-mode .ms-DatePicker .ms-DatePicker-day--outfocus .ms-DatePicker-day-button {
     color: rgba(255,255,255,0.38);
 }
 body.dark-mode .ms-DatePicker .ms-DatePicker-day--outfocus.ms-DatePicker-day--highlighted .ms-DatePicker-day-button {
     color: #121212;
 }
-body.dark-mode .ms-DatePicker-prevMonth {
+
+body.dark-mode [class^="headerIconButton-"] {
     color: rgba(255,255,255,0.87);
 }
-body.dark-mode .ms-DatePicker-nextMonth {
-    color: rgba(255,255,255,0.87);
+
+body.dark-mode [class^="headerIconButton-"]:hover {
+    color: #03dac6;
+    background-color: #333;
 }
+
+body.dark-mode .ms-CalendarDay-dayIsToday {
+    background-color: inherit !important;
+    border: 2px solid #bb86fc;
+    color: black;
+}
+
+body.dark-mode .ms-CalendarDay-daySelected {
+    background-color: #03dac6 !important;
+
+    span {
+        color: black !important;
+    }
+
+    .ms-CalendarDay-dayIsToday {
+        border: 0px;
+    }
+}
+
 body.dark-mode .ms-DatePicker-prevMonth:hover,
 body.dark-mode .ms-DatePicker-prevMonth:active {
     background-color: #444;
@@ -342,10 +392,30 @@ body.dark-mode .ms-DatePicker-nextYear:active {
     background-color: #444;
     color: #03dac6;
 }
-body.dark-mode .ms-DatePicker-header {
+
+body.dark-mode .js-goToday {
+    color: hsla(0,0%,100%,.87);
+}
+
+body.dark-mode .js-goToday:hover {
+    color: #03dac6;
+    background-color: #333;
+}
+
+body.dark-mode [class^="header-"] {
     justify-content: space-between;
     border-bottom: 1px solid #666;
 }
+
+body.dark-mode [class^="monthAndYear-"] {
+    color: hsla(0,0%,100%,.87);
+}
+
+body.dark-mode [class^="monthAndYear-"]:hover {
+    color: #03dac6;
+    background-color: #333;
+}
+
 body.dark-mode .ms-DatePicker-goToday {
     color: rgba(255,255,255,0.87);
 }
@@ -356,6 +426,14 @@ body.dark-mode .ms-DatePicker-goToday:active {
 }
 body.dark-mode .ms-DatePicker-goToday[disabled] {
     color: rgba(255,255,255,0.38);
+}
+
+body.dark-mode [class^="itemButton-"] {
+    color: white;
+}
+body.dark-mode [class^="itemButton-"]:hover {
+    background-color: #444;
+  color: #03dac6;
 }
 
 /***********/
