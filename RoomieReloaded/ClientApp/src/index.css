@@ -402,9 +402,9 @@ body.dark-mode .js-goToday:hover {
     background-color: #333;
 }
 
-body.dark-mode [class^="header-"] {
-    justify-content: space-between;
-    border-bottom: 1px solid #666;
+body.dark-mode [class^="root-"] body.dark-mode [class^="header-"] {
+        justify-content: space-between;
+        border-bottom: 1px solid #666;
 }
 
 body.dark-mode [class^="monthAndYear-"] {
