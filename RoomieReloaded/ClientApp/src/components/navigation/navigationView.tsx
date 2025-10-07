@@ -1,39 +1,38 @@
 import * as React from 'react';
-import { DefaultButton, CommandBarButton } from '@fluentui/react/lib/Button';
-import { Toggle } from '@fluentui/react/lib/Toggle';
-import { Icon } from '@fluentui/react/lib/Icon';
+import { DefaultButton, CommandBarButton, Icon, Toggle } from '@fluentui/react';
 import './navigation.css';
-import { DatePicker } from '@fluentui/react/lib/DatePicker';
-import { DayOfWeek } from '@fluentui/react';
+import { DatePicker, DayOfWeek } from "@fluentui/react";
 import moment from 'moment';
 import { VoidCreator, AnyValueCreator } from '../../actions/actions';
 import { ClipboardService } from '../../services/clipboard/clipboardService';
 import { UrlService } from '../../services/url/urlService';
 import Toast from '../toast/toast';
 import { CalendarType, getCalendarTypeText } from '../../utility/dateTimeHelper';
+import { DayPickerStrings } from '../../utility/DayPickerStrings';
+
 
 const clipboardService = new ClipboardService();
 const urlService = new UrlService();
 
-export interface INavigationState{
+export interface INavigationState {
     darkMode: boolean;
     showShareToast: boolean;
 }
 
-export interface INavigationStateProps{
-    currentTimeFrameText:string;
-    currentTimeFrame:moment.Moment,
-    activeCalendar:CalendarType;
+export interface INavigationStateProps {
+    currentTimeFrameText: string;
+    currentTimeFrame: moment.Moment,
+    activeCalendar: CalendarType;
 }
 
-export interface INavigationDispatchProps{
-    onMonthClick:VoidCreator,
-    onWeekClick:VoidCreator,
-    onDayClick:VoidCreator,
-    onNextTimeFrameClick:VoidCreator,
-    onPreviousTimeFrameClick:VoidCreator,
-    onTodayClick:VoidCreator,
-    onTimeFrameSelected:AnyValueCreator;
+export interface INavigationDispatchProps {
+    onMonthClick: VoidCreator,
+    onWeekClick: VoidCreator,
+    onDayClick: VoidCreator,
+    onNextTimeFrameClick: VoidCreator,
+    onPreviousTimeFrameClick: VoidCreator,
+    onTodayClick: VoidCreator,
+    onTimeFrameSelected: AnyValueCreator;
 }
 
 type NavigationProps = INavigationStateProps & INavigationDispatchProps;
@@ -47,8 +46,8 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
         this.updateBodyClass();
     }
 
-    render(){
-        const{
+    render() {
+        const {
             onMonthClick,
             onWeekClick,
             onDayClick,
@@ -60,50 +59,50 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
             currentTimeFrame,
             activeCalendar
         } = this.props;
-    const formatDate = (date:any) => moment(date).format('de'); // 'L' für lokales Datumsformat
-
+        const formatDate = (date: any) => moment(date).format('de'); // 'L' für lokales Datumsformat
 
         return (
             <div className="navigation" >
                 <div className="timeFrameNavigation" >
                     <CommandBarButton onClick={() => onPreviousTimeFrameClick()}
                         className="timeFrameNavigation-button previous"
-                        iconProps={{iconName:'ChevronLeftSmall'}} 
+                        iconProps={{ iconName: 'ChevronLeftSmall' }}
                         title={this.getPrevButtonText(activeCalendar)}
-                        />
+                    />
                     <div className="timeFrameNavigation-text">
                         {currentTimeFrameText}
                     </div>
                     <CommandBarButton onClick={() => onNextTimeFrameClick()}
                         className="timeFrameNavigation-button next"
-                        iconProps={{iconName:'ChevronRightSmall'}} 
+                        iconProps={{ iconName: 'ChevronRightSmall' }}
                         title={this.getNextButtonText(activeCalendar)}
-                        />
+                    />
                     <CommandBarButton onClick={() => onTodayClick()}
                         title="Zum heutigen Datum springen"
                         className="timeFrameNavigation-button today"
-                        iconProps={{iconName:'GotoToday'}} />
-                    <DatePicker 
+                        iconProps={{ iconName: 'GotoToday' }} />
+                    <DatePicker
                         title="Datum wählen"
                         formatDate={formatDate}
+                        strings={DayPickerStrings}
                         className="timeFrameNavigation-button date"
                         showWeekNumbers={true}
                         showMonthPickerAsOverlay={true}
                         firstDayOfWeek={DayOfWeek.Monday}
-                        onSelectDate={(date?:Date | null) => this.onSelectDate(date, onTimeFrameSelected)}
+                        onSelectDate={(date?: Date | null) => this.onSelectDate(date, onTimeFrameSelected)}
                         value={currentTimeFrame.toDate()}
                         allowTextInput={false}
                     />
                     <CommandBarButton onClick={() => this.onShareClick()}
                         title="Diese Ansicht teilen"
                         className="timeFrameNavigation-button"
-                        iconProps={{iconName:'Share'}} />
+                        iconProps={{ iconName: 'Share' }} />
                     {this.state.showShareToast ?
-                        <Toast message="Link wurde in die Zwischenablage kopiert" /> 
+                        <Toast message="Link wurde in die Zwischenablage kopiert" />
                         : null
                     }
                 </div>
-                
+
                 <div className="themeSettings" title="Darkmode an/aus">
                     <Icon iconName="Sunny" className="light-mode-icon" />
                     <Toggle onChange={(event: React.MouseEvent<HTMLElement>, checked?: boolean) => this.onDarkModeChange(checked)} checked={this.state.darkMode} />
@@ -124,35 +123,35 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
         )
     }
 
-    private getButtonClassName(buttonCalendar:CalendarType, activeCalendar:CalendarType) : string {
+    private getButtonClassName(buttonCalendar: CalendarType, activeCalendar: CalendarType): string {
         const defaultClass = "boardNavigation-button";
         const activeBoardClassName = buttonCalendar === activeCalendar ? " boardNavigation-button-activated" : "";
-    
+
         const buttonClass = `${defaultClass} ${buttonCalendar.toLowerCase()}${activeBoardClassName}`;
-    
+
         return buttonClass;
     }
 
-    private getPrevButtonText(activeCalendar: CalendarType):string {
-        if(activeCalendar === "WEEK") return "Vorherige " + getCalendarTypeText(activeCalendar);
+    private getPrevButtonText(activeCalendar: CalendarType): string {
+        if (activeCalendar === "WEEK") return "Vorherige " + getCalendarTypeText(activeCalendar);
         return "Vorheriger " + getCalendarTypeText(activeCalendar)
     }
 
-    private getNextButtonText(activeCalendar: CalendarType):string {
-        if(activeCalendar === "WEEK") return "Nächste " + getCalendarTypeText(activeCalendar);
+    private getNextButtonText(activeCalendar: CalendarType): string {
+        if (activeCalendar === "WEEK") return "Nächste " + getCalendarTypeText(activeCalendar);
         return "Nächster " + getCalendarTypeText(activeCalendar)
     }
-    
-    private formatDate(date?:Date):string{
-        if(date === undefined){
+
+    private formatDate(date?: Date): string {
+        if (date === undefined) {
             return "";
         }
         const selectedDate = moment(date);
         return selectedDate.format("DD.MM.YYYY");
     }
-    
-    private onSelectDate(date:Date | undefined | null, updateFunc:AnyValueCreator){
-        if(date === null || date === undefined){
+
+    private onSelectDate(date: Date | undefined | null, updateFunc: AnyValueCreator) {
+        if (date === null || date === undefined) {
             return;
         }
         const selectedDate = moment(date);
@@ -163,20 +162,20 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
         const url = urlService.getFullUrl();
         clipboardService.copyTextToClipboard(url);
 
-        this.setState({showShareToast: true});
+        this.setState({ showShareToast: true });
 
         setTimeout(() => {
-            this.setState({showShareToast: false});
+            this.setState({ showShareToast: false });
         }, 3000);
     }
 
     private onDarkModeChange(checked?: boolean) {
-        this.setState( 
+        this.setState(
             state => ({ darkMode: checked || false }),
             () => {
                 this.updateBodyClass();
                 this.storeDarkMode();
-            } );
+            });
     }
 
     private updateBodyClass() {
@@ -188,7 +187,7 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
     }
 
     private readDarkMode() {
-        let darkMode = localStorage.getItem( "dark-mode" );
+        let darkMode = localStorage.getItem("dark-mode");
         return (darkMode === "on");
     }
 
@@ -196,7 +195,7 @@ class NavigationView extends React.Component<NavigationProps, INavigationState> 
         if (this.state.darkMode) {
             localStorage.setItem("dark-mode", "on");
         } else {
-            localStorage.setItem( "dark-mode", "off");
+            localStorage.setItem("dark-mode", "off");
         }
     }
 }
