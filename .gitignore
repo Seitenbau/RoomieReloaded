@@ -265,3 +265,4 @@ RoomieReloaded/appsettings.local.json
 /RoomieReloaded/ClientApp/dist
 /RoomieReloaded/ClientApp/.vscode
 /RoomieReloaded/ClientApp/dist
+packages-microsoft-prod.deb
