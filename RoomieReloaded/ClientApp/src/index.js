@@ -7,6 +7,9 @@ import { Provider } from 'react-redux';
 import configureStore from './store';
 import { Bootstrap } from './components/bootstrap';
 import { initializeIcons } from '@uifabric/icons';
+import moment from 'moment';
+import 'moment/locale/de';
+
 
 //load icon fonts from local directory. if new icons should be used, it may be required to copy the fonts from /node_modules/@uifabric/icons/fonts to /public/icons/fonts
 // maybe add a build step to copy fonts automatically
@@ -24,6 +27,8 @@ const render = (Component) => {
         document.getElementById('root')
     );
 };
+moment.locale("de");
+
 
 render(App);
 
