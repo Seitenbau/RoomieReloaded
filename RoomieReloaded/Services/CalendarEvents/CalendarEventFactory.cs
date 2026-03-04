@@ -27,14 +27,17 @@ public class CalendarEventFactory : ICalendarEventFactory
     public async Task<ICalendarEvent> CreateFromOccurenceAsync(Occurrence occurrence, IRoom room)
     {
         LogOccurence(occurrence);
-        var calendarEvent = (CalendarEvent) occurrence.Source;
+        var calendarEvent = (CalendarEvent)occurrence.Source;
         var isPrivateEvent = IsPrivateEvent(calendarEvent);
 
         var user = isPrivateEvent
             ? new PrivateEventUser()
             : await GetUser(calendarEvent);
 
-        var eventOccurence = new IcalCalendarEventOccurence(occurrence, isPrivateEvent, room.ShowSubject, false);
+        var sentByParam = calendarEvent.Organizer?.Parameters?.FirstOrDefault(p => p.Name.Equals("SENT-BY", StringComparison.OrdinalIgnoreCase));
+        var sentBy = sentByParam?.Value ?? "Keine Information";
+
+        var eventOccurence = new IcalCalendarEventOccurence(occurrence, isPrivateEvent, room.ShowSubject, false, sentBy);
         var chatInfo = await _chatService.GetChatInfoAsync(user, eventOccurence);
 
         return new RoomieCalendarEvent(user, eventOccurence, chatInfo);
@@ -42,7 +45,7 @@ public class CalendarEventFactory : ICalendarEventFactory
 
     public ICalendarEvent CreateErrorEvent(Occurrence occurrence, IRoom room, string error)
     {
-        var eventOccurence = new IcalCalendarEventOccurence(occurrence, false, room.ShowSubject, true);
+        var eventOccurence = new IcalCalendarEventOccurence(occurrence, false, room.ShowSubject, true, null);
 
         var myevent = new RoomieCalendarEvent(new ErrorEventUser(error), eventOccurence, null);
         return myevent;
@@ -61,7 +64,7 @@ public class CalendarEventFactory : ICalendarEventFactory
 
     private void LogOccurence(Occurrence occurence)
     {
-        var calendarEvent = (CalendarEvent) occurence.Source;
+        var calendarEvent = (CalendarEvent)occurence.Source;
         LogOccurence(calendarEvent, occurence);
     }
 
@@ -87,8 +90,8 @@ public class CalendarEventFactory : ICalendarEventFactory
 
     private class ErrorEventUser : IUser
     {
-        public ErrorEventUser(string name) {DisplayName = name;}
-        public string DisplayName { get;} = "Error";
+        public ErrorEventUser(string name) { DisplayName = name; }
+        public string DisplayName { get; } = "Error";
         public string FirstName { get; } = string.Empty;
         public string UserName { get; } = string.Empty;
         public string MailAddress { get; } = string.Empty;
