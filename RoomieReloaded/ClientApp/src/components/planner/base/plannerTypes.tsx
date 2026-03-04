@@ -17,7 +17,8 @@ export interface IPlannerItem extends IHasDateRange {
     chatLink?:string,
     chatMessage?: string,
     isPrivate:boolean,
-    hasError:boolean
+    hasError:boolean,
+    sentBy:String
 }
 
 export interface IPlannerGroup{

@@ -15,4 +15,6 @@ public interface ICalendarEventOccurence
     DateTime To { get; }
 
     bool HasError {get;}
+
+    string SentBy {get;}
 }
