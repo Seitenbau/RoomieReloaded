@@ -44,6 +44,8 @@ public class CalendarEventModel
 
     public bool HasError { get; private set; }
 
+    public string SentBy { get; private set; }
+
     public static CalendarEventModel FromCalendarEvent([NotNull] ICalendarEvent ev)
     {
         if (ev == null)
@@ -62,7 +64,8 @@ public class CalendarEventModel
             ChatMessage = ev.ChatInfo?.ChatMessage,
             ChatHint = ev.ChatInfo?.ChatHint,
             IsPrivate = ev.IsPrivate,
-            HasError = ev.HasError
+            HasError = ev.HasError,
+            SentBy = ev.SentBy
         };
     }
 }

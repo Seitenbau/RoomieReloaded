@@ -28,6 +28,8 @@ public class RoomieCalendarEvent : ICalendarEvent
 
     public bool HasError => _occurence.HasError;
 
+    public string SentBy => _occurence.SentBy;
+
     public DateTime From => _occurence.From;
 
     public DateTime To => _occurence.To;
