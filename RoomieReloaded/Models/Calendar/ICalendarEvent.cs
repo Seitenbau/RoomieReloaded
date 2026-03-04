@@ -8,8 +8,10 @@ public interface ICalendarEvent
 
     bool HasError { get; }
 
+    string SentBy { get; }
+
     string Id { get; }
-        
+
     string Name { get; }
 
     string Organizer { get; }
