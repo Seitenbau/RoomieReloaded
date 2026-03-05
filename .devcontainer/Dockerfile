@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 as builder
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
     lsb-release \
-    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
